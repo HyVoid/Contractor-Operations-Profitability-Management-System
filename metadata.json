@@ -1,0 +1,6 @@
+{
+  "name": "Contractor Operations & Profitability Management System",
+  "description": "Comprehensive SaaS application replicating an end-to-end 12-sheet project operations, quotation engine, job cost engine, and profit analytics workbook.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
