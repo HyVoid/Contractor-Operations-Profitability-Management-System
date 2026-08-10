@@ -9,7 +9,7 @@
 > **No signup. No installation. Free to use.**
 > Available in two formats: **Browser version (HTML)** and **Excel version**.
 
-[Live Demo](#) · [Download Excel](#) · [Technical Details](#technical-details)
+[Live Demo](#) · [Download Excel](https://alexhasgreatestuff.gumroad.com/l/njmty) · [Technical Details](#technical-details)
 
 ---
 
