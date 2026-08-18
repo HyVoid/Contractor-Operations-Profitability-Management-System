@@ -9,7 +9,7 @@
 > **No signup. No installation. Free to use.**
 > Available in two formats: **Browser version (HTML)** and **Excel version**.
 
-[Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://alexhasgreatestuff.gumroad.com/l/njmty) · [Technical Details](#technical-details)
+[Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://alexhasgreatestuff.gumroad.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=project-operations-job-costing) · [Technical Details](#technical-details)
 
 ---
 
