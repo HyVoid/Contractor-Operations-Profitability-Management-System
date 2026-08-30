@@ -12,7 +12,7 @@
 Try the browser version for free. If you need the Excel version, you can buy it with a 7-day money-back guarantee.
 > Available in two formats: **Browser version (HTML)** and **Excel version**.
 
-[Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://alexhasgreatestuff.gumroad.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=project-operations-job-costing) · [Technical Details](#technical-details)
+[Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://alexhasgreatestuff.gumroad.com/l/ftbvja?wanted=true) · [Technical Details](#technical-details)
 
 ---
 
