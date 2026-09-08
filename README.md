@@ -1,4 +1,4 @@
-[ 🌐 عربي ](README.ar.md) | [ 🇬🇧 English ](README.md)
+[ 🌐 عربي ](README.ar.md) | [ 🇪🇸 Español ](README.sp.md) | [ 🇬🇧 English ](README.md)
 # Contractor Operations & Profitability Management System
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
@@ -1004,8 +1004,6 @@ The calculation distinguishes completed work from incomplete work that has excee
 
 The source implementation uses cumulative profit contribution and average margin as the basis for customer-value classification, rather than evaluating customers by revenue alone. 
 
-</details>
-
 ### Validation Rules
 
 | Field / Area                    | Rule                                                                                | Error Behavior                                                                                   |
@@ -1344,8 +1342,6 @@ The appropriate response is to inspect the spill range rather than manually copy
 `Material_Code` and `Labor_Code` depend on corresponding records in `Material_DB` and `Labor_Rates`.
 
 If a code is missing or malformed, the downstream lookup and costing calculations may not return the intended value. 
-
-</details>
 
 ---
 
