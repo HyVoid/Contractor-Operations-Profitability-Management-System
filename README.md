@@ -13,6 +13,7 @@ Try the browser version for free. If you need the Excel version, you can buy it 
 > Available in two formats: **Browser version (HTML)** and **Excel version**.
 
 [Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [Technical Details](#technical-details)
+
 ## Want to try it?
 
 This project is included in the Construction Toolkit.
