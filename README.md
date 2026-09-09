@@ -1004,6 +1004,8 @@ The calculation distinguishes completed work from incomplete work that has excee
 
 The source implementation uses cumulative profit contribution and average margin as the basis for customer-value classification, rather than evaluating customers by revenue alone. 
 
+</details>
+
 ### Validation Rules
 
 | Field / Area                    | Rule                                                                                | Error Behavior                                                                                   |
@@ -1025,6 +1027,8 @@ The source implementation uses cumulative profit contribution and average margin
 The implementation recommends Excel Data Validation for operational input fields where practical and explicitly identifies `#SPILL!`, manual calculation mode, missing master-data codes, and incorrect currency formatting as common operational failure modes. 
 
 The workbook's cross-check also verifies that the global parameters are referenced downstream and that calculation formulas do not hardcode the principal business assumptions. 
+
+</details>
 
 ## Implementation Notes
 
