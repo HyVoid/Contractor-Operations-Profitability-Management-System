@@ -12,7 +12,7 @@
 For trade contractors and project managers who require a **reusable offline construction management workbook**, retained project cost archives, customizable overhead rates, and repeatable job costing across multiple crews, the complete Excel edition is available as a one-time purchase backed by a **30-day, no-questions-asked money-back guarantee**.
 
 *   🌐 [**Launch the Free Interactive Contractor Web App Demo**](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) → Run real-time project estimates, field labor logs, and profit calculations directly in your browser.
-*   📥 [**Download the Full Offline Contractor Operations Excel Template**](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) → Unlock the customizable workbook with formula access, multi-project archives, and custom labor burden rates.
+*   📥 [**Download the Full Offline Contractor Operations Excel Template**](https://theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) → Unlock the customizable workbook with formula access, multi-project archives, and custom labor burden rates.
 
 ## Want to try it?
 
@@ -26,12 +26,14 @@ Try this and other lightweight construction tools free for 30 days — including
 
 ## Construction Operations Pain Points Solved: Job Costing & Profitability Tracking
 
-*   **Pain: Blind bidding and underpricing jobs.** → **Solution:** Centralizes standard material databases (`Material_DB`) and fully burdened hourly wage tables (`Labor_Rates`) within a dedicated `Quote_Builder` to generate mathematically accurate, markup-supported project quotes.
-*   **Pain: Uncontrolled labor hour leaks and unrecorded overtime.** → **Solution:** Standardizes daily site reporting via `Labor_Log`, binding every recorded crew hour directly to a specific `Job_ID` for immediate labor cost reconciliation.
-*   **Pain: Sudden material price spikes and unaccounted deliveries.** → **Solution:** Tracks actual on-site unit consumption using `Material_Usage`, comparing invoiced supplier costs directly against original project takeoff estimates.
-*   **Pain: Unallocated business overhead eating net profit.** → **Solution:** Applies configurable administrative and equipment overhead allocation percentages across all active jobs in the automated `Job_Cost_Engine`.
-*   **Pain: Discovering profit loss weeks after final project handover.** → **Solution:** Delivers real-time variance monitoring through the `Profit_Dashboard`, triggering automated cost-overrun alerts before minor slippages compound into negative cash flow.
-*   **Pain: Inability to identify which clients yield real commercial margin.** → **Solution:** Aggregates cumulative contract revenue, historical profit contribution, and average realized margins by account in `Customer_History` to refine client acquisition strategies.
+| Pain Point | Solution |
+| :--- | :--- |
+| **Blind bidding and underpricing jobs** | Centralizes standard material databases (`Material_DB`) and fully burdened hourly wage tables (`Labor_Rates`) within a dedicated `Quote_Builder` to generate mathematically accurate, markup-supported project quotes. |
+| **Uncontrolled labor hour leaks and unrecorded overtime** | Standardizes daily site reporting via `Labor_Log`, binding every recorded crew hour directly to a specific `Job_ID` for immediate labor cost reconciliation. |
+| **Sudden material price spikes and unaccounted deliveries** | Tracks actual on-site unit consumption using `Material_Usage`, comparing invoiced supplier costs directly against original project takeoff estimates. |
+| **Unallocated business overhead eating net profit** | Applies configurable administrative and equipment overhead allocation percentages across all active jobs in the automated `Job_Cost_Engine`. |
+| **Discovering profit loss weeks after final project handover** | Delivers real-time variance monitoring through the `Profit_Dashboard`, triggering automated cost-overrun alerts before minor slippages compound into negative cash flow. |
+| **Inability to identify which clients yield real commercial margin** | Aggregates cumulative contract revenue, historical profit contribution, and average realized margins by account in `Customer_History` to refine client acquisition strategies. |
 
 ---
 
