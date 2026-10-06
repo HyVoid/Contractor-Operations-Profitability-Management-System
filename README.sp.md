@@ -15,14 +15,6 @@ Pruebe la versión de navegador gratis. Si necesita la versión de Excel, puede 
 
 [Demostración en vivo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Descargar Excel](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [Detalles técnicos](#technical-details)
 
-## ¿Quieres probarlo?
-
-Este proyecto está incluido en el Construction Toolkit.
-
-Prueba esta y otras herramientas ligeras de construcción gratis durante 30 días — incluyendo herramientas para estimación, licitaciones, costos de obra y operaciones diarias.
-
-→ [Prueba el Construction Toolkit](https://theseusworkshop.com/l/fqtoi/BIDSEASON?utm_source=github&utm_medium=GitHub%20portfolio)
-
 ---
 
 ## El flujo de trabajo completo del contratista
