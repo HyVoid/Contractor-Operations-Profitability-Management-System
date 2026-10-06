@@ -15,14 +15,6 @@
 
 [العرض التجريبي المباشر](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [تنزيل نسخة إكسيل](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [التفاصيل التقنية](#التفاصيل-التقنية)
 
-## هل تريد التجربة؟
-
-هذا المشروع مضمّن في حزمة Construction Toolkit.
-
-جرّب هذه الأداة وأدوات البناء الخفيفة الأخرى مجانًا لمدة 30 يومًا — بما في ذلك أدوات التقدير وعروض الأسعار وتكاليف الأعمال والعمليات اليومية.
-
-→ [جرّب Construction Toolkit](https://theseusworkshop.com/l/fqtoi/BIDSEASON?utm_source=github&utm_medium=GitHub%20portfolio)
-
 ---
 
 ## سير عمل المقاول المتكامل
