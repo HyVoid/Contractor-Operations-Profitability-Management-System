@@ -15,14 +15,6 @@ Probeer de browserversie gratis. Hebt u de Excel-versie nodig, dan kunt u die ko
 
 [Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [Technical Details](#technical-details)
 
-## Want to try it?
-
-Dit project is opgenomen in de Construction Toolkit.
-
-Probeer deze en andere lichtgewicht construction-tools 30 dagen gratis — inclusief tools voor het maken van ramingen, het uitbrengen van biedingen, projectkostenberekening en dagelijkse bedrijfsvoering.
-
-→ [Probeer de Construction Toolkit](https://theseusworkshop.com/l/fqtoi/BIDSEASON?utm_source=github&utm_medium=GitHub%20portfolio)
-
 ---
 
 ## De complete aannemersworkflow
