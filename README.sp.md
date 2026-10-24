@@ -1,395 +1,267 @@
 [ 🌐 عربي ](README.ar.md) | [ 🇩🇪 Deutsch ](README.de.md) | [ 🇫🇷 Français ](README.fr.md) | [ 🇳🇱 Nederlands ](README.nl.md) | [ 🇪🇸 Español ](README.sp.md) | [ 🇬🇧 English ](README.md)
 
-# Sistema de gestión de operaciones y rentabilidad para contratistas
+
+# Plantilla Excel de cálculo de costes de obra y hoja de cálculo de estimación para contratistas (sistema CRM de lead a beneficio)
+<img width="2880" height="1228" alt="image" src="https://github.com/user-attachments/assets/9ddabd3f-ffc4-4a6c-937f-fbbc3c2c2e8a" />
+
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Browser%20%2B%20Excel-green.svg)
-![Tool Type](https://img.shields.io/badge/Tool%20Type-Contractor%20Operations%20%26%20Profitability-orange.svg)
+![Tool Type](https://img.shields.io/badge/Tool%20Type-Construction%20Job%20Costing%20%26%20Estimating-orange.svg)
 
-**Un sistema operativo de Excel conectado para gestionar el flujo de trabajo completo del contratista: Lead → Estimación → Obra → Mano de obra y materiales → Costeo de obra → Utilidad → Historial de clientes.**
+**Una plantilla Excel todo-en-uno de cálculo de costes de obra, una hoja de cálculo de estimación para contratistas y una calculadora CRM de lead a beneficio, creadas para contratistas generales, subcontratistas y empresas de oficios. Siga el flujo de trabajo completo del contratista: lead comercial → estimación de materiales y mano de obra → presupuesto de obra aprobado → partes de horas de campo y consumo de materiales → desviación estimación vs. real → margen de beneficio neto → valor de vida del cliente (LTV).**
 
-**Sin registro. Sin instalación. Gratis en su navegador.**
+**Sin registro. Sin instalación. Gratis para probar en su navegador.**
 
-Pruebe la versión de navegador gratis. Si necesita la versión de Excel, puede comprarla con una garantía de devolución del dinero de 30 días, sin hacer preguntas.
-> Disponible en dos formatos: **versión de navegador (HTML)** y **versión de Excel**.
+Pruebe la aplicación web interactiva gratis en su navegador, o descargue la plantilla de hoja de cálculo Excel desbloqueada para personalización completa sin conexión—respaldada por una garantía de devolución de 30 días sin preguntas.
 
-[Demostración en vivo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Descargar Excel](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [Detalles técnicos](#technical-details)
+> 🌐 **Pruebe la aplicación web:** [Calculadora web interactiva de estimación y cálculo de costes de obra para contratistas (demo en vivo)](https://hyvoid.github.io/construction-job-costing-excel-template/)  
+> 📥 **Obtenga el sistema Excel completo:** [Descargue la plantilla Excel editable de cálculo de costes de obra y generación de presupuestos](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)  
+> ⚙️ **Arquitectura y matemáticas:** [Ir a la lógica de negocio y la metodología de cálculo de costes de obra](#the-business-logic--methodology)
 
----
-
-## El flujo de trabajo completo del contratista
-
-La mayoría de las hojas de cálculo para contratistas resuelven solo una parte del negocio.
-
-Este libro de Excel está diseñado en torno a **toda la cadena operativa**:
-
-```text
-Lead
-  ↓
-Estimate
-  ↓
-Job
-  ↓
-Labor & Materials
-  ↓
-Job Cost
-  ↓
-Profit
-  ↓
-Customer History
-```
-
-El propósito no es simplemente hacer seguimiento de los proyectos. Es mantener **conectado el historial comercial y operativo de cada proyecto**.
-
-Un cliente potencial (lead) entra al pipeline de ofertas.
-
-El lead se convierte en una estimación.
-
-Una estimación exitosa se convierte en una obra aprobada con un `Job_ID` único.
-
-Durante la ejecución, el consumo real de mano de obra y materiales se registra contra esa obra.
-
-Esos registros fluyen hacia el motor de costeo de obras.
-
-El costo real de la obra se compara entonces con la economía original del proyecto para determinar la rentabilidad actual e identificar sobrecostos.
-
-Finalmente, los resultados de los proyectos completados se acumulan en el historial de clientes, lo que permite a la dirección entender qué clientes han generado ingresos y utilidades significativas a lo largo del tiempo.
-
-La implementación usa hojas dedicadas para `Lead_Tracker`, `Quote_Builder`, `Approved_Jobs`, `Labor_Log`, `Material_Usage`, `Job_Cost_Engine`, `Profit_Dashboard` y `Customer_History`, con `Job_ID` como identificador central del proyecto a lo largo de la ejecución y el costeo.
-
-### Un libro de Excel. Un flujo operativo conectado.
-
-| Etapa                       | Módulo del libro de Excel              | Qué gestiona                                                                                                                 |
-| --------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **Lead**                    | `Lead_Tracker`                         | Consultas de clientes, oportunidades, presupuestos, estado, responsable de la estimación                                      |
-| **Estimación**              | `Quote_Builder`                        | Requerimientos de materiales, horas de mano de obra, costo estimado, costos indirectos, margen objetivo, cotización sugerida  |
-| **Obra**                    | `Approved_Jobs`                        | Proyectos contratados, `Job_ID`, valor del contrato, fechas, gerente de proyecto, estado                                      |
-| **Mano de obra y materiales** | `Labor_Log` + `Material_Usage`       | Consumo real de mano de obra y materiales en campo                                                                            |
-| **Costeo de obra**          | `Job_Cost_Engine`                      | Costo real de materiales, costo de mano de obra, costos indirectos, costo total, variación                                     |
-| **Utilidad**                | `Job_Cost_Engine` + `Profit_Dashboard` | Utilidad del proyecto, margen, alertas de sobrecosto, rentabilidad general                                                     |
-| **Historial de clientes**   | `Customer_History`                     | Proyectos históricos, ingresos, contribución a la utilidad, margen promedio, valor del cliente                                 |
-
-El resultado es un flujo de trabajo práctico para pasar de la **actividad de ventas a la economía del proyecto y a la inteligencia comercial a nivel de cliente**, en lugar de mantener registros desconectados.
 
 ---
 
-## ¿Qué decisión le ayuda a tomar este sistema?
+## La cadena operativa de construcción conectada: del lead al cálculo de costes de obra
 
-El sistema está construido en torno a siete preguntas operativas:
+La mayoría de las hojas de cálculo de construcción solo resuelven un fragmento aislado del negocio—dejando su **tubería comercial**, **estimación de replanteo** y **cálculo de costes de obra en campo** atrapados en archivos desconectados. 
 
-### 1. ¿Qué clientes potenciales merecen atención?
+Este libro de trabajo para contratistas está diseñado en torno a una única **cadena operativa relacional** ininterrumpida, anclada por `Lead_ID` y `Job_ID`:
 
-`Lead_Tracker` registra el pipeline de oportunidades y calcula tanto la duración en el pipeline como la utilidad potencial con base en el margen objetivo configurado.
+```text
+Sales Lead (CRM Pipeline)
+  ↓
+Project Estimate (Material Takeoff + Labor + Overhead + Margin)
+  ↓
+Approved Contract (Baseline Budget Locked via Job_ID)
+  ↓
+Field Execution (Timesheet Labor Hours & Material Consumption)
+  ↓
+Job Costing Engine (Estimate vs. Actual Variance & Overrun Alerts)
+  ↓
+Real-Time Profit Dashboard (Gross Profit $ & Net Margin %)
+  ↓
+Customer LTV History (Repeat Client Profitability Ranking)
 
-Esto permite ver el pipeline de ofertas activo no solo por el número de leads, sino también por su contribución comercial potencial.
+```
 
-### 2. ¿A qué precio se debe cotizar el proyecto?
+### Un libro de trabajo para contratistas. Ocho módulos operativos integrados.
 
-`Quote_Builder` combina las cantidades estimadas de materiales y las horas de mano de obra con las hojas centralizadas `Material_DB` y `Labor_Rates`.
-
-El modelo calcula el costo directo, aplica la asignación de costos indirectos, obtiene el costo total estimado y trabaja de forma inversa a partir del margen objetivo para producir una cotización sugerida con impuestos incluidos.
-
-### 3. ¿Qué se contrató realmente?
-
-`Approved_Jobs` establece el registro oficial del proyecto y genera el `Job_ID` único que se usa en todo el flujo de ejecución y costeo.
-
-Esto preserva la línea base comercial original contra la cual se puede evaluar posteriormente el desempeño real.
-
-### 4. ¿Qué está consumiendo realmente el proyecto?
-
-Durante la ejecución, la mano de obra de campo se registra en `Labor_Log` y el consumo de materiales en `Material_Usage`.
-
-Cada registro está conectado al `Job_ID` correspondiente, de modo que la actividad operativa real se convierte en datos de costo a nivel de proyecto.
-
-### 5. ¿Se está alejando el costo real de la obra de la estimación?
-
-`Job_Cost_Engine` agrega los costos reales de mano de obra y materiales, y aplica la asignación de costos indirectos configurada.
-
-La obra puede evaluarse, por lo tanto, contra su costo estimado original en lugar de mirar únicamente el gasto acumulado.
-
-### 6. ¿Sigue siendo rentable el proyecto?
-
-El sistema separa el **margen proyectado inicial** del **resultado real del proyecto**.
-
-Esa distinción importa porque un proyecto puede comenzar con una cotización aceptable y luego perder rentabilidad a medida que las horas reales de mano de obra, el consumo de materiales u otros costos del proyecto superan los supuestos originales.
-
-### 7. ¿Qué clientes han generado una utilidad significativa?
-
-`Customer_History` agrega la actividad histórica de proyectos por cliente, incluyendo el total de obras, los ingresos por contrato, la contribución a la utilidad, el margen de utilidad promedio, la fecha del contrato más reciente y la calificación del cliente.
+| Etapa del flujo de trabajo | Módulo Excel / web | Métricas principales de construcción y finanzas que se siguen |
+| --- | --- | --- |
+| **1. Tubería comercial (CRM)** | `Lead_Tracker` | Consultas de clientes, oportunidades de licitación, presupuestos estimados, antigüedad de la tubería, responsabilidad del estimador, beneficio bruto proyectado. |
+| **2. Estimación y licitación** | `Quote_Builder` | Cantidades de replanteo de materiales, horas de mano de obra, COGS directo, imputación de gastos generales, **margen objetivo vs. recargo**, precio de oferta con impuestos incluidos. |
+| **3. Línea base contractual** | `Approved_Jobs` | Contratos de construcción adjudicados, generación de un `Job_ID` único, valor contractual, fechas de planificación, asignación del jefe de proyecto. |
+| **4. Seguimiento de campo** | `Labor_Log` + `Material_Usage` | Horas de partes de campo diarios/semanales de la cuadrilla, tarifas de mano de obra por oficio, consumo de materiales en obra vinculado directamente al `Job_ID`. |
+| **5. Cálculo de costes y WIP** | `Job_Cost_Engine` | COGS real de materiales, coste real cargado de mano de obra, gastos generales aplicados, coste total de obra, **desviación presupuestaria estimación vs. real**. |
+| **6. Márgenes y sobrecostes** | `Profit_Dashboard` | Beneficio bruto realizado ($), margen de beneficio neto (%), **alertas automáticas de sobrecoste**, cuenta de pérdidas y ganancias de la cartera a escala de la empresa. |
+| **7. Inteligencia de clientes** | `Customer_History` | Historial de clientes multiproyecto, ingresos contractuales acumulados, contribución al beneficio de por vida, margen medio %, clasificación por segmento de cliente. |
 
 ---
 
-## Flujo de trabajo de inicio rápido
+## Qué ayuda a seguir y decidir: mapeo de puntos de dolor a solución para contratistas
 
-### Paso 1 — Configurar la capa de control
+En lugar de esperar hasta la temporada de impuestos para descubrir si su cuadrilla ganó o perdió dinero en una obra, este **rastreador de rentabilidad para contratistas** resuelve siete puntos ciegos operativos críticos:
 
-Abra `Settings` y establezca los supuestos de negocio que se usan en todo el libro de Excel:
-
-* Tasa de impuestos
-* Tasa de costos indirectos
-* Margen objetivo
-* Umbral de sobrecosto
-* Moneda
-* Tipo de cambio
-
-La arquitectura trata `Settings` como la consola de control central. Los supuestos de negocio deben mantenerse allí en lugar de codificarse dentro de fórmulas individuales.
-
-### Paso 2 — Mantener los datos maestros de costos
-
-Actualice:
-
-* `Material_DB` — códigos, descripciones, especificaciones, unidades y costos estándar de materiales.
-* `Labor_Rates` — categorías de mano de obra, códigos y tarifas horarias estándar.
-
-Estos se convierten en los puntos de referencia comunes tanto para la estimación como para el costeo real de obras.
-
-### Paso 3 — Ejecutar el flujo de trabajo del contratista
-
-```text
-1. Lead_Tracker
-   ↓
-2. Quote_Builder
-   ↓
-3. Approved_Jobs
-   ↓
-4. Schedule
-   ↓
-5. Labor_Log + Material_Usage
-   ↓
-6. Job_Cost_Engine
-   ↓
-7. Profit_Dashboard + Customer_History
-```
-
-El procedimiento operativo estándar sigue la misma secuencia: captar el lead, generar la cotización, establecer la obra aprobada, registrar la ejecución y luego revisar el costeo y la rentabilidad automatizados.
-
-### Paso 4 — Revisar excepciones, no solo totales
-
-El flujo de gestión debe enfocarse en:
-
-* leads estancados;
-* proyectos que se desvían del costo estimado;
-* hitos de ejecución vencidos;
-* márgenes de proyecto en declive;
-* sobrecostos significativos;
-* clientes de alto valor.
-
-El libro de Excel está diseñado, por lo tanto, para respaldar la **intervención operativa**, no solo para producir un informe histórico.
+| Métrica objetivo de seguimiento / punto de dolor | El punto ciego habitual del contratista | Cómo este sistema de cálculo de costes lo resuelve y lo sigue |
+| --- | --- | --- |
+| **Priorización de leads comerciales y valor de la tubería** | Perseguir cada solicitud de oferta por igual sin saber qué oportunidades aportan la mayor contribución al beneficio. | `Lead_Tracker` calcula la duración en la tubería y el **beneficio bruto proyectado** según su margen objetivo, antes de que invierta horas de estimación. |
+| **Preciación precisa de ofertas (margen vs. recargo)** | Infrapreciar obras confundiendo el *porcentaje de recargo* con el *porcentaje de margen bruto*, u olvidando imputar los gastos generales de taller y el impuesto sobre ventas. | `Quote_Builder` extrae los costes estándar de `Material_DB` y `Labor_Rates`, aplica los gastos generales y **calcula hacia atrás el presupuesto exacto con impuestos incluidos** necesario para alcanzar su margen objetivo. |
+| **Conservación de la línea base de estimación original** | Sobrescribir la estimación inicial en cuanto empieza la construcción, haciendo imposible ver dónde se desvió el presupuesto. | `Approved_Jobs` bloquea el coste estimado de la oferta adjudicada y asigna un `Job_ID` permanente como **línea base inmutable de desviación presupuestaria**. |
+| **Conversión de partes de horas y materiales de campo en COGS** | Seguir las horas de la cuadrilla en partes de papel y los recibos de materiales en cajas de zapatos, sin vincularlos a presupuestos de obra específicos. | `Labor_Log` y `Material_Usage` vinculan cada hora de campo y cada unidad de material al `Job_ID`, multiplicando automáticamente por las tarifas estándar del motor de cálculo de costes. |
+| **Alertas en tiempo real de sobrecoste y desviación presupuestaria** | Descubrir sobrecostes de mano de obra o materiales solo después de que la obra está 100 % terminada y la factura final pagada. | `Job_Cost_Engine` compara continuamente **coste real vs. coste estimado**, activando **alertas de sobrecoste** visuales en el momento en que la desviación supera su umbral. |
+| **Margen estimado vs. margen neto realizado** | Suponer que una obra ofertada con un margen del 30 % realmente entregó un 30 %, ignorando el alcance no facturado y las horas extra de la cuadrilla. | Separa explícitamente el **margen proyectado inicial** del **margen realmente realizado**, para que los jefes de proyecto vean la erosión del margen en tiempo real. |
+| **Rentabilidad de vida del cliente (LTV de cliente)** | Tratar a contratistas generales o administradores de fincas con altos ingresos como «clientes VIP» aunque sus obras pierdan dinero sistemáticamente. | `Customer_History` agrega el total de obras completadas, los ingresos de por vida, la contribución al beneficio neto y el **margen realmente realizado medio por cliente**. |
 
 ---
 
-## Por qué la mayoría de los errores de rentabilidad de los contratistas no son errores de criterio
+## Cómo realizar una auditoría de estimación y cálculo de costes de obra (flujo de trabajo de inicio rápido)
 
-Un proyecto puede ser gestionado por personas experimentadas y aun así producir una imagen engañosa de la rentabilidad.
+Configure un **sistema de estimación, seguimiento de obras y control de costes** estandarizado para su negocio de construcción en cuatro pasos estructurados:
 
-El problema de fondo suele ser estructural:
+### Paso 1: configure las reglas financieras y de gastos generales globales
 
-```text
-Lead information
-      ↓
-Estimate stored separately
-      ↓
-Approved contract recorded elsewhere
-      ↓
-Labor tracked in field records
-      ↓
-Materials tracked separately
-      ↓
-Profit reconstructed later
-```
+Abra la pestaña de control `Settings` para definir los límites financieros utilizados en toda su empresa:
 
-En cada transferencia, la información puede desconectarse.
+* **Tipo de impuesto sobre ventas (%)** y **tipo de imputación de gastos generales (%)**
+* **Margen bruto objetivo (%)** para el cálculo automático de presupuestos
+* **Umbral de alerta de sobrecoste (%)** (p. ej., marcar las obras que superan el presupuesto en más del 5 %)
+* **Moneda base y tipo de cambio**
 
-La estimación original puede dejar de ser directamente comparable con el consumo real.
-
-La mano de obra puede registrarse sin el identificador de proyecto correspondiente.
-
-El uso de materiales puede registrarse a nivel operativo sin convertirse en costo del proyecto.
-
-Y la dirección puede terminar recibiendo una cifra de rentabilidad sin una ruta clara hacia los supuestos y transacciones que la produjeron.
-
-Este sistema aborda esa falla creando una cadena conectada:
-
-```text
-Lead
-  ↓
-Estimate
-  ↓
-Approved Job + Job_ID
-  ↓
-Labor + Materials
-  ↓
-Job Cost Engine
-  ↓
-Actual Profitability
-  ↓
-Customer History
-```
-
-La distinción es importante.
-
-### Antes
-
-```text
-Sales → Quote → Project Execution → Accounting
-          ↘             ↙
-           disconnected data
-```
-
-### Después
-
-```text
-Lead
- ↓
-Estimate
- ↓
-Job_ID
- ├── Schedule
- ├── Labor
- └── Materials
-       ↓
-   Job Cost
-       ↓
-    Profit
-       ↓
-Customer History
-```
-
-La arquitectura mapea explícitamente entradas y salidas a través del libro de Excel, de modo que cada registro operativo principal tenga un propósito aguas abajo definido.
+*Acción:* Explore ahora mismo la consola de control preconfigurada en el [sistema operativo de contratista gratuito en navegador](https://hyvoid.github.io/construction-job-costing-excel-template/).
 
 ---
 
-## Lo que el libro de Excel realmente ofrece
+### Paso 2: rellene su libro de precios de materiales y sus tarjetas de tarifas de mano de obra
 
-Esto no se presenta como un reemplazo de un ERP ni como un panel genérico.
+Establezca sus bases de datos de costes estandarizadas una sola vez para que los estimadores dejen de adivinar los precios unitarios:
 
-Es un **modelo operativo y de apoyo a la decisión ligero para contratistas** que conecta la información necesaria para gestionar la economía de los proyectos.
-
-### Proporciona un registro continuo del proyecto
-
-Desde:
-
-**Lead → Estimación → Obra → Mano de obra y materiales → Costeo de obra → Utilidad**
-
-el mismo proyecto puede seguirse a lo largo de su ciclo de vida comercial y de ejecución.
-
-### Conserva la estimación original como línea base
-
-La obra aprobada conserva el costo estimado y la rentabilidad proyectada, de modo que el desempeño real del proyecto pueda compararse con lo que se esperaba originalmente.
-
-### Convierte la actividad de campo en información financiera
-
-Las horas de mano de obra y las cantidades de materiales no quedan como registros operativos. Se vinculan a tarifas y costos estandarizados y, en última instancia, se convierten en insumos del motor de costeo de obras.
-
-### Separa la rentabilidad del proyecto de la rentabilidad del cliente
-
-Un solo proyecto responde:
-
-> **¿Fue rentable esta obra?**
-
-El historial de clientes responde la pregunta de más largo plazo:
-
-> **¿Ha sido este cliente comercialmente valioso a lo largo de múltiples obras?**
-
-Esa distinción respalda mejores decisiones sobre cotizaciones futuras y priorización de clientes.
+* **`Material_DB`:** introduzca los SKU/códigos de materiales, descripciones de artículos, especificaciones, unidades de medida (EA, LF, SQFT) y los costes unitarios estándar.
+* **`Labor_Rates`:** defina las categorías de oficio (p. ej., aprendiz, oficial, capataz, subcontratista) y las tarifas horarias de mano de obra cargadas.
 
 ---
 
-## Sobre el creador
+### Paso 3: ejecute el flujo de trabajo conectado de lead a cálculo de costes de obra
 
-El enfoque detrás de este libro de Excel es directo:
+Siga la secuencia operativa estandarizada de 7 pasos para cada obra:
 
-**Construir el modelo operativo más pequeño que pueda preservar la cadena entre los eventos del negocio y las decisiones de gestión.**
+1. **Registrar la consulta** en `Lead_Tracker` (`Lead_ID`).
+2. **Construir la oferta** en `Quote_Builder` usando sus bases de datos maestras de materiales y mano de obra.
+3. **Bloquear el contrato** en `Approved_Jobs` (`Job_ID`) y fijar los hitos en `Schedule`.
+4. **Registrar la ejecución de campo** cuando las cuadrillas envíen sus horas en `Labor_Log` y retiren material del inventario en `Material_Usage`.
+5. **Auditar la desviación y el margen** automáticamente en `Job_Cost_Engine`, `Profit_Dashboard` y `Customer_History`.
 
-El objetivo no es agregar funciones de software por agregarlas.
+---
 
-Para las operaciones de contratistas, la cadena útil ya está clara:
+### Paso 4: gestione por excepción y descargue la plantilla Excel para operaciones reales
+
+En lugar de excavar entre cientos de filas de hoja de cálculo, use el panel para intervenir sobre **leads comerciales estancados**, **obras que superan los umbrales de sobrecoste**, **hitos atrasados** y **clientes que erosionan el margen**.
+
+> 💡 **¿Listo para ejecutar sus propias estimaciones de construcción, partes de horas de cuadrilla y cálculo de costes de obra en este sistema?**
+> Aunque la versión de navegador le permite inspeccionar la arquitectura al instante, gestionar obras de construcción reales requiere guardar sus propios libros de precios de materiales, registrar semanalmente la mano de obra de campo y mantener registros de obra permanentes.
+> 👉 **[Descargue el libro de trabajo completo desbloqueado de operaciones y cálculo de costes de obra para contratistas](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)** para personalizar las tablas de tarifas, seguir un número ilimitado de obras sin conexión y tomar el control total de sus márgenes de obra.
+
+---
+
+## La lógica de negocio y la metodología
+
+La mayoría de los contratistas pequeños y medianos sufren de **«desvanecimiento del beneficio»**—cuando una obra se licita con un margen saludable del 35 % sobre el papel, pero acaba generando solo un 8 % de beneficio neto a final de año. Esto ocurre porque las hojas de cálculo de estimación, los registros de campo y los libros de contabilidad operan con matemáticas incompatibles.
+
+Para eliminar el desvanecimiento del beneficio sin obligar a los contratistas a usar software ERP empresarial complejo, este kit de herramientas implementa una **metodología de contabilidad y operaciones de construcción de 4 pilares**:
+
+1. **Encadenamiento relacional de claves primarias (`Lead_ID → Quote_ID → Job_ID → Customer_ID`):**
+En las hojas de cálculo ad hoc, las estimaciones y los datos reales viven en archivos separados sin vínculo estructural. Este modelo impone una arquitectura de base de datos relacional dentro de Excel: una oportunidad comercial (`Lead_ID`) se convierte en una oferta detallada; tras la adjudicación del contrato, `Approved_Jobs` emite un `Job_ID` único y congela el coste estimado original como línea base inamovible. Cada entrada posterior de parte de horas (`Labor_Log`), cada salida de material (`Material_Usage`) y cada tarea de planificación debe referenciar un `Job_ID` válido, garantizando una trazabilidad del 100 % desde la oferta inicial hasta el coste final de obra.
+2. **Preciación por margen inverso vs. matemática de recargo cost-plus:**
+Uno de los errores matemáticos más caros en la construcción es confundir el **recargo** con el **margen bruto** (aumentar un coste de 1.000 $ un 25 % da un precio de 1.250 $, que representa solo un **margen bruto del 20 %**, borrando silenciosamente un 5 % del beneficio final). Dentro de `Quote_Builder`, el motor de precios agrega el coste de material directo ($M$), el coste de mano de obra directa ($L$) y los gastos generales imputados ($O = (M + L) \times r_{\text{oh}}$), y luego aplica la **verdadera matemática del divisor de margen inverso** junto con el cálculo de impuestos:
+
+$$\text{Presupuesto previo al impuesto sugerido} = \frac{\text{Material directo} + \text{Mano de obra directa} + \text{Gastos generales imputados}}{1 - \text{Margen objetivo \%}}$$
+
+
+
+Esto garantiza que, al firmarse el contrato, el porcentaje de margen bruto objetivo quede protegido matemáticamente.
+3. **Coste estándar y absorción de campo por actividad:**
+Las cuadrillas de campo registran cantidades operativas (**horas trabajadas** y **unidades de material consumidas**), no dólares financieros. El motor de cálculo de costes desacopla la entrada de datos de campo de la valoración financiera uniendo `Labor_Log` y `Material_Usage` con las tablas maestras de tarifas (`Labor_Rates` y `Material_DB`). A medida que se registran las cantidades de campo, el motor calcula dinámicamente los costes directos absorbidos y aplica el tipo global de gastos generales de `Settings` para reflejar el **coste total real de obra**.
+4. **Desviación presupuestaria impulsada por umbral y agregación de LTV:**
+En lugar de tratar el cálculo de costes de obra como un ejercicio post mortem, `Job_Cost_Engine` calcula continuamente la **desviación de costes ($\Delta C = \text{coste total real} - \text{coste de línea base estimado}$)** y el **% de desviación**. Si $\frac{\Delta C}{\text{coste estimado}} > \text{umbral de sobrecoste}$, el sistema activa un estado de excepción automatizado para la intervención operativa inmediata. Simultáneamente, los registros `Job_ID` completados se agregan por `Customer_ID` en `Customer_History`, desplazando la estrategia comercial de la licitación de obra única a la **contribución al beneficio de vida del cliente**.
+
+---
+
+## Por qué la mayoría de los errores de rentabilidad de los contratistas son estructurales—no errores de juicio
+
+Los contratistas experimentados raramente pierden dinero porque no sepan construir. Pierden dinero porque **la información se rompe en cada traspaso operativo**:
+
+### Antes: la trampa de la hoja de cálculo de contratista desconectada
 
 ```text
-Lead
-→ Estimate
-→ Job
-→ Labor & Materials
-→ Job Cost
-→ Profit
-→ Customer History
+Sales Lead Notes → Standalone Excel Quote → Signed PDF Contract → Paper Crew Timesheets → Shoebox Material Receipts → Year-End Accountant Tax Summary
+                            ↘                                             ↙
+                              Zero real-time link between Estimate & Actuals
+
 ```
 
-El libro de Excel convierte esa cadena en un flujo de trabajo operativo reutilizable basado en Excel, con supuestos centralizados, identificadores de proyecto conectados, cálculos automatizados y salidas para la gestión.
+* **El fallo del traspaso:** La estimación original no puede compararse directamente con el consumo real de campo. Las horas de mano de obra se registran sin `Job_ID`. Los recibos de materiales se acumulan en una cuenta de gastos genérica de QuickBooks. Para cuando el propietario del negocio ve la cifra de beneficio, la obra lleva meses cerrada.
 
-Está dirigido a negocios que necesitan más estructura que hojas de cálculo desconectadas, pero que no necesitan una plataforma empresarial solo para entender de dónde provienen los ingresos, los costos y la utilidad de un proyecto.
+### Después: un flujo operativo relacional conectado único
 
-## Problemas comunes de contratistas que esto resuelve
+```text
+Lead_Tracker (Lead_ID)
+  ↓
+Quote_Builder (Standardized Material_DB + Labor_Rates + Reverse-Margin Math)
+  ↓
+Approved_Jobs (Locks Baseline Budget & Generates Unique Job_ID)
+  ├── Schedule (Milestones & Deadlines)
+  ├── Labor_Log (Field Hours × Standard Labor Rates)
+  └── Material_Usage (Field Quantities × Standard Material Unit Costs)
+        ↓
+  Job_Cost_Engine (Estimate vs. Actual Variance + Overrun Alert Thresholds)
+        ↓
+  Profit_Dashboard (Realized Project Margin % & Portfolio P&L)
+        ↓
+  Customer_History (Multi-Job Client Revenue, Profit & LTV Ranking)
 
-| Problema | Sin esta herramienta | Con esta herramienta |
-| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Los datos de leads y estimaciones se desconectan** | Las oportunidades de venta y los registros de cotización se mantienen por separado, lo que dificulta evaluar el valor del pipeline y la conversión de cotizaciones. | `Lead_ID` conecta las oportunidades con las estimaciones, mientras que la utilidad estimada puede derivarse del margen objetivo configurado. |
-| **El presupuesto original del proyecto desaparece después de la adjudicación** | Una vez que una cotización se convierte en contrato, los costos reales del proyecto pueden registrarse sin conservar la estimación original como línea base. | `Approved_Jobs` traslada el costo total estimado de la cotización al registro del proyecto para un análisis de variaciones posterior. |
-| **El consumo de mano de obra y materiales permanece solo a nivel operativo** | Las horas de campo y el uso de materiales se registran, pero no se convierten automáticamente en información financiera a nivel de proyecto. | `Labor_Log` y `Material_Usage` conectan el consumo real con el `Job_ID`, las tarifas estándar de mano de obra y los costos de materiales. |
-| **Los sobrecostos se descubren demasiado tarde** | La dirección ve el costo final cuando la oportunidad de corregir la ejecución ya ha desaparecido en gran medida. | `Job_Cost_Engine` compara el costo total real con el costo estimado original y activa una alerta de sobrecosto usando un umbral centralizado. |
-| **La rentabilidad del proyecto se confunde con el valor del cliente** | Una obra individual rentable puede hacer que un cliente parezca valioso incluso cuando la relación más amplia produce márgenes débiles. | `Customer_History` agrega el número de proyectos, los ingresos, la contribución a la utilidad y el margen promedio por cliente. |
-| **Las reglas del negocio se duplican entre fórmulas** | Impuestos, costos indirectos, margen objetivo y umbrales de alerta pueden volverse inconsistentes cuando se incrustan manualmente en fórmulas. | `Settings` actúa como una única capa de control referenciada en todo el libro de Excel. |
-
-La arquitectura valida explícitamente la cadena de entrada/salida a través del libro de Excel y confirma que los parámetros globales fluyen hacia los cálculos relevantes de cotización, costeo de proyectos y del panel.
-
-## A quién va dirigido
-
-Este sistema está diseñado para **contratistas que trabajan por proyectos, estimadores, gerentes de proyecto, gerentes de operaciones y propietarios-operadores** que necesitan una forma conectada de gestionar la economía de los proyectos sin implementar una plataforma empresarial de gran envergadura.
-
-Encaja particularmente bien cuando:
-
-* los leads y las estimaciones aún se gestionan en hojas de cálculo;
-* la mano de obra del proyecto se registra por horas y tarifas estándar de mano de obra;
-* los materiales se entregan o consumen por proyecto;
-* la dirección necesita visibilidad de costos y márgenes a nivel de proyecto;
-* la rentabilidad del cliente importa más allá de los ingresos de un proyecto individual;
-* el negocio necesita un flujo de trabajo operativo repetible en lugar de otro panel aislado.
-
-**No es un reemplazo de un ERP, ni un sistema contable, ni un sistema de nómina, ni una plataforma de adquisiciones, ni una suite empresarial de gestión de proyectos**.
-
-El modelo está diseñado como una capa operativa y de apoyo a la decisión ligera alrededor del flujo de trabajo existente del contratista.
-
-No se requiere experiencia en hojas de cálculo para entender la secuencia operativa. La versión de navegador ofrece una forma de baja fricción para acceder al flujo de trabajo, mientras que la implementación de Excel proporciona el entorno de cálculo subyacente.
+```
 
 ---
 
-## Acerca de
+## Hojas de cálculo desconectadas vs. este sistema operativo de contratista conectado
 
-Construyo herramientas de Excel ligeras de seguimiento y de apoyo a la decisión para situaciones donde hay demasiadas piezas en movimiento para mantener en la cabeza de una sola persona, pero no la complejidad suficiente como para justificar una implementación de software de gran escala.
+| Dimensión operativa | Hojas de cálculo de contratista desconectadas (sin esta herramienta) | Sistema conectado de cálculo de costes y operaciones (con esta herramienta) |
+| --- | --- | --- |
+| **Traspaso de lead comercial a estimación** | Los leads viven en correos electrónicos o libretas mientras las ofertas viven en archivos Excel individuales, haciendo invisibles las tasas de acierto de licitación y el beneficio de la tubería. | `Lead_ID` conecta las consultas comerciales directamente con `Quote_Builder`, proyectando la **contribución al beneficio de la tubería** según el margen objetivo. |
+| **Conservación de la línea base presupuestaria adjudicada** | Una vez ganada la oferta, los contratistas editan el archivo de estimación o empiezan un rastreador en blanco, borrando la línea base de coste original necesaria para el análisis de desviación. | `Approved_Jobs` bloquea el **coste total estimado** de la oferta adjudicada bajo un `Job_ID` único para la auditoría en paralelo **estimación vs. real**. |
+| **Partes de horas de campo y consumo de materiales** | Las horas de mano de obra de la cuadrilla y las salidas de material en obra siguen siendo notas operativas brutas en lugar de convertirse en costes financieros de obra en tiempo real. | `Labor_Log` y `Material_Usage` vinculan las cantidades de campo al `Job_ID`, multiplicando automáticamente por los costes unitarios **`Labor_Rates`** y **`Material_DB`**. |
+| **Detección de sobrecoste a mitad de obra** | Los sobrecostes y los desbordes de mano de obra se descubren semanas después de la finalización de la obra, cuando ya no pueden emitirse órdenes de cambio. | `Job_Cost_Engine` sigue la desviación presupuestaria en vivo frente a un **umbral de sobrecoste** centralizado, activando alertas instantáneas mientras el trabajo aún está en curso. |
+| **Margen de obra única vs. valor de vida del cliente** | Un contratista celebra una obra rentable para un cliente sin darse cuenta de que las cuatro obras anteriores para ese mismo cliente perdieron dinero. | `Customer_History` agrega el **total de obras, los ingresos acumulados, el beneficio neto $ y el margen realmente realizado medio %** por cuenta de cliente. |
+| **Reglas globales de gastos generales, impuestos y margen** | Los porcentajes de gastos generales, los tipos de impuesto y las fórmulas de recargo están codificados en decenas de pestañas, causando costosos errores de presupuestación. | `Settings` sirve como **fuente única de verdad**—actualizar los gastos generales o el margen objetivo en una sola celda actualiza dinámicamente todos los módulos posteriores. |
 
-La pregunta central es:
+---
 
-> **¿Qué información debe estar en un solo lugar para tomar la siguiente decisión con confianza?**
+## A quién va dirigido: roles objetivo de contratistas y casos de uso por oficio
 
-Para las operaciones de contratistas, eso significa conectar la cadena comercial y operativa desde **Lead → Estimación → Obra → Mano de obra y materiales → Costeo de obra → Utilidad → Historial de clientes**.
+Este sistema está diseñado para **empresas de construcción por proyectos, contratistas de oficios especializados, estimadores y propietarios-explotadores (típicamente de 1 a 50 empleados)** que quieren un control riguroso del cálculo de costes de obra sin pagar 500–1.500 $/mes por software ERP de construcción inflado:
+
+* **Contratistas generales (GC) y constructores/reformadores de viviendas a medida:** úselo como **plantilla Excel completa de gestión de proyectos y cálculo de costes de obra residencial o comercial** para seguir múltiples obras activas, vigilar las tasas de consumo de subcontratistas/mano de obra y proteger los márgenes brutos desde la estimación hasta la recepción final.
+* **Subcontratistas de oficios especializados (HVAC, electricidad, fontanería, cubiertas, paisajismo, pintura, hormigón):** úselo como **rastreador de estimación por oficio y de mano de obra/materiales de campo** para estandarizar los precios unitarios en `Material_DB`, presupuestar obras con precisión en minutos y verificar si las cuadrillas de campo baten o superan las horas de mano de obra estimadas.
+* **Estimadores de construcción y directores comerciales:** úselo como **generador estandarizado de ofertas y presupuestos de construcción** acoplado a un **rastreador de leads CRM para contratistas** para eliminar los errores matemáticos de recargo vs. margen y priorizar las ofertas de alto margen.
+* **Jefes de proyecto de construcción y superintendentes de campo:** úselo como **rastreador de desviación presupuestaria estimación vs. real y de planificación** para detectar sobrecostes de mano de obra y desperdicio de materiales a mitad de obra—mientras aún hay tiempo para corregir el rumbo o presentar una orden de cambio al cliente.
+* **Tenedores de libros de construcción, controladores y CFO fraccionales:** úselo como **sub-libro operativo de cálculo de costes de obra** que tiende un puente entre la actividad bruta de campo (partes de horas y consumo de materiales) y el software de contabilidad fiscal de alto nivel como QuickBooks o Xero.
+
+*Nota: este libro de trabajo **no** está destinado a sustituir el procesamiento legal de nóminas, el software de declaración de impuestos o el software empresarial de replanteo de planos. Es el **motor de ejecución operativo y comercial ligero** que mantiene su tubería comercial, sus estimaciones de obra, sus costes de campo y su rentabilidad de cliente conectados en un solo lugar.*
+
+---
+
+## Preguntas frecuentes sobre escenarios de estimación y cálculo de costes de obra
+
+Si su negocio de construcción busca un modelo de hoja de cálculo práctico para resolver cualquiera de los siguientes dolores de cabeza operativos, este sistema está hecho para usted:
+
+* **Cálculo de costes de obra estimación vs. real en Excel:** *¿Cómo sigo las horas reales de mano de obra de campo y el consumo de materiales frente a mi estimación de obra original para ver la desviación presupuestaria en tiempo real antes de que una obra supere su presupuesto?*
+* **Estandarizar ofertas y presupuestos de construcción:** *¿Cómo construyo una plantilla de presupuesto de contratista repetible que se alimente de una lista maestra de precios de materiales y una tarjeta de tarifas de mano de obra, y que calcule automáticamente los gastos generales, el margen bruto objetivo y el impuesto?*
+* **Conectar los leads CRM de contratista a la rentabilidad de las obras:** *¿Cómo sigo una obra de construcción desde la llamada telefónica inicial del cliente (lead) pasando por la estimación, la ejecución de la obra, el beneficio neto final y el historial de clientes recurrentes en un único libro de trabajo Excel?*
+* **Identificar el desvanecimiento del beneficio entre cuadrillas y clientes:** *¿Por qué mi negocio de construcción muestra ingresos fuertes a final de año pero poco efectivo en el banco—y qué obras o clientes recurrentes concretos están erosionando silenciosamente nuestro margen bruto?*
+
+---
+
+## Acerca de Theseus Workshop
+
+Construyo modelos operativos ligeros y transparentes basados en Excel y el navegador para empresas donde hay demasiadas piezas móviles para caber en una sola cabeza, pero donde un despliegue de software empresarial caro crea más fricción que valor.
+
+El principio de diseño central detrás de cada herramienta es simple:
+
+> **«¿Cuál es el modelo operativo más pequeño y limpio que preserva la cadena ininterrumpida entre los eventos diarios de campo y las decisiones de gestión rentables?»**
+
+Para los contratistas por proyectos, eso significa unir **lead → estimación → obra aprobada → mano de obra y materiales de campo → desviación de costes de obra → beneficio neto → historial de clientes** dentro de un sistema único, auditable y sin hinchazón.
+
+---
+
+*Palabras clave: plantilla Excel de cálculo de costes de obra, hoja de cálculo de estimación para contratistas, rastreador de costes estimación vs. real, CRM y generador de presupuestos para contratista general, calculadora de beneficio y margen para subcontratista, Excel de registro de materiales y mano de obra de construcción, libro de trabajo de gestión de proyectos y cálculo de costes de obra.*
 
 ---
 
 ## Detalles técnicos
 
 <details>
-<summary>Para revisores técnicos, profesionales de Excel y colaboradores</summary>
+<summary>Para revisores técnicos, practicantes de Excel y colaboradores</summary>
 
-### Arquitectura del libro de Excel
+### Arquitectura del libro de trabajo
 
-El libro de Excel consta de **12 hojas principales** organizadas en tres capas funcionales. La arquitectura separa los datos maestros controlados de los registros operativos y de los cálculos aguas abajo, manteniendo un flujo direccional de entrada → cálculo → salida.
+El libro de trabajo consta de **12 hojas principales** organizadas en tres capas funcionales. La arquitectura separa los datos maestros controlados de los registros operativos y de los cálculos posteriores, manteniendo un flujo direccional de entrada → cálculo → salida. 
 
-| Capa                       | Hoja               | Rol principal                                    |
-| -------------------------- | ------------------ | ------------------------------------------------ |
-| **Datos maestros y control** | `Settings`       | Parámetros centrales del negocio                 |
-|                            | `Material_DB`      | Catálogo y costos estándar de materiales         |
+| Capa                      | Hoja              | Rol principal                               |
+| -------------------------- | ------------------ | ------------------------------------------ |
+| **Datos maestros y control**  | `Settings`         | Parámetros de negocio centrales                |
+|                            | `Material_DB`      | Catálogo y costes de materiales estándar        |
 |                            | `Labor_Rates`      | Categorías de mano de obra estándar y tarifas horarias |
-| **Operaciones y ejecución** | `Lead_Tracker`    | Pipeline de oportunidades                        |
-|                            | `Quote_Builder`    | Cálculo de estimación y cotización               |
-|                            | `Approved_Jobs`    | Registro maestro de proyectos contratados        |
-|                            | `Schedule`         | Hitos y alertas de ejecución                     |
-|                            | `Labor_Log`        | Registros reales de mano de obra                 |
-|                            | `Material_Usage`   | Consumo real de materiales                       |
-| **Motor y análisis**       | `Job_Cost_Engine`  | Costeo real de proyectos y rentabilidad          |
-|                            | `Profit_Dashboard` | Análisis de rentabilidad a nivel de gestión      |
-|                            | `Customer_History` | Historial comercial a nivel de cliente           |
+| **Operaciones y ejecución** | `Lead_Tracker`     | Tubería de oportunidades                       |
+|                            | `Quote_Builder`    | Cálculo de estimación y oferta                      |
+|                            | `Approved_Jobs`    | Registro maestro de obras contratadas                  |
+|                            | `Schedule`         | Hitos y alertas de ejecución            |
+|                            | `Labor_Log`        | Registros reales de mano de obra                       |
+|                            | `Material_Usage`   | Consumo real de materiales                |
+| **Motor y analítica**     | `Job_Cost_Engine`  | Cálculo de costes y rentabilidad reales de obra   |
+|                            | `Profit_Dashboard` | Análisis de rentabilidad a nivel de dirección                    |
+|                            | `Customer_History` | Historial comercial a nivel de cliente          |
 
-El flujo principal de datos es:
+El flujo de datos principal es:
 
 ```text
                     MASTER DATA
@@ -419,40 +291,40 @@ El flujo principal de datos es:
                 Profit_Dashboard  Customer_History
 ```
 
-El principio de diseño central es la **clave maestra unificada**: `Job_ID` vincula la obra aprobada con los registros de cronograma, los registros de mano de obra, el uso de materiales y el motor de costeo de obras. Esto busca eliminar el problema de islas de datos entre la planificación comercial y la ejecución del proyecto.
+El principio de diseño central es la **clave maestra unificada**: `Job_ID` vincula la obra aprobada con los registros de planificación, los registros de mano de obra, el consumo de materiales y el motor de cálculo de costes de obra. El objetivo es eliminar el problema de islas de datos entre la planificación comercial y la ejecución de obras. 
 
 ### Capa de control central
 
-`Settings` es el único punto de mantenimiento del libro de Excel.
+`Settings` es el único punto de mantenimiento del libro de trabajo.
 
 Los parámetros definidos son:
 
-| Celda | Parámetro                   | Valor predeterminado | Uso                                       |
+| Celda | Parámetro               |  Predeterminado | Usado para                                 |
 | ---- | ----------------------- | -------: | ---------------------------------------- |
 | `B2` | Símbolo de moneda predeterminado |      `$` | Presentación monetaria                    |
-| `B3` | Tasa de impuestos                | `13.00%` | Conversión con impuestos incluidos / sin impuestos |
-| `B4` | Tasa de costos indirectos        | `10.00%` | Asignación de costos indirectos           |
-| `B5` | Margen objetivo                  | `25.00%` | Rentabilidad de cotizaciones y oportunidades |
-| `B6` | Umbral de sobrecosto             |  `5.00%` | Alerta de costos del proyecto             |
-| `B7` | Tipo de cambio USD/CAD           | `1.0000` | Conversión de moneda reservada            |
+| `B3` | Tipo de impuesto                | `13.00%` | Conversión con impuestos incluidos / excluidos |
+| `B4` | Tipo de gastos generales           | `10.00%` | Imputación de costes indirectos                 |
+| `B5` | Margen objetivo           | `25.00%` | Rentabilidad de ofertas y oportunidades      |
+| `B6` | Umbral de sobrecoste       |  `5.00%` | Alerta de costes de obra                     |
+| `B7` | Tipo de cambio USD/CAD   | `1.0000` | Conversión de moneda reservada             |
 
-Estos valores están deliberadamente centralizados. La arquitectura requiere que las fórmulas aguas abajo referencien `Settings` en lugar de codificar valores como `0.13`, `0.10` o `0.25`. La verificación cruzada de la implementación confirma que los parámetros de impuestos, costos indirectos, margen objetivo y sobrecosto se propagan a los módulos de cálculo correspondientes.
+Estos valores están deliberadamente centralizados. La arquitectura exige que las fórmulas posteriores referencien `Settings` en lugar de codificar valores como `0.13`, `0.10` o `0.25`. La verificación cruzada de la implementación confirma que los parámetros de impuesto, gastos generales, margen objetivo y sobrecoste se propagan a los módulos de cálculo apropiados. 
 
-### Tres trampas que atrapan incluso a contratistas experimentados
+### Tres trampas que atrapan incluso a los contratistas experimentados
 
-#### Trampa 1 — Tratar el margen de la cotización original como el margen actual del proyecto
+#### Trampa 1 — Tratar el margen de la oferta original como el margen actual de la obra
 
 **1. Decisión tomada**
 
-Un proyecto fue aceptado porque la estimación mostraba un margen objetivo aceptable.
+Una obra se aceptó porque la estimación mostraba un margen objetivo aceptable.
 
 **2. Supuesto oculto**
 
-La estimación original se trata como si siguiera siendo representativa después de que comienza la ejecución.
+La estimación original se trata como si siguiera siendo representativa después de que comience la ejecución.
 
 **3. Lo que cambia la decisión**
 
-Las horas reales de mano de obra y el consumo de materiales pueden superar los supuestos originales.
+Las horas reales de mano de obra y el consumo real de materiales pueden superar los supuestos originales.
 
 ```text
 Original Estimate
@@ -470,18 +342,18 @@ Lower Actual Margin
 
 **4. Por qué falla el razonamiento**
 
-La cotización original representa una estructura de costos planificada. No es evidencia del consumo real.
+La oferta original representa una estructura de costes planificada. No es una prueba de consumo real.
 
 **5. Razonamiento corregido**
 
-Conservar el costo estimado como línea base y calcular el costo real de forma independiente a partir de `Labor_Log` y `Material_Usage`.
+Conservar el coste estimado como línea base y calcular el coste real de forma independiente a partir de `Labor_Log` y `Material_Usage`.
 
 **6. Decisión corregida**
 
-El proyecto puede monitorearse ante el deterioro del margen mientras todavía es posible tomar acciones correctivas.
+La obra puede monitorizarse para detectar el deterioro del margen mientras aún es posible una acción correctiva.
 
 <details>
-<summary>Lógica de la fórmula</summary>
+<summary>Lógica de las fórmulas</summary>
 
 La cadena de rentabilidad real es:
 
@@ -499,41 +371,41 @@ Contract Revenue
 Actual Margin
 ```
 
-La implementación define los ingresos por contrato sobre una base sin impuestos:
+La implementación define los ingresos contractuales sobre una base sin impuestos:
 
 ```excel
 =Contract_Amount/(1+Settings!$B$3)
 ```
 
-La utilidad real se calcula entonces como los ingresos por contrato sin impuestos menos el costo total real.
+El beneficio real se calcula entonces como los ingresos contractuales sin impuestos menos el coste total real. 
 
 </details>
 
-#### Trampa 2 — Juzgar la rentabilidad del proyecto solo por los costos directos
+#### Trampa 2 — Juzgar la rentabilidad de una obra solo por los costes directos
 
 **1. Decisión tomada**
 
-Los costos de materiales y mano de obra parecen mantenerse por debajo de los ingresos por contrato, por lo que el proyecto se considera saludable.
+Los costes de materiales y mano de obra parecen mantenerse por debajo de los ingresos contractuales, por lo que la obra se considera sana.
 
 **2. Supuesto oculto**
 
-La mano de obra y los materiales directos se tratan como el costo económico completo del proyecto.
+La mano de obra directa y el material se tratan como el coste económico completo de la obra.
 
 **3. Lo que cambia la decisión**
 
-Los costos indirectos de gestión no son visibles en el gasto directo del proyecto, pero aun así deben asignarse.
+Los costes indirectos de gestión no son visibles en el gasto directo de la obra, pero aun así deben imputarse.
 
 **4. Por qué falla el razonamiento**
 
-El modelo comercial del libro de Excel define el costo del proyecto como materiales directos + mano de obra directa + costos indirectos asignados.
+El modelo comercial del libro de trabajo define el coste de obra como material directo + mano de obra directa + gastos generales imputados.
 
 **5. Razonamiento corregido**
 
-Aplicar de manera consistente la tasa centralizada de costos indirectos sobre la base de costos directos.
+Aplicar el tipo centralizado de gastos generales de forma coherente a la base de costes directos.
 
 **6. Decisión corregida**
 
-El margen del proyecto se evalúa usando la misma estructura de costos empleada durante la estimación.
+El margen de la obra se evalúa con la misma estructura de costes utilizada durante la estimación.
 
 ```text
 Actual Material Cost
@@ -548,7 +420,7 @@ Actual Total Cost
 ```
 
 <details>
-<summary>Lógica de la fórmula</summary>
+<summary>Lógica de las fórmulas</summary>
 
 ```excel
 Overhead_Allocation =
@@ -561,35 +433,35 @@ Actual_Total_Cost =
     + Overhead_Allocation
 ```
 
-La implementación especifica el mismo concepto de costos indirectos para el costeo en la etapa de cotización y para el costeo real de obras.
+La implementación especifica el mismo concepto de gastos generales para el cálculo de costes en fase de oferta y para el cálculo de costes reales de obra. 
 
 </details>
 
-#### Trampa 3 — Esperar al cierre del proyecto para detectar el sobrecosto
+#### Trampa 3 — Esperar al cierre de la obra para detectar el sobrecoste
 
 **1. Decisión tomada**
 
-La dirección espera hasta la finalización del proyecto para determinar si este se mantuvo dentro del presupuesto.
+La dirección espera a la finalización de la obra para determinar si esta se mantuvo dentro del presupuesto.
 
 **2. Supuesto oculto**
 
-La variación de costos se trata como una métrica de reporte en lugar de una señal operativa de control.
+La desviación de costes se trata como una métrica de información en lugar de como una señal de control operativo.
 
 **3. Lo que cambia la decisión**
 
-Un proyecto puede exceder su costo estimado antes de completarse, mientras aún queda trabajo pendiente que podría controlarse.
+Una obra puede superar su coste estimado antes de su finalización, mientras aún queda trabajo restante que potencialmente podría controlarse.
 
 **4. Por qué falla el razonamiento**
 
-Una alerta tardía puede explicar el resultado final, pero no puede influir en los costos ya incurridos.
+Una alerta tardía puede explicar el resultado final, pero no puede influir en los costes ya incurridos.
 
 **5. Razonamiento corregido**
 
-Comparar el costo total real con el costo total estimado original y evaluar la variación contra el umbral de sobrecosto centralizado.
+Comparar el coste total real con el coste total estimado original y evaluar la desviación frente al umbral de sobrecoste centralizado.
 
 **6. Decisión corregida**
 
-Un proyecto que cruza el umbral configurado se convierte en una excepción que requiere atención de la dirección.
+Una obra que cruza el umbral configurado se convierte en una excepción que requiere la atención de la dirección.
 
 ```text
 Estimated Total Cost
@@ -604,7 +476,7 @@ Normal / Warning / Severe Overrun
 ```
 
 <details>
-<summary>Lógica de la fórmula</summary>
+<summary>Lógica de las fórmulas</summary>
 
 La implementación define `Cost_Variance` como:
 
@@ -612,77 +484,77 @@ La implementación define `Cost_Variance` como:
 =Actual_Total_Cost-Estimated_Total_Cost
 ```
 
-La lógica de alerta evalúa el porcentaje real de sobrecosto contra `Settings!B6`. El panel luego cuenta los proyectos clasificados como sobrecostos severos.
+La lógica de alerta evalúa el porcentaje real de sobrecoste frente a `Settings!B6`. El panel cuenta entonces las obras clasificadas como sobrecostes graves. 
 
 </details>
 
-### Ejemplo de escenario
+### Escenario de ejemplo
 
-Un contratista acepta un proyecto con un monto de contrato con impuestos incluidos de **$113,000**.
+Un contratista acepta una obra con un importe contractual con impuestos incluidos de **113.000 $**.
 
-La tasa de impuestos configurada es del **13%**, por lo que los ingresos por contrato sin impuestos son:
+El tipo de impuesto configurado es del **13 %**, por lo que los ingresos contractuales sin impuestos son:
 
 ```text
 $113,000 ÷ 1.13
 = $100,000
 ```
 
-La cotización original contiene:
+La oferta original contiene:
 
-| Componente de costo      |   Estimado |
+| Componente de coste           |   Estimado |
 | ------------------------ | ----------: |
-| Materiales               |     $42,000 |
-| Mano de obra             |     $35,000 |
-| Asignación de costos indirectos |      $7,700 |
-| **Costo total estimado** | **$84,700** |
-| **Utilidad inicial**     | **$15,300** |
-| **Margen inicial**       |  **15.30%** |
+| Materiales                |     42.000 $ |
+| Mano de obra                    |     35.000 $ |
+| Imputación de gastos generales      |      7.700 $ |
+| **Coste total estimado** | **84.700 $** |
+| **Beneficio inicial**       | **15.300 $** |
+| **Margen inicial**       |  **15,30 %** |
 
-Durante la ejecución, los registros reales se acumulan:
+Durante la ejecución, se acumulan los registros reales:
 
-| Componente de costo        |      Real |
+| Componente de coste        |      Real |
 | --------------------- | ----------: |
-| Materiales             |     $47,000 |
-| Mano de obra           |     $40,000 |
-| Asignación de costos indirectos |      $8,700 |
-| **Costo total real** | **$95,700** |
-| **Utilidad real**     |  **$4,300** |
-| **Margen real**     |   **4.30%** |
+| Materiales             |     47.000 $ |
+| Mano de obra                 |     40.000 $ |
+| Imputación de gastos generales   |      8.700 $ |
+| **Coste total real** | **95.700 $** |
+| **Beneficio real**     |  **4.300 $** |
+| **Margen real**     |   **4,30 %** |
 
-El proyecto pasó, por lo tanto, de un **margen proyectado de 15.30% a un margen real de 4.30%**.
+La obra ha pasado por tanto de un **margen proyectado del 15,30 % a un margen real del 4,30 %**.
 
-La variación de costos es:
+La desviación de costes es:
 
 ```text
 $95,700 - $84,700
 = $11,000
 ```
 
-El porcentaje de sobrecosto es:
+El porcentaje de sobrecoste es:
 
 ```text
 $11,000 ÷ $84,700
 ≈ 12.99%
 ```
 
-Con el umbral de sobrecosto predeterminado de `5.00%`, este proyecto está claramente fuera del control normal de costos.
+Con el umbral de sobrecoste predeterminado del `5.00%`, esta obra está claramente fuera del control normal de costes.
 
-La conclusión correcta para la gestión **no es simplemente que "el proyecto sigue siendo rentable"**.
+La conclusión de gestión correcta **no es simplemente «la obra sigue siendo rentable»**.
 
 La conclusión más útil es:
 
-> **El proyecto sigue siendo positivo en utilidad absoluta, pero su estructura de costos se ha deteriorado sustancialmente y requiere intervención.**
+> **La obra sigue siendo positiva en beneficio absoluto, pero su estructura de costes se ha deteriorado notablemente y requiere intervención.**
 
-La siguiente revisión debe enfocarse en dónde se originó la variación —horas de mano de obra, consumo de materiales o ambos— y en si el trabajo restante del proyecto puede controlarse.
+La siguiente revisión debería centrarse en el origen de la desviación—horas de mano de obra, consumo de materiales o ambos—y en si el trabajo restante de la obra puede controlarse.
 
-Esta es precisamente la razón por la que el sistema conserva tanto la estimación original como los costos reales de ejecución, en lugar de reemplazar la estimación con la última cifra de gasto. El `Job_Cost_Engine` está diseñado para exponer la diferencia entre estos dos estados.
+Esta es precisamente la razón por la que el sistema conserva tanto la estimación original como los costes reales de ejecución en lugar de sustituir la estimación por la última cifra de gasto. `Job_Cost_Engine` está diseñado para exponer la diferencia entre estos dos estados. 
 
 ### Referencia de fórmulas
 
 <details>
-<summary>Cálculos de leads y pipeline</summary>
+<summary>Cálculos de leads y tubería</summary>
 
-**Duración en el pipeline**
+**Duración en la tubería**
 
 ```excel
 =MAP(
@@ -703,9 +575,9 @@ Esta es precisamente la razón por la que el sistema conserva tanto la estimaci�
 )
 ```
 
-**Propósito:** Calcula cuánto tiempo permanece activa una oportunidad en el pipeline mientras trata los leads ganados y perdidos como cerrados.
+**Objeto:** Calcula cuánto tiempo permanece activa una oportunidad en la tubería, tratando los leads ganados y perdidos como cerrados.
 
-**Utilidad potencial**
+**Beneficio potencial**
 
 ```excel
 =MAP(
@@ -721,14 +593,14 @@ Esta es precisamente la razón por la que el sistema conserva tanto la estimaci�
 )
 ```
 
-**Propósito:** Convierte el presupuesto estimado del proyecto en utilidad potencial usando el supuesto centralizado de margen objetivo, en lugar de un porcentaje codificado.
+**Objeto:** Convierte el presupuesto estimado de la obra en beneficio potencial usando el supuesto centralizado de margen objetivo en lugar de un porcentaje codificado.
 
 </details>
 
 <details>
-<summary>Cálculos de cotización y estimación</summary>
+<summary>Cálculos de ofertas y estimaciones</summary>
 
-El cálculo de la cotización sigue:
+El cálculo de la oferta sigue:
 
 ```text
 Material Quantity × Standard Material Cost
@@ -748,7 +620,7 @@ Tax
 Suggested Quote
 ```
 
-**Lógica de la cotización sugerida**
+**Lógica de la oferta sugerida**
 
 ```excel
 =(Estimated_Total_Cost/(1-Settings!$B$5))
@@ -764,14 +636,14 @@ Suggested Quote
 (Quote_Amount/(1+Settings!$B$3))
 ```
 
-`Quote_Builder` usa `XLOOKUP` para recuperar las tarifas estándar de materiales y mano de obra, mientras que `MAP` y `LAMBDA` permiten que las columnas de cálculo se desborden dinámicamente a medida que se agregan registros.
+`Quote_Builder` usa `XLOOKUP` para recuperar las tarifas estándar de materiales y mano de obra, mientras que `MAP` y `LAMBDA` permiten que las columnas de cálculo se desborden dinámicamente a medida que se amplían los registros. 
 
 </details>
 
 <details>
-<summary>Línea base de la obra aprobada</summary>
+<summary>Línea base de obra aprobada</summary>
 
-**Costo total estimado trasladado desde la cotización**
+**Coste total estimado arrastrado desde la oferta**
 
 ```excel
 =MAP(
@@ -792,7 +664,7 @@ Suggested Quote
 )
 ```
 
-**Utilidad proyectada inicial**
+**Beneficio proyectado inicial**
 
 ```excel
 =(Contract_Amount/(1+Settings!$B$3))
@@ -807,50 +679,50 @@ Suggested Quote
 (Contract_Amount/(1+Settings!$B$3))
 ```
 
-El propósito es preservar la economía comercial en el momento en que la cotización se convierte en una obra aprobada.
+El objeto es preservar la economía comercial en el momento en que la oferta se convierte en una obra aprobada. 
 
 </details>
 
 <details>
-<summary>Costo real de mano de obra y materiales</summary>
+<summary>Costes reales de mano de obra y materiales</summary>
 
-**Costo real de mano de obra**
+**Coste real de mano de obra**
 
 ```excel
 =Actual_Hours*Hourly_Rate
 ```
 
-La tarifa horaria se recupera de `Labor_Rates` con base en el `Labor_Code`.
+La tarifa horaria se recupera de `Labor_Rates` según el `Labor_Code`. 
 
-**Costo real de materiales**
+**Coste real de materiales**
 
 ```excel
 =Actual_Quantity*Standard_Material_Cost
 ```
 
-El costo de materiales se recupera de `Material_DB` usando el código de material.
+El coste de materiales se recupera de `Material_DB` usando el código de material.
 
-Ambos flujos de costos reales se agrupan por `Job_ID` antes de entrar en `Job_Cost_Engine`.
+Ambos flujos de costes reales se agrupan por `Job_ID` antes de entrar en `Job_Cost_Engine`.
 
 </details>
 
 <details>
-<summary>Costo de obra y rentabilidad</summary>
+<summary>Coste y rentabilidad de obra</summary>
 
-**Ingresos por contrato sin impuestos**
+**Ingresos contractuales sin impuestos**
 
 ```excel
 =Contract_Amount/(1+Settings!$B$3)
 ```
 
-**Asignación real de costos indirectos**
+**Imputación real de gastos generales**
 
 ```excel
 =(Actual_Material_Cost+Actual_Labor_Cost)
 *Settings!$B$4
 ```
 
-**Costo total real**
+**Coste total real**
 
 ```excel
 =Actual_Material_Cost
@@ -858,7 +730,7 @@ Ambos flujos de costos reales se agrupan por `Job_ID` antes de entrar en `Job_Co
 +Overhead_Allocation
 ```
 
-**Utilidad real**
+**Beneficio real**
 
 ```excel
 =Contract_Revenue-Actual_Total_Cost
@@ -870,22 +742,22 @@ Ambos flujos de costos reales se agrupan por `Job_ID` antes de entrar en `Job_Co
 =Actual_Profit/Contract_Revenue
 ```
 
-**Variación de costos**
+**Desviación de costes**
 
 ```excel
 =Actual_Total_Cost-Estimated_Total_Cost
 ```
 
-**Alerta de sobrecosto**
+**Alerta de sobrecoste**
 
-La condición de sobrecosto compara la variación real de costos con el umbral configurado en `Settings!B6`, en lugar de incrustar un porcentaje fijo dentro de la fórmula.
+La condición de sobrecoste compara la desviación real de costes con el umbral configurado `Settings!B6` en lugar de incrustar un porcentaje fijo dentro de la fórmula. 
 
 </details>
 
 <details>
-<summary>Cronograma y alertas de ejecución</summary>
+<summary>Alertas de planificación y ejecución</summary>
 
-**Días de atraso**
+**Días de retraso**
 
 ```excel
 =MAP(
@@ -933,12 +805,12 @@ La condición de sobrecosto compara la variación real de costos con el umbral c
 )
 ```
 
-El cálculo distingue el trabajo completado del trabajo incompleto que ha excedido su fecha de fin planificada.
+El cálculo distingue el trabajo completado del trabajo incompleto que ha superado su fecha de finalización planificada. 
 
 </details>
 
 <details>
-<summary>Historial y análisis de valor del cliente</summary>
+<summary>Historial de clientes y análisis de valor</summary>
 
 **Lista de clientes**
 
@@ -957,7 +829,7 @@ El cálculo distingue el trabajo completado del trabajo incompleto que ha excedi
 )
 ```
 
-**Contribución total a la utilidad**
+**Contribución total al beneficio**
 
 ```excel
 =MAP(
@@ -995,31 +867,31 @@ El cálculo distingue el trabajo completado del trabajo incompleto que ha excedi
 )
 ```
 
-La implementación de origen usa la contribución acumulada a la utilidad y el margen promedio como base para la clasificación del valor del cliente, en lugar de evaluar a los clientes solo por sus ingresos.
+La implementación de origen usa la contribución acumulada al beneficio y el margen medio como base para la clasificación del valor del cliente, en lugar de evaluar a los clientes solo por los ingresos. 
 
 </details>
 
 ### Reglas de validación
 
-| Campo / Área                    | Regla                                                                                | Comportamiento ante errores                                                                       |
-| ------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `Settings!B3` Tasa de impuestos | Debe ser un porcentaje válido usado de forma consistente en los cálculos de cotización e ingresos. | Una configuración incorrecta produce montos inconsistentes con impuestos incluidos y sin impuestos. |
-| `Settings!B4` Tasa de costos indirectos | Debe mantenerse de forma centralizada en lugar de incrustarse en fórmulas.    | El costeo del proyecto puede volverse inconsistente si se sobrescribe manualmente en otro lugar.  |
-| `Settings!B5` Margen objetivo   | Debe ser un porcentaje válido usado por los cálculos de potencial de leads y de cotización. | Un valor incorrecto cambia la economía comercial proyectada.                               |
-| `Settings!B6` Umbral de sobrecosto | Debe ser un porcentaje válido usado por las alertas de costeo de obras.            | Un valor incorrecto cambia la sensibilidad de las alertas de costos.                              |
-| `Material_Code`                 | Debe corresponder a un registro válido en `Material_DB`.                             | La búsqueda puede devolver `#N/A` o cero cuando el código falta o está mal formado.               |
-| `Labor_Code`                    | Debe corresponder a un registro válido en `Labor_Rates`.                             | No se puede recuperar correctamente la tarifa horaria.                                            |
-| `Job_ID`                        | Debe referenciar la obra aprobada correspondiente.                                   | Las transacciones de mano de obra/materiales pueden quedar desconectadas del proyecto correcto.   |
-| `Actual_Hours`                  | Debe ser numérico y representar el consumo real de mano de obra del proyecto.        | Los valores inválidos distorsionan el costo real de mano de obra.                                 |
-| `Actual_Quantity`               | Debe ser numérico y estar vinculado al código de material correspondiente.           | Los valores inválidos distorsionan el costo real de materiales.                                   |
-| `Completion_Pct`                | El rango esperado es `0%–100%`.                                                      | Los valores de 100% o más se tratan como completados; el trabajo incompleto vencido genera una alerta. |
-| Rango de salida de matriz dinámica | El destino del desbordamiento debe permanecer libre.                              | Las celdas ocupadas pueden generar `#SPILL!`.                                                     |
-| Modo de cálculo de Excel        | Debe permanecer **Automático**.                                                      | Los cambios en `Settings` pueden no propagarse de inmediato cuando el cálculo está en Manual.     |
-| Formato de moneda               | Las celdas monetarias deben usar el formato de moneda previsto.                      | Los valores pueden mostrarse con un símbolo de moneda incorrecto incluso cuando el número subyacente es correcto. |
+| Campo / área                    | Regla                                                                                | Comportamiento ante errores                                                                                   |
+| ------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `Settings!B3` Tipo de impuesto          | Debe ser un porcentaje válido usado de forma coherente en los cálculos de ofertas e ingresos. | Una configuración incorrecta produce importes con impuestos incluidos y excluidos incoherentes.           |
+| `Settings!B4` Tipo de gastos generales     | Debe mantenerse de forma centralizada en lugar de incrustarse en las fórmulas.                      | El cálculo de costes de obra puede volverse incoherente si se sobrescribe manualmente en otro lugar.                        |
+| `Settings!B5` Margen objetivo     | Debe ser un porcentaje válido usado por los cálculos de potencial de leads y de ofertas.           | Un valor incorrecto cambia la economía comercial proyectada.                                          |
+| `Settings!B6` Umbral de sobrecoste | Debe ser un porcentaje válido usado por las alertas de costes de obra.                               | Un valor incorrecto cambia la sensibilidad de las alertas de costes.                                          |
+| `Material_Code`                 | Debe corresponder a un registro válido en `Material_DB`.                                 | La búsqueda puede devolver `#N/A` o cero cuando el código falta o está mal formado.                          |
+| `Labor_Code`                    | Debe corresponder a un registro válido en `Labor_Rates`.                                 | La tarifa horaria no puede recuperarse correctamente.                                                       |
+| `Job_ID`                        | Debe referenciar la obra aprobada pertinente.                                       | Las transacciones de mano de obra/materiales pueden desvincularse de la obra correcta.                        |
+| `Actual_Hours`                  | Debe ser numérico y representar el consumo real de mano de obra de la obra.                     | Los valores no válidos distorsionan el coste real de mano de obra.                                                        |
+| `Actual_Quantity`               | Debe ser numérico y estar vinculado al código de material pertinente.                             | Los valores no válidos distorsionan el coste real de materiales.                                                            |
+| `Completion_Pct`                | El rango esperado es `0%–100%`.                                                        | Los valores iguales o superiores al 100 % se tratan como completados; el trabajo incompleto con retraso genera una alerta.    |
+| Rango de salida de matriz dinámica      | El destino de desbordamiento debe permanecer libre.                                                | Las celdas ocupadas pueden generar `#SPILL!`.                                                           |
+| Modo de cálculo de Excel          | Debe permanecer en **Automático**.                                                          | Los cambios en `Settings` pueden no propagarse inmediatamente cuando el cálculo está en Manual.           |
+| Formato de moneda             | Las celdas monetarias deben usar el formato de moneda previsto.                               | Los valores pueden mostrarse con un símbolo de moneda incorrecto aunque el número subyacente sea correcto. |
 
-La implementación recomienda la validación de datos de Excel para los campos de entrada operativos cuando sea práctico, e identifica explícitamente `#SPILL!`, el modo de cálculo manual, los códigos faltantes en los datos maestros y el formato de moneda incorrecto como modos comunes de falla operativa.
+La implementación recomienda la validación de datos de Excel para los campos de entrada operativos cuando sea práctico, e identifica explícitamente `#SPILL!`, el modo de cálculo manual, los códigos de datos maestros ausentes y el formato de moneda incorrecto como modos de fallo operativos habituales. 
 
-La verificación cruzada del libro también confirma que los parámetros globales se referencian aguas abajo y que las fórmulas de cálculo no codifican los principales supuestos de negocio.
+La verificación cruzada del libro de trabajo también comprueba que los parámetros globales se referencian en los cálculos posteriores y que las fórmulas de cálculo no codifican los principales supuestos de negocio. 
 
 </details>
 
@@ -1027,7 +899,7 @@ La verificación cruzada del libro también confirma que los parámetros globale
 
 ### Diseño con matrices dinámicas
 
-El libro de Excel está diseñado para Microsoft 365 / Excel 2021+ y usa funciones modernas de matriz dinámica donde estas brindan una ventaja operativa clara.
+El libro de trabajo está diseñado para Microsoft 365 / Excel 2021+ y usa funciones modernas de matrices dinámicas donde proporcionan una ventaja operativa clara.
 
 Las funciones principales incluyen:
 
@@ -1053,11 +925,11 @@ Calculation Expands Automatically
 Dashboard / Analysis Updates
 ```
 
-Esto es particularmente importante para los flujos de trabajo de contratistas porque los leads, las obras, los registros de mano de obra y las transacciones de materiales se agregan continuamente con el tiempo.
+Esto es especialmente importante para los flujos de trabajo de los contratistas porque los leads, las obras, los registros de mano de obra y las transacciones de materiales se añaden continuamente a lo largo del tiempo.
 
-La implementación usa lógica de matriz dinámica en áreas como la duración en el pipeline, la utilidad potencial, los cálculos de cotización, las alertas de cronograma y el análisis de clientes.
+La implementación usa lógica de matrices dinámicas en áreas como la duración en la tubería, el beneficio potencial, los cálculos de ofertas, las alertas de planificación y el análisis de clientes. 
 
-### Arquitectura de la clave de proyecto
+### Arquitectura de clave de obra
 
 `Job_ID` es el identificador central que conecta la capa de ejecución.
 
@@ -1075,20 +947,20 @@ Approved_Jobs
          Job_Cost_Engine
 ```
 
-Esto crea una relación única a nivel de proyecto entre:
+Esto crea una relación única a nivel de obra entre:
 
 * el contrato aprobado;
-* el trabajo programado;
+* el trabajo planificado;
 * la mano de obra real;
 * los materiales reales;
-* el costo real;
-* la rentabilidad del proyecto.
+* el coste real;
+* la rentabilidad de la obra.
 
-La arquitectura identifica explícitamente el `Job_ID` unificado como el mecanismo central para eliminar las islas de datos entre la ejecución del proyecto y el análisis financiero.
+La arquitectura identifica explícitamente el `Job_ID` unificado como el mecanismo central para eliminar las islas de datos entre la ejecución de obras y el análisis financiero. 
 
-### Conciliación de costos del proyecto
+### Conciliación de costes de obra
 
-El libro de Excel mantiene una distinción clara entre **lo que se estimó** y **lo que realmente ocurrió**.
+El libro de trabajo mantiene una distinción clara entre **lo que se estimó** y **lo que realmente ocurrió**.
 
 ```text
 Original Quote
@@ -1112,15 +984,15 @@ Actual Profit
 Actual Margin
 ```
 
-Esto permite a la dirección identificar si la economía de un proyecto se deterioró porque el consumo real de recursos se alejó de la estimación original.
+Esto permite a la dirección identificar si la economía de una obra se deterioró porque el consumo real de recursos se alejó de la estimación original.
 
-El `Job_Cost_Engine` actúa, por lo tanto, como la capa de conciliación entre la planificación comercial y la ejecución operativa.
+`Job_Cost_Engine` actúa por tanto como la capa de conciliación entre la planificación comercial y la ejecución operativa. 
 
 ### Modelo de dependencia del panel
 
-`Profit_Dashboard` no es una tabla de reportes independiente.
+`Profit_Dashboard` no es una tabla de información independiente.
 
-Está situado aguas abajo del motor de cálculo:
+Se sitúa por debajo del motor de cálculo:
 
 ```text
 Settings
@@ -1143,38 +1015,38 @@ Profit_Dashboard
 Customer_History
 ```
 
-El panel resume las salidas generadas por los registros de proyecto subyacentes y la capa de cálculo, en lugar de requerir que la dirección mantenga cifras de reporte separadas.
+El panel resume las salidas generadas por los registros de obra subyacentes y la capa de cálculo, en lugar de exigir a la dirección que mantenga cifras de información separadas.
 
-La implementación define métricas del panel que incluyen:
+La implementación define las métricas del panel, incluyendo:
 
-* total de proyectos;
+* obras totales;
 * ingresos sin impuestos;
-* costo total real;
-* utilidad bruta;
-* margen general;
-* conteo de proyectos con sobrecosto severo.
+* coste total real;
+* beneficio bruto;
+* margen global;
+* número de obras con sobrecoste grave. 
 
 ---
 
 ## Flujo de trabajo operativo
 
-El ritmo operativo recomendado sigue la misma estructura que la arquitectura del libro de Excel.
+El ritmo operativo recomendado sigue la misma estructura que la arquitectura del libro de trabajo.
 
 ### Inicio del día
 
-Revise:
+Revisar:
 
 * `Settings`;
-* la integridad de los datos maestros;
+* la completitud de los datos maestros;
 * los leads activos;
-* el estado actual de los proyectos;
-* las excepciones de cronograma pendientes.
+* el estado actual de las obras;
+* las excepciones de planificación pendientes.
 
-El propósito es asegurar que el entorno de cálculo y las entradas operativas estén actualizados antes de capturar nuevos registros.
+El objeto es garantizar que el entorno de cálculo y las entradas operativas estén actualizados antes de introducir nuevos registros. 
 
 ### Durante las operaciones
 
-Actualice los registros operativos correspondientes a medida que ocurren los eventos del negocio:
+Actualice los registros operativos pertinentes a medida que se produzcan los eventos de negocio:
 
 ```text
 New Opportunity
@@ -1196,11 +1068,11 @@ Material Consumed
     → Material_Usage
 ```
 
-El principio es **registrar el evento en su origen en lugar de reconstruirlo después**.
+El principio es **registrar el evento en el origen en lugar de reconstruirlo más tarde**.
 
 ### Revisión de fin de día
 
-Revise las salidas calculadas:
+Revisar las salidas calculadas:
 
 ```text
 Actual Cost
@@ -1214,29 +1086,29 @@ Overrun Alerts
 Management Action
 ```
 
-Esto convierte el libro de Excel de un archivo estático de reportes en un sistema ligero de control operativo.
+Esto convierte el libro de trabajo de un archivo de información estático en un sistema de control operativo ligero.
 
 ---
 
 ## Cadencia de revisión recomendada
 
-| Frecuencia      | Revisión principal                      | Enfoque recomendado                                                       |
+| Frecuencia       | Revisión principal                          | Enfoque recomendado                                                        |
 | --------------- | --------------------------------------- | ------------------------------------------------------------------------ |
-| **Diaria**      | `Schedule` + registros de ejecución     | Tareas vencidas, registros faltantes de mano de obra/materiales            |
-| **Semanal**     | `Lead_Tracker` + `Profit_Dashboard`     | Pipeline de ofertas, proyectos activos, sobrecostos emergentes             |
-| **Por proyecto** | `Job_Cost_Engine`                      | Costo y margen estimados vs. reales                                        |
-| **Mensual**     | `Profit_Dashboard` + `Customer_History` | Rentabilidad general y contribución de clientes                            |
-| **Trimestral**  | `Settings` + datos maestros             | Tarifas de mano de obra, costos de materiales, costos indirectos, margen objetivo, umbrales de alerta |
+| **Diaria**       | `Schedule` + registros de ejecución             | Tareas atrasadas, entradas de mano de obra/materiales ausentes                            |
+| **Semanal**      | `Lead_Tracker` + `Profit_Dashboard`     | Tubería, obras activas, sobrecostes emergentes                        |
+| Por obra | `Job_Cost_Engine`                       | Coste y margen estimados vs. reales                                     |
+| **Mensual**     | `Profit_Dashboard` + `Customer_History` | Rentabilidad global y contribución de clientes                          |
+| **Trimestral**   | `Settings` + datos maestros                | Tarifas de mano de obra, costes de materiales, gastos generales, margen objetivo, umbrales de alerta |
 
-El propósito de esta cadencia es mantener separados el mantenimiento de los datos operativos y la revisión de gestión: los equipos de campo y de proyecto mantienen los registros de origen, mientras que la dirección usa los cálculos resultantes para tomar decisiones.
+El objeto de esta cadencia es mantener separados el mantenimiento de los datos operativos y la revisión de la dirección: los equipos de campo y de obra mantienen los registros de origen, mientras que la dirección usa los cálculos resultantes para tomar decisiones.
 
 ---
 
-## Principios de captura de datos
+## Principios de entrada de datos
 
-### Capturar los datos de origen una sola vez
+### Introducir los datos de origen una sola vez
 
-El libro de Excel está diseñado en torno al principio de **única fuente de verdad**.
+El libro de trabajo está diseñado en torno a un principio de **fuente única de verdad**.
 
 Por ejemplo:
 
@@ -1258,13 +1130,13 @@ Material_Usage
 Actual Cost
 ```
 
-La tarifa de materiales debe mantenerse, por lo tanto, en la tabla maestra en lugar de reescribirse de forma independiente en múltiples áreas de cálculo.
+Por tanto, la tarifa de material debe mantenerse en la tabla maestra en lugar de volver a teclearse de forma independiente en varias áreas de cálculo.
 
-El mismo principio aplica a las tarifas de mano de obra y a los supuestos globales del negocio.
+El mismo principio se aplica a las tarifas de mano de obra y a los supuestos globales de negocio.
 
-### Usar los ID de proyecto de forma consistente
+### Usar los identificadores de obra de forma coherente
 
-Una vez que una obra aprobada recibe un `Job_ID`, todos los registros posteriores de ejecución del proyecto deben referenciar ese identificador.
+Una vez que una obra aprobada recibe un `Job_ID`, todos los registros posteriores de ejecución de la obra deben referenciar ese identificador.
 
 ```text
 Job_ID: JOB-001
@@ -1274,90 +1146,90 @@ Job_ID: JOB-001
     └── Job_Cost_Engine
 ```
 
-Un `Job_ID` faltante o ingresado incorrectamente rompe la relación entre la actividad operativa y la rentabilidad del proyecto.
+Un `Job_ID` ausente o introducido incorrectamente rompe la relación entre la actividad operativa y la rentabilidad de la obra.
 
-### No sobrescribir los resultados calculados
+### No sobrescribir las salidas calculadas
 
-Las columnas calculadas deben permanecer controladas por fórmulas.
+Las columnas calculadas deben permanecer impulsadas por fórmulas.
 
-Los usuarios deben actualizar los registros de origen tales como:
+Los usuarios deben actualizar los registros de origen como:
 
-* información del lead;
-* entradas de la cotización;
-* estado del proyecto;
-* horas de mano de obra;
-* cantidades de materiales;
-* fechas del cronograma.
+* la información de leads;
+* las entradas de ofertas;
+* el estado de la obra;
+* las horas de mano de obra;
+* las cantidades de materiales;
+* las fechas de planificación.
 
-No deben reemplazar manualmente los resultados calculados de:
+No deben sustituir manualmente los elementos calculados:
 
-* costos totales;
-* márgenes;
-* variación de costos;
-* rentabilidad del proyecto;
-* resúmenes a nivel de cliente.
+* los costes totales;
+* los márgenes;
+* la desviación de costes;
+* la rentabilidad de la obra;
+* los resúmenes a nivel de cliente.
 
 ---
 
 ## Limitaciones conocidas
 
-Este libro de Excel es intencionalmente ligero.
+Este libro de trabajo es deliberadamente ligero.
 
-**No** debe tratarse como un reemplazo de:
+No debe tratarse como un sustituto de:
 
-* software contable;
-* procesamiento de nómina;
-* planeación de recursos empresariales (ERP);
-* sistemas de adquisiciones;
+* software de contabilidad;
+* procesamiento de nóminas;
+* planificación de recursos empresariales;
+* sistemas de aprovisionamiento;
 * plataformas de gestión de servicios de campo;
 * bases de datos transaccionales multiusuario.
 
-Está diseñado para control operativo y apoyo a la decisión donde Excel sigue siendo un entorno de trabajo apropiado.
+Está diseñado para el control operativo y el apoyo a la decisión allí donde Excel sigue siendo un entorno de trabajo apropiado.
 
 ### Versión de Excel
 
-La implementación depende de funciones modernas de Excel y está pensada para **Microsoft 365 / Excel 2021+**.
+La implementación se basa en funciones modernas de Excel y está destinada a **Microsoft 365 / Excel 2021+**.
 
-Las versiones anteriores de Excel pueden no admitir todas las funciones de matriz dinámica que usa el libro.
+Las versiones anteriores de Excel pueden no admitir todas las funciones de matrices dinámicas usadas por el libro de trabajo.
 
 ### Modo de cálculo
 
-Excel debe permanecer en modo de **Cálculo automático**.
+Excel debe permanecer en modo **Cálculo automático**.
 
-Si el cálculo se deshabilita manualmente, los cambios en `Settings` o en los registros de origen pueden no propagarse de inmediato a través de la cadena de cálculo.
+Si el cálculo se desactiva manualmente, los cambios en `Settings` o en los registros de origen pueden no propagarse inmediatamente a través de la cadena de cálculo. 
 
 ### Espacio de desbordamiento de matrices dinámicas
 
 Las fórmulas dinámicas requieren rangos de desbordamiento libres.
 
-Si otro valor ocupa un área de desbordamiento requerida, Excel puede devolver `#SPILL!`.
+Si otro valor ocupa un área de desbordamiento necesaria, Excel puede devolver `#SPILL!`.
 
-La respuesta apropiada es inspeccionar el rango de desbordamiento en lugar de copiar manualmente las fórmulas en celdas adicionales.
+La respuesta apropiada es inspeccionar el rango de desbordamiento en lugar de copiar manualmente las fórmulas en celdas adicionales. 
 
 ### Dependencia de los datos maestros
 
 `Material_Code` y `Labor_Code` dependen de los registros correspondientes en `Material_DB` y `Labor_Rates`.
 
-Si falta un código o está mal formado, las búsquedas y los cálculos de costeo aguas abajo pueden no devolver el valor previsto.
+Si un código falta o está mal formado, las búsquedas posteriores y los cálculos de costes pueden no devolver el valor previsto. 
 
 ---
 
 ## Otras herramientas de esta serie
 
-Una colección de herramientas ligeras de Excel para apoyo a la decisión en planificación operativa, costeo, rentabilidad y análisis de negocio.
+Una colección de herramientas Excel ligeras de apoyo a la decisión para la planificación operativa, el cálculo de costes, la rentabilidad y el análisis de negocio.
 
-* **Enterprise Payroll & Annual Workforce Capacity Planning Excel Toolkit**
-* **Industrial Energy Cost & TCO Decision Support Toolkit**
-* **E-commerce Profit Engine & Financial Reconciliation Toolkit**
-* **Food Manufacturing Cost & Unit Economics Excel Toolkit**
-* **Rental Property Operations & Vacancy Intelligence Excel Toolkit**
+* **Kit de herramientas Excel de nóminas empresariales y planificación anual de la capacidad de la plantilla**
+* **Kit de herramientas de apoyo a la decisión sobre costes energéticos industriales y TCO**
+* **Motor de beneficio de comercio electrónico y kit de herramientas de conciliación financiera**
+* **Kit de herramientas de costes de fabricación de alimentos y economía unitaria**
+* **Kit de herramientas de operaciones de propiedades de alquiler e inteligencia de vacantes**
 
 ---
 
 ## Licencia
 
-Este proyecto se publica bajo la **Apache License 2.0**.
+Este proyecto se publica bajo la **Licencia Apache 2.0**.
 
 Usted es libre de usar, modificar, reproducir y distribuir la obra de acuerdo con los términos de la licencia.
 
-Consulte el archivo `LICENSE` del repositorio para ver los términos completos de la licencia.
+Consulte el archivo `LICENSE` del repositorio para conocer los términos completos de la licencia.
