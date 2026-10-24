@@ -15,7 +15,7 @@
 
 Test the interactive web application for free in your browser, or download the unlocked Excel spreadsheet template for full offline customization—backed by a 30-day, no-questions-asked money-back guarantee.
 
-> 🌐 **Try the Web App:** [Interactive Contractor Estimating & Job Costing Web Calculator (Live Demo)](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/)  
+> 🌐 **Try the Web App:** [Interactive Contractor Estimating & Job Costing Web Calculator (Live Demo)](https://hyvoid.github.io/construction-job-costing-excel-template/)  
 > 📥 **Get the Full Excel System:** [Download the Editable Construction Job Costing & Quote Builder Excel Template](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)  
 > ⚙️ **Architecture & Math:** [Jump to The Business Logic & Job Costing Methodology](#the-business-logic--methodology)
 
@@ -88,7 +88,7 @@ Open the `Settings` control tab to define the financial guardrails used across y
 * **Cost Overrun Alert Threshold (%)** (e.g., flag jobs exceeding budget by more than 5%)
 * **Base Currency & Exchange Rate**
 
-*Action:* Explore the pre-configured control console right now in the [Free Browser Contractor Operating System](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/).
+*Action:* Explore the pre-configured control console right now in the [Free Browser Contractor Operating System](https://hyvoid.github.io/construction-job-costing-excel-template/).
 
 ---
 
