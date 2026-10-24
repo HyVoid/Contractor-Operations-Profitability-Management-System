@@ -2,7 +2,7 @@
 
 
 # Construction Job Costing Excel Template & Contractor Estimating Spreadsheet (Lead-to-Profit CRM System)
-<img width="2880" height="1228" alt="image" src="https://github.com/user-attachments/assets/3f956e08-d7a3-453d-9a7d-70715b453dab" />
+<img width="2880" height="1228" alt="image" src="https://github.com/user-attachments/assets/9ddabd3f-ffc4-4a6c-937f-fbbc3c2c2e8a" />
 
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
