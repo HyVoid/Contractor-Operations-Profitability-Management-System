@@ -119,7 +119,7 @@ Instead of digging through hundreds of spreadsheet rows, use the dashboard to in
 
 > 💡 **Ready to run your own construction estimates, crew timesheets, and job costing in this system?**
 > While the browser version lets you inspect the architecture instantly, managing real construction projects requires saving your own material price books, logging weekly field labor, and maintaining permanent project records.
-> 👉 **[Download the Full Unlocked Contractor Operations & Job Costing Excel Template](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)** to customize rate tables, track unlimited jobs offline, and take full ownership of your project margins.
+> 👉 **[Download the Full Unlocked Contractor Operations & Job Costing Excel Template](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)** to customize rate tables, track unlimited jobs offline, and take full ownership of your project margins.
 
 ---
 
