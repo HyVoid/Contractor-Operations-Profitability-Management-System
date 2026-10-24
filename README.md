@@ -1,366 +1,44 @@
 [ 🌐 عربي ](README.ar.md) | [ 🇩🇪 Deutsch ](README.de.md) | [ 🇫🇷 Français ](README.fr.md) | [ 🇳🇱 Nederlands ](README.nl.md) | [ 🇪🇸 Español ](README.sp.md) | [ 🇬🇧 English ](README.md)
-# Contractor Operations & Profitability Management System
+# Construction Job Costing Excel Template & Contractor Estimating Spreadsheet (Lead-to-Profit CRM System)
+<img width="2880" height="1228" alt="image" src="https://github.com/user-attachments/assets/3f956e08-d7a3-453d-9a7d-70715b453dab" />
+
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Browser%20%2B%20Excel-green.svg)
-![Tool Type](https://img.shields.io/badge/Tool%20Type-Contractor%20Operations%20%26%20Profitability-orange.svg)
+![Tool Type](https://img.shields.io/badge/Tool%20Type-Construction%20Job%20Costing%20%26%20Estimating-orange.svg)
 
-**A connected Excel operating system for managing the full contractor workflow from Lead → Estimate → Job → Labor & Materials → Job Cost → Profit → Customer History.**
+**An all-in-one Construction Job Costing Excel Template, Contractor Estimating Spreadsheet, and Lead-to-Profit CRM Calculator built for general contractors, subcontractors, and trade businesses. Track the complete contractor workflow from Sales Lead → Material & Labor Estimate → Approved Job Budget → Field Timesheets & Material Usage → Estimate-vs-Actual Variance → Net Profit Margin → Customer Lifetime Value (LTV).**
 
-**No signup. No installation. Free in your browser.**
+**No signup. No installation. Free to test in your browser.**
 
-Try the browser version for free. If you need the Excel version, you can buy it with a 30-day, no-questions-asked money-back guarantee.
-> Available in two formats: **Browser version (HTML)** and **Excel version**.
+Test the interactive web application for free in your browser, or download the unlocked Excel spreadsheet template for full offline customization—backed by a 30-day, no-questions-asked money-back guarantee.
 
-[Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [Technical Details](#technical-details)
-
----
-
-## The Complete Contractor Workflow
-
-Most contractor spreadsheets solve only one part of the business.
-
-This workbook is designed around the **entire operating chain**:
-
-```text
-Lead
-  ↓
-Estimate
-  ↓
-Job
-  ↓
-Labor & Materials
-  ↓
-Job Cost
-  ↓
-Profit
-  ↓
-Customer History
-```
-
-The purpose is not simply to track projects. It is to keep the **commercial and operational history of each project connected**.
-
-A lead enters the pipeline.
-
-The lead becomes an estimate.
-
-A successful estimate becomes an approved job with a unique `Job_ID`.
-
-During execution, actual labor and material consumption are recorded against that job.
-
-Those records flow into the job-costing engine.
-
-Actual job cost is then compared with the original project economics to determine current profitability and identify cost overruns.
-
-Finally, completed project results accumulate into customer history, allowing management to understand which customers have generated meaningful revenue and profit over time.
-
-The implementation uses dedicated sheets for `Lead_Tracker`, `Quote_Builder`, `Approved_Jobs`, `Labor_Log`, `Material_Usage`, `Job_Cost_Engine`, `Profit_Dashboard`, and `Customer_History`, with `Job_ID` serving as the core project identifier across execution and costing. 
-
-### One Workbook. One Connected Operating Flow.
-
-| Stage                 | Workbook Module                        | What It Manages                                                                              |
-| --------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------- |
-| **Lead**              | `Lead_Tracker`                         | Customer inquiries, opportunities, budgets, status, estimator ownership                      |
-| **Estimate**          | `Quote_Builder`                        | Material requirements, labor hours, estimated cost, overhead, target margin, suggested quote |
-| **Job**               | `Approved_Jobs`                        | Contracted projects, `Job_ID`, contract value, dates, project manager, status                |
-| **Labor & Materials** | `Labor_Log` + `Material_Usage`         | Actual field labor and material consumption                                                  |
-| **Job Cost**          | `Job_Cost_Engine`                      | Actual material cost, labor cost, overhead, total cost, variance                             |
-| **Profit**            | `Job_Cost_Engine` + `Profit_Dashboard` | Project profit, margin, cost-overrun alerts, overall profitability                           |
-| **Customer History**  | `Customer_History`                     | Historical projects, revenue, profit contribution, average margin, customer value            |
-
-The result is a practical workflow for moving from **sales activity to project economics to customer-level commercial intelligence** rather than maintaining disconnected trackers. 
+> 🌐 **Try the Web App:** [Interactive Contractor Estimating & Job Costing Web Calculator (Live Demo)](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/)  
+> 📥 **Get the Full Excel System:** [Download the Editable Construction Job Costing & Quote Builder Excel Template](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)  
+> ⚙️ **Architecture & Math:** [Jump to The Business Logic & Job Costing Methodology](#the-business-logic--methodology)
 
 ---
 
-## What Decision Does This Help You Make?
+## The Connected Construction Operating Chain: From Lead to Job Costing
 
-The system is built around seven operational questions:
+Most construction spreadsheets only solve an isolated fragment of the business—leaving your **sales pipeline**, **estimating takeoff**, and **field job costing** trapped in disconnected files. 
 
-### 1. Which leads deserve attention?
-
-`Lead_Tracker` records the opportunity pipeline and calculates both pipeline duration and potential profit based on the configured target margin.
-
-This allows the active sales pipeline to be viewed not only by number of leads, but also by potential commercial contribution. 
-
-### 2. What should the project be quoted at?
-
-`Quote_Builder` combines estimated material quantities and labor hours with the centralized `Material_DB` and `Labor_Rates`.
-
-The model calculates direct cost, applies overhead allocation, derives estimated total cost, and works backward from the target margin to produce a suggested tax-inclusive quote. 
-
-### 3. What was actually contracted?
-
-`Approved_Jobs` establishes the official project record and generates the unique `Job_ID` used throughout the execution and costing workflow.
-
-This preserves the original commercial baseline against which actual performance can later be evaluated. 
-
-### 4. What is the project actually consuming?
-
-During execution, field labor is recorded in `Labor_Log` and material consumption in `Material_Usage`.
-
-Each record is connected to the relevant `Job_ID`, allowing actual operational activity to become project-level cost data. 
-
-### 5. Is actual job cost moving away from the estimate?
-
-`Job_Cost_Engine` aggregates actual labor and material costs and applies the configured overhead allocation.
-
-The project can therefore be evaluated against its original estimated cost rather than looking only at accumulated spending. 
-
-### 6. Is the project still profitable?
-
-The system separates the **initial projected margin** from the **actual project result**.
-
-That distinction matters because a project can start with an acceptable quote and later lose profitability as actual labor hours, material consumption, or other project costs exceed the original assumptions.
-
-### 7. Which customers have generated meaningful profit?
-
-`Customer_History` aggregates historical project activity by customer, including total jobs, contract revenue, profit contribution, average profit margin, latest contract date, and customer rating. 
-
----
-
-## Quick Start Workflow
-
-### Step 1 — Configure the control layer
-
-Open `Settings` and establish the business assumptions used across the workbook:
-
-* Tax Rate
-* Overhead Rate
-* Target Margin
-* Cost Overrun Threshold
-* Currency
-* Exchange Rate
-
-The architecture treats `Settings` as the central control console. Business assumptions should be maintained there rather than hardcoded into individual formulas. 
-
-### Step 2 — Maintain cost master data
-
-Update:
-
-* `Material_DB` — material codes, descriptions, specifications, units, and standard costs.
-* `Labor_Rates` — labor categories, codes, and standard hourly rates.
-
-These become the common reference points for both estimating and actual job costing.
-
-### Step 3 — Run the contractor workflow
+This contractor workbook is engineered around a single, unbroken **relational operating chain** anchored by `Lead_ID` and `Job_ID`:
 
 ```text
-1. Lead_Tracker
-   ↓
-2. Quote_Builder
-   ↓
-3. Approved_Jobs
-   ↓
-4. Schedule
-   ↓
-5. Labor_Log + Material_Usage
-   ↓
-6. Job_Cost_Engine
-   ↓
-7. Profit_Dashboard + Customer_History
-```
-
-The standard operating procedure follows the same sequence: capture the lead, generate the quote, establish the approved job, record execution, then review automated costing and profitability. 
-
-### Step 4 — Review exceptions, not just totals
-
-The management workflow should focus on:
-
-* stalled leads;
-* projects deviating from estimated cost;
-* overdue execution milestones;
-* declining project margins;
-* significant cost overruns;
-* high-value customers.
-
-The workbook is therefore intended to support **operational intervention**, not merely produce a historical report.
-
----
-
-## Why Most Contractor Profitability Errors Aren't Judgment Errors
-
-A project can be managed by experienced people and still produce a misleading profitability picture.
-
-The underlying problem is often structural:
-
-```text
-Lead information
-      ↓
-Estimate stored separately
-      ↓
-Approved contract recorded elsewhere
-      ↓
-Labor tracked in field records
-      ↓
-Materials tracked separately
-      ↓
-Profit reconstructed later
-```
-
-At each handoff, information can become disconnected.
-
-The original estimate may no longer be directly comparable with actual consumption.
-
-Labor may be recorded without the corresponding project identifier.
-
-Material usage may be tracked operationally without being converted into project cost.
-
-And management may eventually receive a profitability number without a clear path back to the assumptions and transactions that produced it.
-
-This system addresses the failure by creating a connected chain:
-
-```text
-Lead
+Sales Lead (CRM Pipeline)
   ↓
-Estimate
+Project Estimate (Material Takeoff + Labor + Overhead + Margin)
   ↓
-Approved Job + Job_ID
+Approved Contract (Baseline Budget Locked via Job_ID)
   ↓
-Labor + Materials
+Field Execution (Timesheet Labor Hours & Material Consumption)
   ↓
-Job Cost Engine
+Job Costing Engine (Estimate vs. Actual Variance & Overrun Alerts)
   ↓
-Actual Profitability
+Real-Time Profit Dashboard (Gross Profit $ & Net Margin %)
   ↓
-Customer History
-```
-
-The distinction is important.
-
-### Before
-
-```text
-Sales → Quote → Project Execution → Accounting
-          ↘             ↙
-           disconnected data
-```
-
-### After
-
-```text
-Lead
- ↓
-Estimate
- ↓
-Job_ID
- ├── Schedule
- ├── Labor
- └── Materials
-       ↓
-   Job Cost
-       ↓
-    Profit
-       ↓
-Customer History
-```
-
-The architecture explicitly maps inputs and outputs across the workbook so that each major operating record has a defined downstream purpose. 
-
----
-
-## What The Workbook Actually Delivers
-
-This is not positioned as an ERP replacement or a generic dashboard.
-
-It is a **lightweight contractor operating and decision-support model** that connects the information required to manage project economics.
-
-### It provides a continuous project record
-
-From:
-
-**Lead → Estimate → Job → Labor & Materials → Job Cost → Profit**
-
-the same project can be followed through its commercial and execution lifecycle.
-
-### It preserves the original estimate as a baseline
-
-The approved project retains the estimated cost and projected profitability so that actual project performance can be compared against what was originally expected. 
-
-### It converts field activity into financial information
-
-Labor hours and material quantities are not left as operational records. They are linked to standardized rates and costs and ultimately become inputs to the job-cost engine. 
-
-### It separates project profitability from customer profitability
-
-A single project answers:
-
-> **Was this job profitable?**
-
-Customer history answers the longer-term question:
-
-> **Has this customer been commercially valuable across multiple jobs?**
-
-That distinction supports better decisions about future quoting and customer prioritization. 
-
----
-
-## About The Builder
-
-The approach behind this workbook is straightforward:
-
-**Build the smallest operational model that can preserve the chain between business events and management decisions.**
-
-The goal is not to add software features for their own sake.
-
-For contractor operations, the useful chain is already clear:
-
-```text
-Lead
-→ Estimate
-→ Job
-→ Labor & Materials
-→ Job Cost
-→ Profit
-→ Customer History
-```
-
-The workbook turns that chain into a reusable Excel-based operating workflow, with centralized assumptions, connected project identifiers, automated calculations, and management outputs.
-
-It is intended for businesses that need more structure than disconnected spreadsheets, but do not need an enterprise platform simply to understand where project revenue, cost, and profit are coming from.
-
-## Common Contractor Problems This Solves
-
-| Problem                                                   | Without This Tool                                                                                                                   | With This Tool                                                                                                                             |
-| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Lead and estimate data become disconnected**            | Sales opportunities and quotation records are maintained separately, making pipeline value and quote conversion harder to evaluate. | `Lead_ID` connects opportunities to estimates, while estimated profit can be derived from the configured target margin.                    |
-| **The original project budget disappears after award**    | Once a quote becomes a contract, actual project costs may be tracked without preserving the original estimate as a baseline.        | `Approved_Jobs` carries the quote's estimated total cost into the project record for later variance analysis.                              |
-| **Labor and material consumption stay operational only**  | Field hours and material usage are recorded but do not automatically become project-level financial information.                    | `Labor_Log` and `Material_Usage` connect actual consumption to `Job_ID`, standard labor rates, and material costs.                         |
-| **Cost overruns are discovered too late**                 | Management sees the final cost after the opportunity to correct execution has largely disappeared.                                  | `Job_Cost_Engine` compares actual total cost with the original estimated cost and triggers an overrun alert using a centralized threshold. |
-| **Project profitability is confused with customer value** | A profitable individual job can make a customer appear valuable even when the broader relationship produces weak margins.           | `Customer_History` aggregates project count, revenue, profit contribution, and average margin by customer.                                 |
-| **Business rules are duplicated across formulas**         | Tax, overhead, target margin, and warning thresholds can become inconsistent when manually embedded in formulas.                    | `Settings` acts as a single control layer referenced throughout the workbook.                                                              |
-
-The architecture explicitly validates the input/output chain across the workbook and confirms that the global parameters flow into the relevant quote, project-costing, and dashboard calculations. 
-
-## Who This Is For
-
-This system is designed for **project-based contractors, estimators, project managers, operations managers, and owner-operators** who need a connected way to manage project economics without implementing a large enterprise platform.
-
-It fits particularly well when:
-
-* leads and estimates are still handled in spreadsheets;
-* project labor is tracked by hours and standard labor rates;
-* materials are issued or consumed by project;
-* management needs project-level cost and margin visibility;
-* customer profitability matters beyond individual project revenue;
-* the business needs a repeatable operating workflow rather than another isolated dashboard.
-
-It is **not an ERP replacement, accounting system, payroll system, procurement platform, or enterprise project-management suite**.
-
-The model is designed as a lightweight operational and decision-support layer around the contractor's existing workflow.
-
-No spreadsheet expertise is required to understand the operating sequence. The browser version provides a low-friction way to access the workflow, while the Excel implementation provides the underlying calculation environment.
-
----
-
-## About
-
-I build lightweight Excel trackers and decision-support tools for situations where there are too many moving parts to hold in one person's head, but not enough complexity to justify a large software implementation.
-
-The central question is:
-
-> **What information needs to be in one place to make the next decision confidently?**
-
-For contractor operations, that means connecting the commercial and operational chain from **Lead → Estimate → Job → Labor & Materials → Job Cost → Profit → Customer History**.
+Customer LTV History (Repeat Client Profitability Ranking)
 
 ---
 
