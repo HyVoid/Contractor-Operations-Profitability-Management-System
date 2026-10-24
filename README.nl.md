@@ -1,395 +1,267 @@
 [ 🌐 عربي ](README.ar.md) | [ 🇩🇪 Deutsch ](README.de.md) | [ 🇫🇷 Français ](README.fr.md) | [ 🇳🇱 Nederlands ](README.nl.md) | [ 🇪🇸 Español ](README.sp.md) | [ 🇬🇧 English ](README.md)
 
-# Contractor Operations & Profitability Management System
+
+# Excel-sjabloon voor projectkostenberekening & calculatiespreadsheet voor aannemers (lead-tot-winst CRM-systeem)
+<img width="2880" height="1228" alt="image" src="https://github.com/user-attachments/assets/9ddabd3f-ffc4-4a6c-937f-fbbc3c2c2e8a" />
+
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Browser%20%2B%20Excel-green.svg)
-![Tool Type](https://img.shields.io/badge/Tool%20Type-Contractor%20Operations%20%26%20Profitability-orange.svg)
+![Tool Type](https://img.shields.io/badge/Tool%20Type-Construction%20Job%20Costing%20%26%20Estimating-orange.svg)
 
-**Een samenhangend Excel-besturingssysteem voor het beheren van de volledige aannemersworkflow van Lead → Offerte → Project → Arbeid & Materialen → Projectkosten → Winst → Klanthistorie.**
+**Een alles-in-één Excel-sjabloon voor projectkostenberekening, een calculatiespreadsheet voor aannemers en een lead-tot-winst CRM-rekenmachine, gebouwd voor general contractors, subcontractors en werkbedrijven. Volg de volledige aannemersworkflow van verkooplead → materiaal- en arbeidskostenraming → goedgekeurd projectbudget → veld-uurstaten & materiaalverbruik → raming-vs.-werkelijkheid-afwijking → netto-winstmarge → klantlevensduurwaarde (LTV).**
 
-**Geen aanmelding. Geen installatie. Gratis in uw browser.**
+**Geen aanmelding. Geen installatie. Gratis in uw browser te testen.**
 
-Probeer de browserversie gratis. Hebt u de Excel-versie nodig, dan kunt u die kopen met een garantie van 30 dagen, zonder vragen geld terug.
-> Beschikbaar in twee formaten: **browserversie (HTML)** en **Excel-versie**.
+Test de interactieve webapplicatie gratis in uw browser, of download het ontgrendelde Excel-spreadsheetsjabloon voor volledige offline maatwerk—gedekt door een 30-dagen geld-terug-garantie zonder vragen.
 
-[Live Demo](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Download Excel](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [Technical Details](#technical-details)
+> 🌐 **Probeer de web-app:** [Interactieve rekenmachine voor aannemersraming & projectkostenberekening (live demo)](https://hyvoid.github.io/construction-job-costing-excel-template/)  
+> 📥 **Het volledige Excel-systeem ophalen:** [Download het bewerkbare Excel-sjabloon voor projectkostenberekening & offerteopbouw](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)  
+> ⚙️ **Architectuur & wiskunde:** [Ga naar de bedrijfslogica & methodiek van projectkostenberekening](#the-business-logic--methodology)
 
----
-
-## De complete aannemersworkflow
-
-De meeste spreadsheets voor aannemers lossen slechts een deel van de bedrijfsvoering op.
-
-Deze werkmap is opgebouwd rond de **volledige operationele keten**:
-
-```text
-Lead
-  ↓
-Estimate
-  ↓
-Job
-  ↓
-Labor & Materials
-  ↓
-Job Cost
-  ↓
-Profit
-  ↓
-Customer History
-```
-
-Het doel is niet simpelweg om projecten te volgen. Het doel is om de **commerciële en operationele historie van elk project met elkaar verbonden te houden**.
-
-Een lead komt in de pijplijn.
-
-De lead wordt een raming.
-
-Een succesvolle raming wordt een goedgekeurd project met een unieke `Job_ID`.
-
-Tijdens de uitvoering worden de werkelijke besteding van arbeid en materiaal op dat project geregistreerd.
-
-Die registraties stromen naar de engine voor projectkostenberekening.
-
-De werkelijke projectkosten worden vervolgens vergeleken met de oorspronkelijke projecteconomie om de huidige winstgevendheid te bepalen en kostenoverschrijdingen te identificeren.
-
-Ten slotte accumuleren de resultaten van afgeronde projecten in de klanthistorie, zodat het management kan begrijpen welke klanten in de loop der tijd betekenisvolle omzet en winst hebben opgeleverd.
-
-De implementatie gebruikt afzonderlijke werkbladen voor `Lead_Tracker`, `Quote_Builder`, `Approved_Jobs`, `Labor_Log`, `Material_Usage`, `Job_Cost_Engine`, `Profit_Dashboard` en `Customer_History`, waarbij `Job_ID` dient als de centrale projectidentificatie binnen uitvoering en kostenberekening. 
-
-### Eén werkmap. Eén samenhangende operationele flow.
-
-| Stage                 | Workbook Module                        | What It Manages                                                                              |
-| --------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------- |
-| **Lead**              | `Lead_Tracker`                         | Customer inquiries, opportunities, budgets, status, estimator ownership                      |
-| **Estimate**          | `Quote_Builder`                        | Material requirements, labor hours, estimated cost, overhead, target margin, suggested quote |
-| **Job**               | `Approved_Jobs`                        | Contracted projects, `Job_ID`, contract value, dates, project manager, status                |
-| **Labor & Materials** | `Labor_Log` + `Material_Usage`         | Actual field labor and material consumption                                                  |
-| **Job Cost**          | `Job_Cost_Engine`                      | Actual material cost, labor cost, overhead, total cost, variance                             |
-| **Profit**            | `Job_Cost_Engine` + `Profit_Dashboard` | Project profit, margin, cost-overrun alerts, overall profitability                           |
-| **Customer History**  | `Customer_History`                     | Historical projects, revenue, profit contribution, average margin, customer value            |
-
-Het resultaat is een praktische workflow om te gaan van **verkoopactiviteit naar projecteconomie naar commerciële intelligentie op klantniveau**, in plaats van losstaande trackers te onderhouden. 
 
 ---
 
-## Bij welke beslissing helpt dit u?
+## De verbonden bouwbedrijfsketen: van lead tot projectkostenberekening
 
-Het systeem is opgebouwd rond zeven operationele vragen:
+De meeste bouwspreadsheets lossen slechts een geïsoleerd fragment van het bedrijf op—waarbij uw **verkooppijplijn**, **kostenraming** en **projectkostenberekening op locatie** gevangen blijven in losgekoppelde bestanden. 
 
-### 1. Welke leads verdienen aandacht?
+Deze aannemerswerkmap is gebouwd rond één enkele, ononderbroken **relationele bedrijfsketen**, verankerd door `Lead_ID` en `Job_ID`:
 
-`Lead_Tracker` registreert de kansenpijplijn en berekent zowel de doorlooptijd van de pijplijn als de potentiële winst op basis van de ingestelde doelmar­ge.
+```text
+Sales Lead (CRM Pipeline)
+  ↓
+Project Estimate (Material Takeoff + Labor + Overhead + Margin)
+  ↓
+Approved Contract (Baseline Budget Locked via Job_ID)
+  ↓
+Field Execution (Timesheet Labor Hours & Material Consumption)
+  ↓
+Job Costing Engine (Estimate vs. Actual Variance & Overrun Alerts)
+  ↓
+Real-Time Profit Dashboard (Gross Profit $ & Net Margin %)
+  ↓
+Customer LTV History (Repeat Client Profitability Ranking)
 
-Zo kan de actieve verkooppijplijn niet alleen worden bekeken op basis van het aantal leads, maar ook op basis van de potentiële commerciële bijdrage. 
+```
 
-### 2. Tegen welke prijs moet het project worden geoffreerd?
+### Eén aannemerswerkmap. Acht geïntegreerde bedrijfsmodules.
 
-`Quote_Builder` combineert geraamde materiaalhoeveelheden en arbeidsuren met de centrale `Material_DB` en `Labor_Rates`.
-
-Het model berekent de directe kosten, past de overheadtoerekening toe, leidt de geraamde totale kosten af en werkt terug vanaf de doelmar­ge om een voorgestelde offerte inclusief belasting te produceren. 
-
-### 3. Wat is er feitelijk gecontracteerd?
-
-`Approved_Jobs` legt het officiële projectrecord vast en genereert de unieke `Job_ID` die in de hele uitvoerings- en kostenworkflow wordt gebruikt.
-
-Zo blijft de oorspronkelijke commerciële basis behouden waartegen de werkelijke prestaties later kunnen worden beoordeeld. 
-
-### 4. Wat verbruikt het project feitelijk?
-
-Tijdens de uitvoering worden de veldarbeid geregistreerd in `Labor_Log` en het materiaalverbruik in `Material_Usage`.
-
-Elke registratie is gekoppeld aan de relevante `Job_ID`, zodat feitelijke operationele activiteit projectkosteninformatie wordt. 
-
-### 5. Wijkt de werkelijke projectkost af van de raming?
-
-`Job_Cost_Engine` aggregeert de werkelijke arbeids- en materiaalkosten en past de ingestelde overheadtoerekening toe.
-
-Het project kan dus worden beoordeeld ten opzichte van de oorspronkelijk geraamde kosten, in plaats van alleen naar de opgebouwde bestedingen te kijken. 
-
-### 6. Is het project nog winstgevend?
-
-Het systeem scheidt de **aanvankelijk geprojecteerde mar­ge** van het **werkelijke projectresultaat**.
-
-Dat onderscheid is belangrijk, omdat een project kan beginnen met een acceptabele offerte en later winstgevendheid kan verliezen doordat werkelijke arbeidsuren, materiaalverbruik of andere projectkosten de oorspronkelijke aannames overschrijden.
-
-### 7. Welke klanten hebben betekenisvolle winst opgeleverd?
-
-`Customer_History` aggregeert historische projectactiviteit per klant, inclusief totale projecten, contractomzet, winstbijdrage, gemiddelde winstmar­ge, laatste contractdatum en klantbeoordeling. 
+| Workflowstap | Excel-/webmodule | Belangrijkste bijgehouden bouw- & financiële kengetallen |
+| --- | --- | --- |
+| **1. Verkooppijplijn (CRM)** | `Lead_Tracker` | Klantaanvragen, offertekansen, geschatte budgetten, pijplijnveroudering, verantwoordelijkheid calculator, geprojecteerde brutowinst. |
+| **2. Raming & inschrijving** | `Quote_Builder` | Materiaalramingshoeveelheden, arbeidsuren, directe COGS, overheadtoerekening, **doelmarge vs. opslag**, offerteprijs inclusief btw. |
+| **3. Contractbasislijn** | `Approved_Jobs` | Toegekende bouwcontracten, generatie van een unieke `Job_ID`, contractwaarde, planingsdata, toewijzing projectleider. |
+| **4. Veldregistratie** | `Labor_Log` + `Material_Usage` | Dagelijkse/wekelijkse veldploeg-uurstaten, vakarbeidstarieven, materiaalverbruik op de bouwlocatie direct gekoppeld aan `Job_ID`. |
+| **5. Projectkostenberekening & WIP** | `Job_Cost_Engine` | Werkelijk materiaal-COGS, werkelijk belaste arbeidskosten, toegepaste overhead, totale projectkosten, **raming-vs.-werkelijkheid-budgetafwijking**. |
+| **6. Marge & overschrijdingen** | `Profit_Dashboard` | Werkelijk behaalde brutowinst ($), netto-winstmarge (%), **geautomatiseerde waarschuwingen bij kostenoverschrijding**, bedrijfsbrede P&L van de portefeuille. |
+| **7. Klantintelligentie** | `Customer_History` | Multi-project klanthistorie, cumulatieve contractopbrengst, bijdrage aan levenslange winst, gemiddelde marge %, klantsegmentbeoordeling. |
 
 ---
 
-## Quick Start-workflow
+## Wat het helpt bijhouden & beslissen: aannemerspijnpunt-naar-oplossing-mapping
 
-### Stap 1 — Configureer de besturingslaag
+In plaats van te wachten tot het belastingseizoen om te ontdekken of uw ploeg op een bouwproject heeft verdiend of verloren, lost deze **winstgevendheidstracker voor aannemers** zeven kritieke operationele blinde vlekken op:
 
-Open `Settings` en stel de bedrijfsaannames in die in de hele werkmap worden gebruikt:
-
-* Belastingtarief
-* Overheadpercentage
-* Doelmar­ge
-* Drempel voor kostenoverschrijding
-* Valuta
-* Wisselkoers
-
-De architectuur beschouwt `Settings` als de centrale bedieningsconsole. Bedrijfsaannames horen daar te worden onderhouden in plaats van hardgecodeerd in afzonderlijke formules. 
-
-### Stap 2 — Onderhoud de stamgegevens van kosten
-
-Werk bij:
-
-* `Material_DB` — materiaalcodes, omschrijvingen, specificaties, eenheden en standaardkosten.
-* `Labor_Rates` — arbeidscategorieën, codes en standaarduurtarieven.
-
-Deze vormen de gemeenschappelijke referentiepunten voor zowel de raming als de werkelijke projectkostenberekening.
-
-### Stap 3 — Doorloop de aannemersworkflow
-
-```text
-1. Lead_Tracker
-   ↓
-2. Quote_Builder
-   ↓
-3. Approved_Jobs
-   ↓
-4. Schedule
-   ↓
-5. Labor_Log + Material_Usage
-   ↓
-6. Job_Cost_Engine
-   ↓
-7. Profit_Dashboard + Customer_History
-```
-
-De standaard werkwijze volgt dezelfde volgorde: leg de lead vast, genereer de offerte, stel het goedgekeurde project vast, registreer de uitvoering en beoordeel daarna de geautomatiseerde kostenberekening en winstgevendheid. 
-
-### Stap 4 — Beoordeel uitzonderingen, niet alleen totalen
-
-De managementworkflow moet zich richten op:
-
-* vastgelopen leads;
-* projecten die afwijken van de geraamde kosten;
-* overschreden uitvoeringsmijlpalen;
-* dalende projectmar­ges;
-* aanzienlijke kostenoverschrijdingen;
-* klanten met hoge waarde.
-
-De werkmap is daarom bedoeld om **operationele interventie** te ondersteunen, niet alleen om een historisch rapport te produceren.
+| Te volgen doelkengetal / pijnpunt | De gebruikelijke blinde vlek van de aannemer | Hoe dit projectkostensysteem het oplost & volgt |
+| --- | --- | --- |
+| **Prioritering van verkoopleads & pijplijnwaarde** | Elke offerteaanvraag even belangrijk behandelen zonder te weten welke kansen de hoogste winstbijdrage opleveren. | `Lead_Tracker` berekent de pijplijnduur en de **geprojecteerde brutowinst** op basis van uw doelmarge, voordat u ramingsuren investeert. |
+| **Nauwkeurige offerteprijzen (marge vs. opslag)** | Projecten te laag inschatten door *opslagpercentage* te verwarren met *brutomargepercentage*, of door werkplatsoverhead en btw te vergeten toerekenen. | `Quote_Builder` haalt standaardkosten uit `Material_DB` en `Labor_Rates`, past overhead toe en **berekent terugwerkend de exacte offerte inclusief btw** die nodig is om uw doelmarge te halen. |
+| **Behoud van de oorspronkelijke ramingsbasislijn** | De beginraming overschrijven zodra de bouw start, waardoor het onmogelijk wordt te zien waar het budget misging. | `Approved_Jobs` vergrendelt de geschatte kosten van de toegekende offerte en wijst een permanente `Job_ID` toe als onveranderlijke **basislijn voor budgetafwijking**. |
+| **Omzetting van veld-uurstaten & materialen in COGS** | Ploeguren op papieren uurstaten en materiaalbonnen in schoenendozen bijhouden zonder ze te koppelen aan specifieke projectbudgetten. | `Labor_Log` en `Material_Usage` koppelen elk velduur en elke materiaaleenheid aan `Job_ID`, door automatisch te vermenigvuldigen met standaardtarieven in de kostenberekeningsmotor. |
+| **Realtime waarschuwingen bij kostenoverschrijding & budgetafwijking** | Arbeids- of materiaaloverschrijdingen pas ontdekken nadat het project 100% klaar is en de eindfactuur is betaald. | `Job_Cost_Engine` vergelijkt continu **werkelijke kosten vs. geschatte kosten** en activeert visuele **waarschuwingen bij overschrijding** zodra de afwijking uw drempel overschrijdt. |
+| **Geschatte marge vs. werkelijk behaalde nettomarge** | Aannemen dat een project met 30% marge daadwerkelijk 30% heeft opgeleverd, zonder niet-gefactureerde scope-creep en extra ploeguren mee te rekenen. | Scheidt expliciet de **aanvankelijk geprojecteerde marge** van de **werkelijk behaalde marge**, zodat projectleiders marge-erosie in realtime zien. |
+| **Levenslange klantwinstgevendheid (klant-LTV)** | Omzetrijke general contractors of vastgoedbeheerders behandelen als “VIP-klanten”, terwijl hun projecten consequent verlies laten lijden. | `Customer_History` aggregeert het totaal aan voltooide projecten, levenslange opbrengst, nettowinstbijdrage en de **gemiddeld werkelijk behaalde marge per klant**. |
 
 ---
 
-## Waarom de meeste fouten in aannemerswinstgevendheid geen beoordelingsfouten zijn
+## Hoe een bouwramings- & projectkostenaudit uit te voeren (quick-startworkflow)
 
-Een project kan door ervaren mensen worden geleid en toch een misleidend beeld van de winstgevendheid opleveren.
+Zet in vier gestructureerde stappen een gestandaardiseerd **systeem voor raming, projectopvolging en kostencontrole** op voor uw aannemersbedrijf:
 
-Het onderliggende probleem is vaak structureel:
+### Stap 1: globale financiële- & overheadregels configureren
 
-```text
-Lead information
-      ↓
-Estimate stored separately
-      ↓
-Approved contract recorded elsewhere
-      ↓
-Labor tracked in field records
-      ↓
-Materials tracked separately
-      ↓
-Profit reconstructed later
-```
+Open het configuratietabblad `Settings` om de financiële waarborgen te definiëren die in heel uw bedrijf worden gebruikt:
 
-Bij elke overdracht kan informatie losraken.
+* **Btw-tarief (%)** & **overheadtoerekeningstarief (%)**
+* **Doel-brutomarge (%)** voor geautomatiseerde offerteberekening
+* **Waarschuwingdrempel voor kostenoverschrijding (%)** (bijv. projecten markeren die het budget met meer dan 5% overschrijden)
+* **Basisvaluta & wisselkoers**
 
-De oorspronkelijke raming is mogelijk niet meer direct vergelijkbaar met het werkelijke verbruik.
-
-Arbeid kan worden geregistreerd zonder de bijbehorende projectidentificatie.
-
-Materiaalverbruik kan operationeel worden gevolgd zonder te worden omgezet in projectkosten.
-
-En het management ontvangt uiteindelijk wellicht een winstgevendheidscijfer zonder een duidelijke weg terug naar de aannames en transacties die eraan ten grondslag liggen.
-
-Dit systeem pakt het probleem aan door een samenhangende keten te creëren:
-
-```text
-Lead
-  ↓
-Estimate
-  ↓
-Approved Job + Job_ID
-  ↓
-Labor + Materials
-  ↓
-Job Cost Engine
-  ↓
-Actual Profitability
-  ↓
-Customer History
-```
-
-Het onderscheid is belangrijk.
-
-### Voorheen
-
-```text
-Sales → Quote → Project Execution → Accounting
-          ↘             ↙
-           disconnected data
-```
-
-### Nu
-
-```text
-Lead
- ↓
-Estimate
- ↓
-Job_ID
- ├── Schedule
- ├── Labor
- └── Materials
-       ↓
-   Job Cost
-       ↓
-    Profit
-       ↓
-Customer History
-```
-
-De architectuur brengt inputs en outputs over de hele werkmap expliciet in kaart, zodat elk belangrijk operationeel record een gedefinieerd doel verderop in de keten heeft. 
+*Actie:* Verken nu direct de voorgeconfigureerde configuratieconsole in het [gratis browserbesturingssysteem voor aannemers](https://hyvoid.github.io/construction-job-costing-excel-template/).
 
 ---
 
-## Wat de werkmap feitelijk oplevert
+### Stap 2: uw materiaalprijsboek & arbeidstariefkaarten vullen
 
-Dit is niet gepositioneerd als vervanging van een ERP of als een generiek dashboard.
+Stel uw gestandaardiseerde kostendatabases eenmalig in zodat calculators niet langer eenheidsprijzen hoeven te raden:
 
-Het is een **lichtgewicht operationeel en beslissingsondersteunend model voor aannemers** dat de informatie verbindt die nodig is om projecteconomie te beheren.
-
-### Het biedt een doorlopend projectrecord
-
-Van:
-
-**Lead → Offerte → Project → Arbeid & Materialen → Projectkosten → Winst**
-
-kan hetzelfde project door zijn commerciële en uitvoeringslevenscyclus worden gevolgd.
-
-### Het behoudt de oorspronkelijke raming als basis
-
-Het goedgekeurde project behoudt de geraamde kosten en de geprojecteerde winstgevendheid, zodat de werkelijke projectprestaties kunnen worden vergeleken met wat oorspronkelijk werd verwacht. 
-
-### Het omzet veldactiviteit in financiële informatie
-
-Arbeidsuren en materiaalhoeveelheden blijven niet als operationele registraties liggen. Ze worden gekoppeld aan gestandaardiseerde tarieven en kosten en vormen uiteindelijk de input voor de engine voor projectkostenberekening. 
-
-### Het scheidt projectwinstgevendheid van klantwinstgevendheid
-
-Een enkel project beantwoordt de vraag:
-
-> **Was dit project winstgevend?**
-
-De klanthistorie beantwoordt de langetermijnvraag:
-
-> **Is deze klant over meerdere projecten heen commercieel waardevol geweest?**
-
-Dat onderscheid ondersteunt betere beslissingen over toekomstige offertes en klantprioritering. 
+* **`Material_DB`:** voer materiaal-SKU’s/codes, artikelbeschrijvingen, specificaties, maateenheden (EA, LF, SQFT) en standaard eenheidskosten in.
+* **`Labor_Rates`:** definieer vak-/ambachtscategorieën (bijv. leerling, gezellen, voorman, subcontractor) en belaste uurtarieven voor arbeid.
 
 ---
 
-## Over de maker
+### Stap 3: de verbonden lead-tot-projectkostenberekening-workflow uitvoeren
 
-De aanpak achter deze werkmap is eenvoudig:
+Volg de gestandaardiseerde operationele reeks van 7 stappen voor elk project:
 
-**Bouw het kleinste operationele model dat de keten tussen bedrijfsgebeurtenissen en managementbeslissingen kan behouden.**
+1. **De aanvraag registreren** in `Lead_Tracker` (`Lead_ID`).
+2. **De offerte opstellen** in `Quote_Builder` met gebruik van uw materiaal- en arbeidskosten hoofddatabases.
+3. **Het contract vergrendelen** in `Approved_Jobs` (`Job_ID`) en mijlpalen vastleggen in `Schedule`.
+4. **De velduitvoering registreren** wanneer ploegen uren indienen in `Labor_Log` en materiaal afboeken in `Material_Usage`.
+5. **Afwijking & marge automatisch auditen** in `Job_Cost_Engine`, `Profit_Dashboard` en `Customer_History`.
 
-Het doel is niet om softwarefuncties toe te voegen omwille van de functies zelf.
+---
 
-Voor de bedrijfsvoering van aannemers is de nuttige keten al duidelijk:
+### Stap 4: beheren op uitzondering & het Excel-sjabloon downloaden voor live operaties
+
+In plaats van honderden spreadsheetregels te doorzoeken, gebruikt u het dashboard om in te grijpen bij **vastgelopen verkoopleads**, **projecten die kostendrempels overschrijden**, **mijlpalen die achterlopen** en **klanten die de marge aantasten**.
+
+> 💡 **Klaar om uw eigen bouwramingen, ploeguurstaten en projectkostenberekening in dit systeem te draaien?**
+> Terwijl de browserversie u in staat stelt de architectuur direct te inspecteren, vereist het beheren van echte bouwprojecten het opslaan van uw eigen materiaalprijsboeken, het wekelijks registreren van veldarbeid en het bijhouden van permanente projectdossiers.
+> 👉 **[Download de volledig ontgrendelde werkmap voor aannemersoperaties & projectkostenberekening](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)** om tarieftabellen aan te passen, een onbeperkt aantal projecten offline te volgen en de volledige controle over uw projectmarges te nemen.
+
+---
+
+## De bedrijfslogica & methodiek
+
+De meeste kleine tot middelgrote aannemers lijden aan **“winstvervaging”**—wanneer een project op papier wordt ingeschreven met een gezonde marge van 35%, maar uiteindelijk slechts 8% nettowinst oplevert aan het eind van het jaar. Dit gebeurt omdat ramingsspreadsheets, veldlogs en boekhoudkassas op incompatibele wiskunde werken.
+
+Om winstvervaging te elimineren zonder aannemers te dwingen complexe enterprise-ERP-software te gebruiken, implementeert deze toolkit een **4-pijler methodiek voor bouwboekhouding en -operaties**:
+
+1. **Relationele primaire-sleutelketen (`Lead_ID → Quote_ID → Job_ID → Customer_ID`):**
+In ad-hoc spreadsheets leven ramingen en werkelijkheden in afzonderlijke bestanden zonder structurele koppeling. Dit model handhaaft een relationele database-architectuur binnen Excel: een verkoopkans (`Lead_ID`) wordt omgezet in een gespecificeerde offerte; bij contracttoewijzing wijst `Approved_Jobs` een unieke `Job_ID` toe en legt de oorspronkelijk geschatte kosten vast als bevroren basislijn. Elke downstream uurstatenpost (`Labor_Log`), materiaalafboeking (`Material_Usage`) en planningstaak moet een geldige `Job_ID` refereren, wat 100% traceerbaarheid garandeert van de aanvankelijke offerte tot de uiteindelijke projectkosten.
+2. **Omgekeerde-margeprijzen vs. cost-plus opslagwiskunde:**
+Een van de duurste wiskundefouten in het aannemerswerk is het verwarren van **opslag** met **brutomarge** (een kostenpost van $1.000 met 25% opslag verhogen geeft een prijs van $1.250, wat slechts een **brutomarge van 20%** is, waardoor stilletjes 5% van de bottom-line winst verdwijnt). In `Quote_Builder` aggregeert de prijsmotor directe materiaalkosten ($M$), directe arbeidskosten ($L$) en toegerekende overhead ($O = (M + L) \times r_{\text{oh}}$), past vervolgens **echte omgekeerde-marge delerwiskunde** toe samen met btw-berekening:
+
+$$\text{Voorgestelde offerte vóór btw} = \frac{\text{Direct materiaal} + \text{Directe arbeid} + \text{Toegerekende overhead}}{1 - \text{Doelmarge \%}}$$
+
+
+
+Dit zorgt ervoor dat bij ondertekening van het contract het beoogde brutomargepercentage wiskundig is beschermd.
+3. **Standaardkostenberekening & activiteitgerichte veldabsorptie:**
+Veldploegen volgen operationele hoeveelheden (**gewerkte uren** en **verbruikte materiaaleenheden**), geen financiële dollars. De kostenberekeningsmotor ontkoppelt velddatainvoer van financiële waardering door `Labor_Log` en `Material_Usage` te koppelen aan de hoofdtabellen met tarieven (`Labor_Rates` en `Material_DB`). Naarmate veldhoeveelheden worden gelogd, berekent de motor dynamisch geabsorbeerde directe kosten en past het globale overheadtarief uit `Settings` toe om de werkelijke **totale projectkosten** weer te geven.
+4. **Drempelgestuurde budgetafwijking & LTV-aggregatie:**
+In plaats van projectkostenberekening als post-mortem-oefening te behandelen, berekent `Job_Cost_Engine` continu **kostenafwijking ($\Delta C = \text{werkelijke totale kosten} - \text{geschatte basislijnekosten}$)** en **afwijkingspercentage**. Als $\frac{\Delta C}{\text{geschatte kosten}} > \text{overschrijdingsdrempel}$, activeert het systeem een geautomatiseerde uitzonderingstoestand voor onmiddellijke operationele interventie. Tegelijkertijd rollen voltooide `Job_ID`-records op per `Customer_ID` in `Customer_History`, wat de commerciële strategie verschuift van inschrijven op één project naar **levenslange winstbijdrage per klant**.
+
+---
+
+## Waarom de meeste winstgevendheidsfouten van aannemers structureel zijn—geen oordeelsfouten
+
+Ervaren aannemers verliezen zelden geld omdat ze niet weten hoe ze moeten bouwen. Ze verliezen geld omdat **informatie bij elke operationele overdracht afbreekt**:
+
+### Voor: de val van de losgekoppelde aannemersspreadsheet
 
 ```text
-Lead
-→ Estimate
-→ Job
-→ Labor & Materials
-→ Job Cost
-→ Profit
-→ Customer History
+Sales Lead Notes → Standalone Excel Quote → Signed PDF Contract → Paper Crew Timesheets → Shoebox Material Receipts → Year-End Accountant Tax Summary
+                            ↘                                             ↙
+                              Zero real-time link between Estimate & Actuals
+
 ```
 
-De werkmap maakt van die keten een herbruikbare, op Excel gebaseerde operationele workflow, met gecentraliseerde aannames, gekoppelde projectidentificaties, geautomatiseerde berekeningen en managementuitvoer.
+* **Het overdrachtsfalen:** De oorspronkelijke raming kan niet direct worden vergeleken met het werkelijke veldverbruik. Arbeidsuren worden gelogd zonder `Job_ID`. Materiaalbonnen worden in een generiek QuickBooks-kostenrekening gegoten. Tegen de tijd dat de bedrijfseigenaar het winstcijfer ziet, is het project al maanden gesloten.
 
-Het is bedoeld voor bedrijven die meer structuur nodig hebben dan losstaande spreadsheets, maar geen enterpriseplatform nodig hebben om simpelweg te begrijpen waar projectomzet, kosten en winst vandaan komen.
+### Na: één verbonden relationele bedrijfsstroom
 
-## Veelvoorkomende aannemersproblemen die dit oplost
+```text
+Lead_Tracker (Lead_ID)
+  ↓
+Quote_Builder (Standardized Material_DB + Labor_Rates + Reverse-Margin Math)
+  ↓
+Approved_Jobs (Locks Baseline Budget & Generates Unique Job_ID)
+  ├── Schedule (Milestones & Deadlines)
+  ├── Labor_Log (Field Hours × Standard Labor Rates)
+  └── Material_Usage (Field Quantities × Standard Material Unit Costs)
+        ↓
+  Job_Cost_Engine (Estimate vs. Actual Variance + Overrun Alert Thresholds)
+        ↓
+  Profit_Dashboard (Realized Project Margin % & Portfolio P&L)
+        ↓
+  Customer_History (Multi-Job Client Revenue, Profit & LTV Ranking)
 
-| Problem                                                   | Without This Tool                                                                                                                   | With This Tool                                                                                                                             |
-| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Lead and estimate data become disconnected**            | Sales opportunities and quotation records are maintained separately, making pipeline value and quote conversion harder to evaluate. | `Lead_ID` connects opportunities to estimates, while estimated profit can be derived from the configured target margin.                    |
-| **The original project budget disappears after award**    | Once a quote becomes a contract, actual project costs may be tracked without preserving the original estimate as a baseline.        | `Approved_Jobs` carries the quote's estimated total cost into the project record for later variance analysis.                              |
-| **Labor and material consumption stay operational only**  | Field hours and material usage are recorded but do not automatically become project-level financial information.                    | `Labor_Log` and `Material_Usage` connect actual consumption to `Job_ID`, standard labor rates, and material costs.                         |
-| **Cost overruns are discovered too late**                 | Management sees the final cost after the opportunity to correct execution has largely disappeared.                                  | `Job_Cost_Engine` compares actual total cost with the original estimated cost and triggers an overrun alert using a centralized threshold. |
-| **Project profitability is confused with customer value** | A profitable individual job can make a customer appear valuable even when the broader relationship produces weak margins.           | `Customer_History` aggregates project count, revenue, profit contribution, and average margin by customer.                                 |
-| **Business rules are duplicated across formulas**         | Tax, overhead, target margin, and warning thresholds can become inconsistent when manually embedded in formulas.                    | `Settings` acts as a single control layer referenced throughout the workbook.                                                              |
-
-De architectuur valideert de input/output-keten over de hele werkmap expliciet en bevestigt dat de globale parameters doorstromen naar de relevante berekeningen voor offertes, projectkosten en dashboards. 
-
-## Voor wie dit bedoeld is
-
-Dit systeem is ontworpen voor **projectgerichte aannemers, calculators, projectmanagers, operationeel managers en eigenaar-ondernemers** die een samenhangende manier nodig hebben om projecteconomie te beheren zonder een groot enterpriseplatform te implementeren.
-
-Het past bijzonder goed wanneer:
-
-* leads en ramingen nog steeds in spreadsheets worden verwerkt;
-* projectarbeid wordt gevolgd op basis van uren en standaarduurtarieven;
-* materialen per project worden uitgegeven of verbruikt;
-* het management inzicht nodig heeft in kosten en mar­ges op projectniveau;
-* klantwinstgevendheid belangrijk is naast de omzet van individuele projecten;
-* het bedrijf een herhaalbare operationele workflow nodig heeft in plaats van nog een geïsoleerd dashboard.
-
-Het is **geen vervanging van een ERP, boekhoudsysteem, loonadministratie, inkoopplatform of enterprise projectmanagementsuite**.
-
-Het model is ontworpen als een lichtgewicht operationele en beslissingsondersteunende laag rond de bestaande workflow van de aannemer.
-
-Er is geen spreadsheetexpertise nodig om de operationele volgorde te begrijpen. De browserversie biedt een drempelloze manier om de workflow te gebruiken, terwijl de Excel-implementatie de onderliggende rekenomgeving levert.
+```
 
 ---
 
-## Over
+## Losgekoppelde spreadsheets vs. dit verbonden aannemersbesturingssysteem
 
-Ik bouw lichtgewicht Excel-trackers en beslissingsondersteunende tools voor situaties waarin te veel bewegende delen zijn om in één hoofd te houden, maar waarin de complexiteit niet groot genoeg is om een grote software-implementatie te rechtvaardigen.
+| Operationele dimensie | Losgekoppelde aannemersspreadsheets (zonder dit hulpmiddel) | Verbonden projectkostenberekenings- & besturingssysteem (met dit hulpmiddel) |
+| --- | --- | --- |
+| **Overdracht van verkooplead naar raming** | Leads leven in e-mails of notitieboekjes terwijl offertes in afzonderlijke Excel-bestanden leven, waardoor inschrijfsuccesratio’s en pijplijnwinst onzichtbaar zijn. | `Lead_ID` verbindt verkoopaanvragen direct met `Quote_Builder`, en projecteert de **winstbijdrage van de pijplijn** op basis van doelmarge. |
+| **Behoud van de toegekende budgetbasislijn** | Zodra een offerte is gewonnen, bewerken aannemers het ramingsbestand of starten ze een lege tracker, waardoor de oorspronkelijke kostenbasislijn die nodig is voor afwijkingsanalyse wordt gewist. | `Approved_Jobs` vergrendelt de **geschatte totale kosten** van de toegekende offerte onder een unieke `Job_ID` voor naast-elkaar **raming vs. werkelijk** auditen. |
+| **Veld-uurstaten & materiaalverbruik** | Ploegarbeidsuren en materiaalafboekingen op de bouwlocatie blijven ruwe operationele notities in plaats van om te zetten in realtime financiële projectkosten. | `Labor_Log` en `Material_Usage` koppelen veldhoeveelheden aan `Job_ID`, door automatisch te vermenigvuldigen met **`Labor_Rates`** en **`Material_DB`** eenheidskosten. |
+| **Detectie van kostenoverschrijding midden in het project** | Kostenoverschrijdingen en arbeidsuitbarstingen worden weken na projectvoltooiing ontdekt, wanneer wijzigingsopdrachten niet meer kunnen worden uitgegeven. | `Job_Cost_Engine` volgt live budgetafwijking tegen een gecentraliseerde **kostenoverschrijdingsdrempel**, en activeert directe waarschuwingen terwijl het werk nog loopt. |
+| **Marge op één project vs. levenslange klantwaarde** | Een aannemer viert één winstgevend project voor een klant zonder te beseffen dat de vorige vier projecten voor diezelfde klant verlies hebben geleden. | `Customer_History` rollt **totaal projecten, cumulatieve opbrengst, nettowinst $ en gemiddeld werkelijk behaalde marge %** op per klantaccount. |
+| **Globale regels voor overhead, btw & marge** | Overheadpercentages, btw-tarieven en opslagformules zijn hardcoded over tientallen tabbladen, wat kostbare fouten bij het opstellen van offertes veroorzaakt. | `Settings` dient als **single source of truth**—het bijwerken van overhead of doelmarge in één cel werkt dynamisch alle downstream modules bij. |
 
-De centrale vraag is:
+---
 
-> **Welke informatie moet op één plek staan om de volgende beslissing met vertrouwen te kunnen nemen?**
+## Voor wie dit is: doelrollen voor aannemers & gebruiksvoorbeelden per vak
 
-Voor de bedrijfsvoering van aannemers betekent dat het verbinden van de commerciële en operationele keten van **Lead → Offerte → Project → Arbeid & Materialen → Projectkosten → Winst → Klanthistorie**.
+Dit systeem is gebouwd voor **projectgebaseerde bouwbedrijven, speciale vaksubcontractors, calculators en eigenaren-exploitanten (typisch 1 tot 50 werknemers)** die rigoureuze controle over projectkosten willen zonder $500–$1.500/maand te betalen voor opgeblazen bouw-ERP-software:
+
+* **General contractors (GC’s) & woningbouwers/verbouwers op maat:** gebruik dit als **complete sjabloon voor projectmanagement & projectkostenberekening in Excel voor woning- of bedrijfsbouw** om meerdere actieve bouwprojecten te volgen, verbruikssnelheden van subcontractors/arbeid te monitoren en brutomarges te beschermen van raming tot laatste oplevering.
+* **Specialistische vaksubcontractors (HVAC, elektra, loodgieterswerk, dakwerk, tuinarchitectuur, schilderwerk, beton):** gebruik dit als **vakramings- en veldarbeid/materiaaltracker** om eenheidsprijzen te standaardiseren in `Material_DB`, projecten binnen enkele minuten nauwkeurig in te schrijven en te controleren of veldploegen de geschatte arbeidsuren halen of overschrijden.
+* **Bouwcalculators & verkoopmanagers:** gebruik dit als **gestandaardiseerde generator voor bouwoffertes & inschrijvingen** gekoppeld aan een **CRM-leadtracker voor aannemers** om fouten in de opslag-vs.-marge-wiskunde te elimineren en prioriteit te geven aan inschrijvingen met hoge marge.
+* **Bouwprojectleiders & veldopzichters:** gebruik dit als **tracker voor raming-vs.-werkelijkheid-budgetafwijking en planning** om arbeidsoverschrijdingen en materiaalverspilling midden in het project op te vangen—terwijl er nog tijd is om te corrigeren of een wijzigingsopdracht bij de klant in te dienen.
+* **Bouwboekhouders, controllers & part-time CFO’s:** gebruik dit als **operationeel subgrootboek voor projectkostenberekening** dat de kloof overbrugt tussen ruwe veldactiviteit (uurstaten en materiaalverbruik) en high-level boekhoudsoftware voor belastingen zoals QuickBooks of Xero.
+
+*Let op: deze werkmap is **niet** bedoeld om wettelijke loonverwerking, software voor belastingaangifte of enterprise-software voor blauwdrukraming te vervangen. Het is de lichte **operationele en commerciële uitvoeringsmotor** die uw verkooppijplijn, projectramingen, veldkosten en klantwinstgevendheid op één plek verbonden houdt.*
+
+---
+
+## Veelgestelde vragen over scenario’s voor projectkostenberekening & raming
+
+Als uw aannemersbedrijf op zoek is naar een praktisch spreadsheetmodel om een van de volgende operationele hoofdpijnen op te lossen, is dit systeem voor u gebouwd:
+
+* **Raming vs. werkelijk projectkostenberekening in Excel:** *Hoe volg ik werkelijke veldarbeidsuren en materiaalverbruik tegenover mijn oorspronkelijke projectraming om realtime budgetafwijking te zien voordat een project over budget gaat?*
+* **Standaardiseren van bouwoffertes & inschrijvingen:** *Hoe bouw ik een herhaalbare offertesjabloon voor aannemers die put uit een materiële hoofdprijslijst en arbeidstariefkaart, en die automatisch overhead, doel-brutomarge en btw meerekent?*
+* **Verbind CRM-leads van aannemers aan projectwinstgevendheid:** *Hoe volg ik een bouwproject van het eerste telefoongesprek met de klant (lead) via raming, projectuitvoering, uiteindelijke nettowinst tot terugkerende klanthistorie in één Excel-werkmap?*
+* **Winstvervaging identificeren over ploegen & klanten:** *Waarom laat mijn aannemersbedrijf aan het eind van het jaar sterke omzet zien maar weinig contant geld op de bank—en welke specifieke projecten of terugkerende klanten eroderen stilzwijgend onze brutomarge?*
+
+---
+
+## Over Theseus Workshop
+
+Ik bouw lichte, transparante Excel- en browsergebaseerde bedrijfsmodellen voor bedrijven waar er te veel bewegende delen zijn om in één hoofd te houden, maar waar een dure enterprise-software-uitrol meer wrijving creëert dan waarde.
+
+Het centrale ontwerpprincipe achter elk hulpmiddel is simpel:
+
+> **“Wat is het kleinste, schoonste bedrijfsmodel dat de ononderbroken keten tussen dagelijkse veldgebeurtenissen en winstgevende managementbeslissingen behoudt?”**
+
+Voor projectgebaseerde aannemers betekent dat het verenigen van **lead → raming → goedgekeurd project → veldarbeid & materialen → projectkostenafwijking → nettowinst → klanthistorie** binnen één auditbaar, ballastvrij systeem.
+
+---
+
+*Trefwoorden: Excel-sjabloon voor projectkostenberekening, calculatiespreadsheet voor aannemers, tracker voor raming vs. werkelijke kosten, CRM & offertegenerator voor general contractors, winst- & margecalculator voor subcontractors, Excel voor bouwmateriaal- & arbeidslog, werkmap voor projectmanagement & projectkostenberekening.*
 
 ---
 
 ## Technische details
 
 <details>
-<summary>Voor technische reviewers, Excel-professionals en samenwerkingspartners</summary>
+<summary>Voor technische reviewers, Excel-practitioners en medewerkers</summary>
 
 ### Werkmaparchitectuur
 
-De werkmap bestaat uit **12 kernwerkbladen**, georganiseerd in drie functionele lagen. De architectuur scheidt beheerde stamgegevens van operationele registraties en stroomafwaartse berekeningen, met behoud van een directionele flow van input → berekening → output. 
+De werkmap bestaat uit **12 kernbladen** georganiseerd in drie functionele lagen. De architectuur scheidt gecontroleerde stamgegevens van operationele records en downstream berekeningen, en handhaaft een gerichte stroom van invoer → berekening → uitvoer. 
 
-| Layer                      | Sheet              | Primary Role                               |
+| Laag                      | Blad              | Primaire rol                               |
 | -------------------------- | ------------------ | ------------------------------------------ |
-| **Master Data & Control**  | `Settings`         | Central business parameters                |
-|                            | `Material_DB`      | Standard material catalog and costs        |
-|                            | `Labor_Rates`      | Standard labor categories and hourly rates |
-| **Operations & Execution** | `Lead_Tracker`     | Opportunity pipeline                       |
-|                            | `Quote_Builder`    | Estimate and quote calculation             |
-|                            | `Approved_Jobs`    | Contracted project master                  |
-|                            | `Schedule`         | Milestones and execution alerts            |
-|                            | `Labor_Log`        | Actual labor records                       |
-|                            | `Material_Usage`   | Actual material consumption                |
-| **Engine & Analytics**     | `Job_Cost_Engine`  | Actual project costing and profitability   |
-|                            | `Profit_Dashboard` | Management-level profitability analysis    |
-|                            | `Customer_History` | Customer-level commercial history          |
+| **Stamgegevens & controle**  | `Settings`         | Centrale bedrijfsparameters                |
+|                            | `Material_DB`      | Standaard materiaalcatalogus en -kosten        |
+|                            | `Labor_Rates`      | Standaard arbeidscategorieën en uurtarieven |
+| **Operaties & uitvoering** | `Lead_Tracker`     | Kansenpijplijn                       |
+|                            | `Quote_Builder`    | Raming- en offerteberekening                      |
+|                            | `Approved_Jobs`    | Stamgegevens van toegekende projecten                  |
+|                            | `Schedule`         | Mijlpalen en uitvoeringswaarschuwingen            |
+|                            | `Labor_Log`        | Werkelijke arbeidsrecords                       |
+|                            | `Material_Usage`   | Werkelijk materiaalverbruik                |
+| **Motor & analytics**     | `Job_Cost_Engine`  | Werkelijke projectkostenberekening en winstgevendheid   |
+|                            | `Profit_Dashboard` | Winstgevendheidsanalyse op managementniveau                    |
+|                            | `Customer_History` | Commerciële historie op klantniveau          |
 
-De belangrijkste gegevensstroom is:
+De voornaamste gegevensstroom is:
 
 ```text
                     MASTER DATA
@@ -419,32 +291,32 @@ De belangrijkste gegevensstroom is:
                 Profit_Dashboard  Customer_History
 ```
 
-Het centrale ontwerpprincipe is **Unified Master Key**: `Job_ID` verbindt het goedgekeurde project met schemaregistraties, arbeidsregistraties, materiaalverbruik en de engine voor projectkostenberekening. Dit is bedoeld om het eilandjesprobleem tussen commerciële planning en projectuitvoering te elimineren. 
+Het centrale ontwerpprincipe is **uniforme hoofdsleutel**: `Job_ID` koppelt het goedgekeurde project aan planningrecords, arbeidsrecords, materiaalverbruik en de projectkostenberekeningsmotor. Het doel is het dateneilandprobleem tussen commerciële planning en projectuitvoering te elimineren. 
 
-### Centrale besturingslaag
+### Centrale controleslag
 
 `Settings` is het enige onderhoudspunt van de werkmap.
 
 De gedefinieerde parameters zijn:
 
-| Cell | Parameter               |  Default | Used For                                 |
+| Cel | Parameter               |  Standaard | Gebruikt voor                                 |
 | ---- | ----------------------- | -------: | ---------------------------------------- |
-| `B2` | Default Currency Symbol |      `$` | Monetary presentation                    |
-| `B3` | Tax Rate                | `13.00%` | Tax-inclusive / tax-exclusive conversion |
-| `B4` | Overhead Rate           | `10.00%` | Indirect cost allocation                 |
-| `B5` | Target Margin           | `25.00%` | Quote and opportunity profitability      |
-| `B6` | Overrun Threshold       |  `5.00%` | Project cost warning                     |
-| `B7` | USD/CAD Exchange Rate   | `1.0000` | Reserved currency conversion             |
+| `B2` | Standaard valutasymbool |      `$` | Monetaire presentatie                    |
+| `B3` | Btw-tarief                | `13.00%` | Omrekening inclusief / exclusief btw |
+| `B4` | Overheadtarief           | `10.00%` | Toerekening van indirecte kosten                 |
+| `B5` | Doelmarge           | `25.00%` | Winstgevendheid van offertes en kansen      |
+| `B6` | Overschrijdingsdrempel       |  `5.00%` | Waarschuwing projectkosten                     |
+| `B7` | USD/CAD-wisselkoers   | `1.0000` | Gereserveerde valutaomrekening             |
 
-Deze waarden zijn bewust gecentraliseerd. De architectuur vereist dat stroomafwaartse formules naar `Settings` verwijzen in plaats van waarden zoals `0.13`, `0.10` of `0.25` hard te coderen. De kruiscontrole van de implementatie bevestigt dat de parameters voor belasting, overhead, doelmar­ge en overschrijding worden doorgegeven aan de juiste berekeningsmodules. 
+Deze waarden zijn bewust gecentraliseerd. De architectuur vereist dat downstream formules `Settings` refereren in plaats van waarden zoals `0.13`, `0.10` of `0.25` hard te coderen. De implementatie-crosscheck bevestigt dat de btw-, overhead-, doelmarge- en overschrijdingsparameters worden doorgegeven aan de juiste berekeningsmodules. 
 
-### Drie valkuilen die zelfs ervaren aannemers treffen
+### Drie vallen die zelfs ervaren aannemers vangen
 
-#### Valkuil 1 — De mar­ge van de oorspronkelijke offerte aanzien voor de huidige projectmar­ge
+#### Val 1 — De oorspronkelijke offertemarge behandelen als de huidige projectmarge
 
 **1. Genomen beslissing**
 
-Een project werd aangenomen omdat de raming een acceptabele doelmar­ge liet zien.
+Een project werd geaccepteerd omdat de raming een acceptabele doelmarge liet zien.
 
 **2. Verborgen aanname**
 
@@ -474,11 +346,11 @@ De oorspronkelijke offerte vertegenwoordigt een geplande kostenstructuur. Het is
 
 **5. Gecorrigeerde redenering**
 
-Behoud de geraamde kosten als basis en bereken de werkelijke kosten onafhankelijk op basis van `Labor_Log` en `Material_Usage`.
+Houd de geschatte kosten als basislijn en bereken werkelijke kosten onafhankelijk uit `Labor_Log` en `Material_Usage`.
 
 **6. Gecorrigeerde beslissing**
 
-Het project kan worden gevolgd op mar­gedaling terwijl corrigerende actie nog mogelijk is.
+Het project kan worden gemonitord op margeverslechtering zolang corrigerende actie nog mogelijk is.
 
 <details>
 <summary>Formulelogica</summary>
@@ -499,21 +371,21 @@ Contract Revenue
 Actual Margin
 ```
 
-De implementatie definieert contractomzet op basis exclusief belasting:
+De implementatie definieert contractopbrengst op een exclusief-btw-basis:
 
 ```excel
 =Contract_Amount/(1+Settings!$B$3)
 ```
 
-De werkelijke winst wordt vervolgens berekend als de contractomzet exclusief belasting minus de werkelijke totale kosten. 
+Werkelijke winst wordt vervolgens berekend als contractopbrengst exclusief btw minus werkelijke totale kosten. 
 
 </details>
 
-#### Valkuil 2 — Projectwinstgevendheid beoordelen op alleen directe kosten
+#### Val 2 — Projectwinstgevendheid beoordelen op basis van alleen directe kosten
 
 **1. Genomen beslissing**
 
-De materiaal- en arbeidskosten lijken onder de contractomzet te blijven, dus het project wordt als gezond beschouwd.
+Materiaal- en arbeidskosten lijken onder de contractopbrengst te blijven, dus het project wordt als gezond beschouwd.
 
 **2. Verborgen aanname**
 
@@ -521,7 +393,7 @@ Directe arbeid en materiaal worden behandeld als de volledige economische kosten
 
 **3. Wat de beslissing verandert**
 
-Indirecte managementkosten zijn niet zichtbaar in de directe projectuitgaven, maar moeten toch worden toegerekend.
+Indirecte managementkosten zijn niet zichtbaar in directe projectuitgaven, maar moeten nog steeds worden toegerekend.
 
 **4. Waarom de redenering faalt**
 
@@ -529,11 +401,11 @@ Het commerciële model van de werkmap definieert projectkosten als direct materi
 
 **5. Gecorrigeerde redenering**
 
-Pas het gecentraliseerde overheadpercentage consistent toe op de directe kostenbasis.
+Pas het gecentraliseerde overheadtarief consistent toe op de basis van directe kosten.
 
 **6. Gecorrigeerde beslissing**
 
-De projectmar­ge wordt beoordeeld met dezelfde kostenstructuur die bij de raming is gebruikt.
+Projectmarge wordt beoordeeld met dezelfde kostenstructuur die tijdens de raming is gebruikt.
 
 ```text
 Actual Material Cost
@@ -561,35 +433,35 @@ Actual_Total_Cost =
     + Overhead_Allocation
 ```
 
-De implementatie specificeert hetzelfde overheadconcept voor zowel de kostenberekening in de offertefase als de werkelijke projectkostenberekening. 
+De implementatie specificeert hetzelfde overheadconcept voor kostenberekening in de offertefase en voor werkelijke projectkostenberekening. 
 
 </details>
 
-#### Valkuil 3 — Wachten tot de projectafsluiting om kostenoverschrijding te detecteren
+#### Val 3 — Wachten tot projectafsluiting om kostenoverschrijding te detecteren
 
 **1. Genomen beslissing**
 
-Het management wacht tot de afronding van het project om te bepalen of het project binnen budget is gebleven.
+Het management wacht tot projectvoltooiing om te bepalen of het project binnen budget is gebleven.
 
 **2. Verborgen aanname**
 
-Kostenafwijking wordt behandeld als een rapportagemaatstaf in plaats van als een operationeel besturingssignaal.
+Kostenafwijking wordt behandeld als een rapportagemetriek in plaats van als een operationeel controlesignaal.
 
 **3. Wat de beslissing verandert**
 
-Een project kan zijn geraamde kosten overschrijden vóór afronding, terwijl er nog resterend werk is dat mogelijk kan worden beheerst.
+Een project kan zijn geschatte kosten overschrijden vóór voltooiing, terwijl er nog resterend werk is dat potentieel kan worden beheerst.
 
 **4. Waarom de redenering faalt**
 
-Een late waarschuwing kan het eindresultaat verklaren, maar kan geen invloed meer uitoefenen op kosten die al zijn gemaakt.
+Een late waarschuwing kan het eindresultaat verklaren maar kan kosten die al zijn gemaakt niet beïnvloeden.
 
 **5. Gecorrigeerde redenering**
 
-Vergelijk de werkelijke totale kosten met de oorspronkelijk geraamde totale kosten en beoordeel de afwijking tegen de gecentraliseerde overschrijdingsdrempel.
+Vergelijk werkelijke totale kosten met de oorspronkelijk geschatte totale kosten en evalueer de afwijking tegen de gecentraliseerde overschrijdingsdrempel.
 
 **6. Gecorrigeerde beslissing**
 
-Een project dat de ingestelde drempel overschrijdt, wordt een uitzondering die managementaandacht vereist.
+Een project dat de geconfigureerde drempel overschrijdt, wordt een uitzondering die aandacht van het management vereist.
 
 ```text
 Estimated Total Cost
@@ -612,15 +484,15 @@ De implementatie definieert `Cost_Variance` als:
 =Actual_Total_Cost-Estimated_Total_Cost
 ```
 
-De waarschuwingslogica beoordeelt het werkelijke percentage kostenoverschrijding tegen `Settings!B6`. Het dashboard telt vervolgens de projecten die als ernstige kostenoverschrijding zijn geclassificeerd. 
+De waarschuwingslogica evalueert het werkelijke kostenoverschrijdingspercentage tegen `Settings!B6`. Het dashboard telt vervolgens de projecten die als ernstige kostenoverschrijdingen zijn geclassificeerd. 
 
 </details>
 
 ### Voorbeeldscenario
 
-Een aannemer neemt een project aan met een contractbedrag inclusief belasting van **$113.000**.
+Een aannemer accepteert een project met een inclusief-btw contractbedrag van **$113.000**.
 
-Het ingestelde belastingtarief is **13%**, dus de contractomzet exclusief belasting is:
+Het geconfigureerde btw-tarief is **13%**, dus de exclusief-btw contractopbrengst is:
 
 ```text
 $113,000 ÷ 1.13
@@ -629,27 +501,27 @@ $113,000 ÷ 1.13
 
 De oorspronkelijke offerte bevat:
 
-| Cost Component           |   Estimated |
+| Kostencomponent           |   Geschat |
 | ------------------------ | ----------: |
-| Materials                |     $42,000 |
-| Labor                    |     $35,000 |
-| Overhead allocation      |      $7,700 |
-| **Estimated Total Cost** | **$84,700** |
-| **Initial Profit**       | **$15,300** |
-| **Initial Margin**       |  **15.30%** |
+| Materialen                |     $42.000 |
+| Arbeid                    |     $35.000 |
+| Overheadtoerekening      |      $7.700 |
+| **Geschatte totale kosten** | **$84.700** |
+| **Aanvankelijke winst**       | **$15.300** |
+| **Aanvankelijke marge**       |  **15,30%** |
 
-Tijdens de uitvoering accumuleren de werkelijke registraties:
+Tijdens de uitvoering accumuleren werkelijke records:
 
-| Cost Component        |      Actual |
+| Kostencomponent        |      Werkelijk |
 | --------------------- | ----------: |
-| Materials             |     $47,000 |
-| Labor                 |     $40,000 |
-| Overhead allocation   |      $8,700 |
-| **Actual Total Cost** | **$95,700** |
-| **Actual Profit**     |  **$4,300** |
-| **Actual Margin**     |   **4.30%** |
+| Materialen             |     $47.000 |
+| Arbeid                 |     $40.000 |
+| Overheadtoerekening   |      $8.700 |
+| **Werkelijke totale kosten** | **$95.700** |
+| **Werkelijke winst**     |  **$4.300** |
+| **Werkelijke marge**     |   **4,30%** |
 
-Het project is dus gegaan van een **geprojecteerde mar­ge van 15,30% naar een werkelijke mar­ge van 4,30%**.
+Het project is daardoor verschoven van een **geprojecteerde marge van 15,30% naar een werkelijke marge van 4,30%**.
 
 De kostenafwijking is:
 
@@ -658,31 +530,31 @@ $95,700 - $84,700
 = $11,000
 ```
 
-Het percentage kostenoverschrijding is:
+Het kostenoverschrijdingspercentage is:
 
 ```text
 $11,000 ÷ $84,700
 ≈ 12.99%
 ```
 
-Met de standaarddrempel voor overschrijding van `5.00%` valt dit project duidelijk buiten de normale kostenbeheersing.
+Met de standaard overschrijdingsdrempel van `5.00%` valt dit project duidelijk buiten normale kostencontrole.
 
-De juiste managementconclusie is **niet simpelweg "het project is nog winstgevend."**
+De juiste managementconclusie is **niet simpelweg “het project is nog winstgevend.”**
 
 De nuttigere conclusie is:
 
-> **Het project blijft positief in absolute winst, maar de kostenstructuur is wezenlijk verslechterd en vereist ingrijpen.**
+> **Het project blijft positief in absolute winst, maar zijn kostenstructuur is wezenlijk verslechterd en vereist interventie.**
 
-De volgende evaluatie moet zich richten op waar de afwijking is ontstaan — arbeidsuren, materiaalverbruik of beide — en of het resterende projectwerk kan worden beheerst.
+De volgende review zou zich moeten richten op waar de afwijking vandaan kwam—arbeidsuren, materiaalverbruik of beide—en of het resterende projectwerk kan worden beheerst.
 
-Dit is precies waarom het systeem zowel de oorspronkelijke raming als de werkelijke uitvoeringskosten bewaart, in plaats van de raming te vervangen door het meest recente bestedingscijfer. De `Job_Cost_Engine` is ontworpen om het verschil tussen deze twee toestanden bloot te leggen. 
+Dit is precies waarom het systeem zowel de oorspronkelijke raming als de werkelijke uitvoeringskosten behoudt in plaats van de raming te vervangen door het laatste uitgavencijfer. `Job_Cost_Engine` is ontworpen om het verschil tussen deze twee toestanden bloot te leggen. 
 
 ### Formulereferentie
 
 <details>
 <summary>Berekeningen voor leads en pijplijn</summary>
 
-**Doorlooptijd van de pijplijn**
+**Pijplijnduur**
 
 ```excel
 =MAP(
@@ -703,7 +575,7 @@ Dit is precies waarom het systeem zowel de oorspronkelijke raming als de werkeli
 )
 ```
 
-**Doel:** Berekent hoe lang een kans actief blijft in de pijplijn, waarbij gewonnen en verloren leads als afgesloten worden behandeld.
+**Doel:** Berekent hoe lang een kans actief blijft in de pijplijn, waarbij gewonnen en verloren leads als gesloten worden behandeld.
 
 **Potentiële winst**
 
@@ -721,12 +593,12 @@ Dit is precies waarom het systeem zowel de oorspronkelijke raming als de werkeli
 )
 ```
 
-**Doel:** Zet het geraamde projectbudget om in potentiële winst met behulp van de gecentraliseerde aanname voor de doelmar­ge in plaats van een hardgecodeerd percentage.
+**Doel:** Zet het geschatte projectbudget om in potentiële winst met behulp van de gecentraliseerde doelmarge-aanname in plaats van een hard gecodeerd percentage.
 
 </details>
 
 <details>
-<summary>Berekeningen voor offerte en raming</summary>
+<summary>Berekeningen voor offertes en ramingen</summary>
 
 De offerteberekening volgt:
 
@@ -748,14 +620,14 @@ Tax
 Suggested Quote
 ```
 
-**Logica voor de voorgestelde offerte**
+**Logica van de voorgestelde offerte**
 
 ```excel
 =(Estimated_Total_Cost/(1-Settings!$B$5))
 *(1+Settings!$B$3)
 ```
 
-**Logica voor de geprojecteerde mar­ge**
+**Logica van de geprojecteerde marge**
 
 ```excel
 =((Quote_Amount/(1+Settings!$B$3))
@@ -764,14 +636,14 @@ Suggested Quote
 (Quote_Amount/(1+Settings!$B$3))
 ```
 
-`Quote_Builder` gebruikt `XLOOKUP` om standaard materiaal- en arbeidstarieven op te halen, terwijl `MAP` en `LAMBDA` de berekeningskolommen dynamisch laten uitbreiden naarmate records groeien. 
+`Quote_Builder` gebruikt `XLOOKUP` om standaard materiaal- en arbeidstarieven op te halen, terwijl `MAP` en `LAMBDA` ervoor zorgen dat de berekeningskolommen dynamisch uitlopen naarmate records groeien. 
 
 </details>
 
 <details>
-<summary>Basislijn van goedgekeurde projecten</summary>
+<summary>Basislijn goedgekeurd project</summary>
 
-**Geraamde totale kosten overgenomen uit de offerte**
+**Geschatte totale kosten overgenomen uit de offerte**
 
 ```excel
 =MAP(
@@ -799,7 +671,7 @@ Suggested Quote
 -Estimated_Total_Cost
 ```
 
-**Aanvankelijk geprojecteerde mar­ge**
+**Aanvankelijk geprojecteerde marge**
 
 ```excel
 =Initial_Projected_Profit
@@ -807,7 +679,7 @@ Suggested Quote
 (Contract_Amount/(1+Settings!$B$3))
 ```
 
-Het doel is om de commerciële economie te behouden op het moment dat de offerte een goedgekeurd project wordt. 
+Het doel is de commerciële economie te behouden op het moment dat de offerte een goedgekeurd project wordt. 
 
 </details>
 
@@ -830,14 +702,14 @@ Het uurtarief wordt opgehaald uit `Labor_Rates` op basis van `Labor_Code`.
 
 De materiaalkosten worden opgehaald uit `Material_DB` met behulp van de materiaalcode.
 
-Beide stromen van werkelijke kosten worden gegroepeerd op `Job_ID` voordat ze in de `Job_Cost_Engine` komen.
+Beide werkelijke-kostenstromen worden gegroepeerd per `Job_ID` voordat ze in `Job_Cost_Engine` terechtkomen.
 
 </details>
 
 <details>
-<summary>Projectkosten en winstgevendheid</summary>
+<summary>Projectkosten & winstgevendheid</summary>
 
-**Contractomzet exclusief belasting**
+**Exclusief-btw contractopbrengst**
 
 ```excel
 =Contract_Amount/(1+Settings!$B$3)
@@ -864,7 +736,7 @@ Beide stromen van werkelijke kosten worden gegroepeerd op `Job_ID` voordat ze in
 =Contract_Revenue-Actual_Total_Cost
 ```
 
-**Werkelijke mar­ge**
+**Werkelijke marge**
 
 ```excel
 =Actual_Profit/Contract_Revenue
@@ -876,14 +748,14 @@ Beide stromen van werkelijke kosten worden gegroepeerd op `Job_ID` voordat ze in
 =Actual_Total_Cost-Estimated_Total_Cost
 ```
 
-**Waarschuwing kostenoverschrijding**
+**Waarschuwing bij kostenoverschrijding**
 
-De overschrijdingsconditie vergelijkt de werkelijke kostenafwijking met de ingestelde drempel `Settings!B6` in plaats van een vast percentage in de formule op te nemen. 
+De overschrijdingsvoorwaarde vergelijkt de werkelijke kostenafwijking met de geconfigureerde `Settings!B6`-drempel in plaats van een vast percentage in de formule in te bedden. 
 
 </details>
 
 <details>
-<summary>Planning en uitvoeringswaarschuwingen</summary>
+<summary>Planning- en uitvoeringswaarschuwingen</summary>
 
 **Dagen te laat**
 
@@ -933,12 +805,12 @@ De overschrijdingsconditie vergelijkt de werkelijke kostenafwijking met de inges
 )
 ```
 
-De berekening onderscheidt afgerond werk van onafgerond werk dat de geplande einddatum heeft overschreden. 
+De berekening onderscheidt voltooid werk van onvoltooid werk dat zijn geplande einddatum heeft overschreden. 
 
 </details>
 
 <details>
-<summary>Klanthistorie en waardeanalyse</summary>
+<summary>Klanthistorie & waardeanalyse</summary>
 
 **Klantenlijst**
 
@@ -995,41 +867,41 @@ De berekening onderscheidt afgerond werk van onafgerond werk dat de geplande ein
 )
 ```
 
-De bronimplementatie gebruikt de cumulatieve winstbijdrage en de gemiddelde mar­ge als basis voor de classificatie van klantwaarde, in plaats van klanten alleen op omzet te beoordelen. 
+De bronimplementatie gebruikt cumulatieve winstbijdrage en gemiddelde marge als basis voor de classificatie van klantwaarde, in plaats van klanten alleen op omzet te beoordelen. 
 
 </details>
 
 ### Validatieregels
 
-| Field / Area                    | Rule                                                                                | Error Behavior                                                                                   |
+| Veld / gebied                    | Regel                                                                                | Foutgedrag                                                                                   |
 | ------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `Settings!B3` Tax Rate          | Must be a valid percentage used consistently across quote and revenue calculations. | Incorrect configuration produces inconsistent tax-inclusive and tax-exclusive amounts.           |
-| `Settings!B4` Overhead Rate     | Must be maintained centrally rather than embedded in formulas.                      | Project costing can become inconsistent if manually overridden elsewhere.                        |
-| `Settings!B5` Target Margin     | Must be a valid percentage used by lead potential and quote calculations.           | Incorrect value changes projected commercial economics.                                          |
-| `Settings!B6` Overrun Threshold | Must be a valid percentage used by job-cost warnings.                               | Incorrect value changes the sensitivity of cost alerts.                                          |
-| `Material_Code`                 | Must correspond to a valid record in `Material_DB`.                                 | Lookup may return `#N/A` or zero when the code is missing or malformed.                          |
-| `Labor_Code`                    | Must correspond to a valid record in `Labor_Rates`.                                 | Hourly rate cannot be retrieved correctly.                                                       |
-| `Job_ID`                        | Must reference the relevant approved project.                                       | Labor/material transactions can become detached from the correct project.                        |
-| `Actual_Hours`                  | Must be numeric and represent actual project labor consumption.                     | Invalid values distort actual labor cost.                                                        |
-| `Actual_Quantity`               | Must be numeric and tied to the relevant material code.                             | Invalid values distort actual material cost.                                                     |
-| `Completion_Pct`                | Expected range is `0%–100%`.                                                        | Values at or above 100% are treated as completed; incomplete overdue work generates an alert.    |
-| Dynamic-array output range      | Spill destination must remain clear.                                                | Occupied cells can generate `#SPILL!`.                                                           |
-| Excel calculation mode          | Must remain **Automatic**.                                                          | Changes to `Settings` may not propagate immediately when calculation is set to Manual.           |
-| Currency formatting             | Monetary cells must use the intended currency format.                               | Values may display with an incorrect currency symbol even when the underlying number is correct. |
+| `Settings!B3` Btw-tarief          | Moet een geldig percentage zijn dat consistent wordt gebruikt in offerte- en opbrengstberekeningen. | Onjuiste configuratie produceert inconsistente inclusief- en exclusief-btw bedragen.           |
+| `Settings!B4` Overheadtarief     | Moet centraal worden onderhouden in plaats van in formules te zijn ingebed.                      | Projectkostenberekening kan inconsistent worden als het elders handmatig wordt overschreven.                        |
+| `Settings!B5` Doelmarge     | Moet een geldig percentage zijn dat wordt gebruikt door berekeningen voor leadpotentieel en offertes.           | Onjuiste waarde verandert de geprojecteerde commerciële economie.                                          |
+| `Settings!B6` Overschrijdingsdrempel | Moet een geldig percentage zijn dat wordt gebruikt door projectkostenwaarschuwingen.                               | Onjuiste waarde verandert de gevoeligheid van kostenwaarschuwingen.                                          |
+| `Material_Code`                 | Moet overeenkomen met een geldig record in `Material_DB`.                                 | Opzoeken kan `#N/A` of nul retourneren wanneer de code ontbreekt of misvormd is.                          |
+| `Labor_Code`                    | Moet overeenkomen met een geldig record in `Labor_Rates`.                                 | Uurtarief kan niet correct worden opgehaald.                                                       |
+| `Job_ID`                        | Moet het relevante goedgekeurde project refereren.                                       | Arbeids-/materiaaltransacties kunnen losraken van het juiste project.                        |
+| `Actual_Hours`                  | Moet numeriek zijn en het werkelijke arbeidsverbruik van het project vertegenwoordigen.                     | Ongeldige waarden vertekenen de werkelijke arbeidskosten.                                                        |
+| `Actual_Quantity`               | Moet numeriek zijn en gekoppeld aan de relevante materiaalcode.                             | Ongeldige waarden vertekenen de werkelijke materiaalkosten.                                                            |
+| `Completion_Pct`                | Verwacht bereik is `0%–100%`.                                                        | Waarden van of boven 100% worden als voltooid behandeld; onvoltooid te-laat werk genereert een waarschuwing.    |
+| Uitvoerbereik dynamische array      | De spill-bestemming moet vrij blijven.                                                | Bezette cellen kunnen `#SPILL!` genereren.                                                           |
+| Excel-berekeningsmodus          | Moet **Automatisch** blijven.                                                          | Wijzigingen in `Settings` worden mogelijk niet direct doorgegeven wanneer berekening op Handmatig staat.           |
+| Valuta-opmaak             | Monetaire cellen moeten het beoogde valutaformaat gebruiken.                               | Waarden kunnen worden weergegeven met een onjuist valutasymbool, zelfs wanneer het onderliggende getal correct is. |
 
-De implementatie adviseert Excel-gegevensvalidatie voor operationele invoervelden waar dat praktisch is, en identificeert expliciet `#SPILL!`, handmatige berekeningsmodus, ontbrekende stamgegevenscodes en onjuiste valutaopmaak als veelvoorkomende operationele faalmodi. 
+De implementatie beveelt Excel-gegevensvalidatie aan voor operationele invoervelden waar dat praktisch is, en identificeert `#SPILL!`, handmatige berekeningsmodus, ontbrekende stamgegevenscodes en onjuiste valuta-opmaak expliciet als veelvoorkomende operationele faalmodi. 
 
-De kruiscontrole van de werkmap verifieert tevens dat de globale parameters stroomafwaarts worden gerefereerd en dat berekeningsformules de belangrijkste bedrijfsaannames niet hard coderen. 
+De crosscheck van de werkmap verifieert ook dat de globale parameters downstream worden gerefereerd en dat berekeningsformules de belangrijkste bedrijfsaannames niet hard coderen. 
 
 </details>
 
-## Implementatienotities
+## Implementatieopmerkingen
 
 ### Ontwerp met dynamische arrays
 
-De werkmap is ontworpen voor Microsoft 365 / Excel 2021+ en gebruikt moderne dynamische-arrayfuncties waar deze een duidelijk operationeel voordeel bieden.
+De werkmap is ontworpen voor Microsoft 365 / Excel 2021+ en gebruikt moderne functies voor dynamische arrays waar ze een duidelijk operationeel voordeel bieden.
 
-Kernfuncties zijn:
+Kernfuncties omvatten:
 
 * `XLOOKUP`
 * `FILTER`
@@ -1039,7 +911,7 @@ Kernfuncties zijn:
 * `LET`
 * `LAMBDA`
 
-Het ontwerpdoel is om routinematig formules slepen en handmatige bereikuitbreiding te vermijden.
+Het ontwerpdoel is routinematig slepen van formules en handmatig uitbreiden van bereiken te vermijden.
 
 ```text
 Configure Formula Once
@@ -1053,13 +925,13 @@ Calculation Expands Automatically
 Dashboard / Analysis Updates
 ```
 
-Dit is bijzonder belangrijk voor aannemersworkflows, omdat leads, projecten, arbeidsregistraties en materiaaltransacties voortdurend in de loop der tijd worden toegevoegd.
+Dit is vooral belangrijk voor aannemersworkflows omdat leads, projecten, arbeidsrecords en materiaaltransacties in de loop van de tijd continu worden toegevoegd.
 
-De implementatie gebruikt dynamische-arraylogica op gebieden zoals doorlooptijd van de pijplijn, potentiële winst, offerteberekeningen, planningswaarschuwingen en klantanalyse. 
+De implementatie gebruikt logica voor dynamische arrays op gebieden zoals pijplijnduur, potentiële winst, offerteberekeningen, planningswaarschuwingen en klantanalyse. 
 
-### Architectuur van de projectsleutel
+### Projectsleutelarchitectuur
 
-`Job_ID` is de centrale identificatie die de uitvoeringslaag verbindt.
+`Job_ID` is de centrale identifier die de uitvoeringslaag verbindt.
 
 ```text
 Approved_Jobs
@@ -1075,7 +947,7 @@ Approved_Jobs
          Job_Cost_Engine
 ```
 
-Dit creëert één relatie op projectniveau tussen:
+Dit creëert één enkele relatie op projectniveau tussen:
 
 * het goedgekeurde contract;
 * gepland werk;
@@ -1088,7 +960,7 @@ De architectuur identificeert de uniforme `Job_ID` expliciet als het kernmechani
 
 ### Afstemming van projectkosten
 
-De werkmap handhaaft een duidelijk onderscheid tussen **wat was geraamd** en **wat feitelijk is gebeurd**.
+De werkmap handhaaft een duidelijk onderscheid tussen **wat werd geschat** en **wat werkelijk gebeurde**.
 
 ```text
 Original Quote
@@ -1112,15 +984,15 @@ Actual Profit
 Actual Margin
 ```
 
-Zo kan het management vaststellen of de economie van een project is verslechterd doordat het werkelijke resourceverbruik is afgeweken van de oorspronkelijke raming.
+Dit stelt het management in staat te identificeren of de economie van een project is verslechterd omdat het werkelijke resourceverbruik afweek van de oorspronkelijke raming.
 
-De `Job_Cost_Engine` fungeert daarmee als de afstemmingslaag tussen commerciële planning en operationele uitvoering. 
+`Job_Cost_Engine` fungeert daardoor als de afstemmingslaag tussen commerciële planning en operationele uitvoering. 
 
 ### Afhankelijkheidsmodel van het dashboard
 
 `Profit_Dashboard` is geen onafhankelijke rapportagetabel.
 
-Het bevindt zich stroomafwaarts van de berekeningsengine:
+Het zit downstream van de berekeningsmotor:
 
 ```text
 Settings
@@ -1143,22 +1015,22 @@ Profit_Dashboard
 Customer_History
 ```
 
-Het dashboard vat de outputs samen die door de onderliggende projectregistraties en de berekeningslaag worden gegenereerd, in plaats van dat het management afzonderlijke rapportagecijfers moet onderhouden.
+Het dashboard vat uitvoeren samen die worden gegenereerd door de onderliggende projectrecords en de berekeningslaag, in plaats van van het management te eisen dat het aparte rapportagecijfers bijhoudt.
 
-De implementatie definieert dashboardmetrieken waaronder:
+De implementatie definieert dashboardmetrieken, waaronder:
 
-* totale projecten;
-* omzet exclusief belasting;
+* totaal projecten;
+* exclusief-btw opbrengst;
 * werkelijke totale kosten;
 * brutowinst;
-* totale mar­ge;
+* totale marge;
 * aantal projecten met ernstige kostenoverschrijding. 
 
 ---
 
 ## Operationele workflow
 
-Het aanbevolen werkritme volgt dezelfde structuur als de architectuur van de werkmap.
+Het aanbevolen operationele ritme volgt dezelfde structuur als de werkmaparchitectuur.
 
 ### Begin van de dag
 
@@ -1168,13 +1040,13 @@ Beoordeel:
 * volledigheid van stamgegevens;
 * actieve leads;
 * huidige projectstatus;
-* openstaande planningsuitzonderingen.
+* openstaande planninguitzonderingen.
 
-Het doel is om ervoor te zorgen dat de rekenomgeving en de operationele inputs actueel zijn voordat nieuwe records worden ingevoerd. 
+Het doel is ervoor te zorgen dat de berekeningsomgeving en operationele invoeren actueel zijn voordat nieuwe records worden ingevoerd. 
 
-### Tijdens de operatie
+### Tijdens operaties
 
-Werk de relevante operationele registraties bij zodra bedrijfsgebeurtenissen zich voordoen:
+Werk de relevante operationele records bij naarmate bedrijfsgebeurtenissen plaatsvinden:
 
 ```text
 New Opportunity
@@ -1196,11 +1068,11 @@ Material Consumed
     → Material_Usage
 ```
 
-Het principe is **registreer de gebeurtenis bij de bron in plaats van deze later te reconstrueren**.
+Het principe is **het gebeurtenis vastleggen bij de bron in plaats van het later te reconstrueren**.
 
-### Einde van de dag
+### Eind-van-de-dag review
 
-Beoordeel de berekende outputs:
+Beoordeel de berekende uitvoeren:
 
 ```text
 Actual Cost
@@ -1214,27 +1086,27 @@ Overrun Alerts
 Management Action
 ```
 
-Zo verandert de werkmap van een statisch rapportagebestand in een lichtgewicht operationeel besturingssysteem.
+Dit verandert de werkmap van een statisch rapportagebestand in een lichtgewicht operationeel controlesysteem.
 
 ---
 
-## Aanbevolen evaluatieritme
+## Aanbevolen reviewcadans
 
-| Frequency       | Primary Review                          | Recommended Focus                                                        |
+| Frequentie       | Primaire review                          | Aanbevolen focus                                                        |
 | --------------- | --------------------------------------- | ------------------------------------------------------------------------ |
-| **Daily**       | `Schedule` + execution logs             | Overdue tasks, missing labor/material entries                            |
-| **Weekly**      | `Lead_Tracker` + `Profit_Dashboard`     | Pipeline, active projects, emerging cost overruns                        |
-| **Per Project** | `Job_Cost_Engine`                       | Estimated vs. actual cost and margin                                     |
-| **Monthly**     | `Profit_Dashboard` + `Customer_History` | Overall profitability and customer contribution                          |
-| **Quarterly**   | `Settings` + master data                | Labor rates, material costs, overhead, target margin, warning thresholds |
+| **Dagelijks**       | `Schedule` + uitvoeringslogs             | Te-late taken, ontbrekende arbeids-/materiaalinvoeren                            |
+| **Wekelijks**      | `Lead_Tracker` + `Profit_Dashboard`     | Pijplijn, actieve projecten, opkomende kostenoverschrijdingen                        |
+| Per project | `Job_Cost_Engine`                       | Geschatte vs. werkelijke kosten en marge                                     |
+| **Maandelijks**     | `Profit_Dashboard` + `Customer_History` | Algehele winstgevendheid en klantbijdrage                          |
+| **Per kwartaal**   | `Settings` + stamgegevens                | Arbeidstarieven, materiaalkosten, overhead, doelmarge, waarschuwingdrempels |
 
-Het doel van dit ritme is om het onderhoud van operationele gegevens en de managementevaluatie gescheiden te houden: veld- en projectteams onderhouden de bronregistraties, terwijl het management de resulterende berekeningen gebruikt om beslissingen te nemen.
+Het doel van deze cadans is om onderhoud van operationele gegevens en managementreview gescheiden te houden: veld- en projectteams onderhouden de bronrecords, terwijl het management de resulterende berekeningen gebruikt om beslissingen te nemen.
 
 ---
 
 ## Principes voor gegevensinvoer
 
-### Voer brongegevens één keer in
+### Brongegevens één keer invoeren
 
 De werkmap is ontworpen rond een **single-source-of-truth**-principe.
 
@@ -1258,13 +1130,13 @@ Material_Usage
 Actual Cost
 ```
 
-Het materiaaltarief moet daarom in de stamtabl worden onderhouden in plaats van onafhankelijk opnieuw te worden ingetypt in meerdere berekeningsgebieden.
+Het materiaaltarief zou daarom in de hoofdtabel moeten worden onderhouden in plaats van onafhankelijk opnieuw te worden getypt in meerdere berekeningsgebieden.
 
 Hetzelfde principe geldt voor arbeidstarieven en globale bedrijfsaannames.
 
-### Gebruik project-ID's consistent
+### Project-ID’s consistent gebruiken
 
-Zodra een goedgekeurd project een `Job_ID` krijgt, moeten alle daaropvolgende uitvoeringsregistraties van het project naar die identificatie verwijzen.
+Zodra een goedgekeurd project een `Job_ID` ontvangt, moeten alle daaropvolgende projectuitvoeringsrecords die identifier refereren.
 
 ```text
 Job_ID: JOB-001
@@ -1276,23 +1148,23 @@ Job_ID: JOB-001
 
 Een ontbrekende of onjuist ingevoerde `Job_ID` verbreekt de relatie tussen operationele activiteit en projectwinstgevendheid.
 
-### Overschrijf berekende outputs niet
+### Berekende uitvoeren niet overschrijven
 
 Berekende kolommen moeten formulegestuurd blijven.
 
-Gebruikers moeten bronregistraties bijwerken zoals:
+Gebruikers moeten bronrecords bijwerken zoals:
 
 * leadinformatie;
-* offerte-inputs;
+* offerte-invoeren;
 * projectstatus;
 * arbeidsuren;
 * materiaalhoeveelheden;
 * planningsdata.
 
-Ze moeten berekende waarden niet handmatig vervangen:
+Ze mogen berekende zaken niet handmatig vervangen:
 
 * totale kosten;
-* mar­ges;
+* marges;
 * kostenafwijking;
 * projectwinstgevendheid;
 * samenvattingen op klantniveau.
@@ -1301,9 +1173,9 @@ Ze moeten berekende waarden niet handmatig vervangen:
 
 ## Bekende beperkingen
 
-Deze werkmap is bewust lichtgewicht.
+Deze werkmap is opzettelijk lichtgewicht.
 
-Het mag **niet** worden beschouwd als vervanging van:
+Het mag **niet** worden behandeld als vervanging van:
 
 * boekhoudsoftware;
 * loonverwerking;
@@ -1312,52 +1184,52 @@ Het mag **niet** worden beschouwd als vervanging van:
 * platforms voor field-service management;
 * transactionele databases voor meerdere gebruikers.
 
-Het is ontworpen voor operationele beheersing en beslissingsondersteuning waar Excel een geschikte werkomgeving blijft.
+Het is ontworpen voor operationele controle en besluitvormingsondersteuning waar Excel een passende werkomgeving blijft.
 
 ### Excel-versie
 
-De implementatie is afhankelijk van moderne Excel-functies en is bedoeld voor **Microsoft 365 / Excel 2021+**.
+De implementatie vertrouwt op moderne Excel-functies en is bedoeld voor **Microsoft 365 / Excel 2021+**.
 
-Oudere Excel-versies ondersteunen mogelijk niet alle dynamische-arrayfuncties die de werkmap gebruikt.
+Oudere Excel-versies ondersteunen mogelijk niet alle functies voor dynamische arrays die door de werkmap worden gebruikt.
 
 ### Berekeningsmodus
 
-Excel moet in de modus **Automatische berekening** blijven staan.
+Excel moet in de modus **Automatisch berekenen** blijven.
 
-Als de berekening handmatig is uitgeschakeld, worden wijzigingen in `Settings` of bronregistraties mogelijk niet onmiddellijk doorgevoerd in de berekeningsketen. 
+Als berekenen handmatig is uitgeschakeld, worden wijzigingen in `Settings` of bronrecords mogelijk niet direct doorgegeven door de berekeningsketen. 
 
-### Uitbreidingsruimte voor dynamische arrays
+### Spill-ruimte voor dynamische arrays
 
-Dynamische formules vereisen vrije uitbreidingsbereiken.
+Dynamische formules vereisen vrije spill-bereiken.
 
-Als een andere waarde het vereiste uitbreidingsgebied bezet, kan Excel `#SPILL!` retourneren.
+Als een andere waarde een vereist spill-gebied bezet, kan Excel `#SPILL!` retourneren.
 
-De juiste reactie is om het uitbreidingsbereik te inspecteren in plaats van formules handmatig naar extra cellen te kopiëren. 
+De juiste reactie is het spill-bereik te inspecteren in plaats van formules handmatig naar extra cellen te kopiëren. 
 
 ### Afhankelijkheid van stamgegevens
 
 `Material_Code` en `Labor_Code` zijn afhankelijk van overeenkomstige records in `Material_DB` en `Labor_Rates`.
 
-Als een code ontbreekt of onjuist is, retourneren de stroomafwaartse opzoek- en kostenberekeningen mogelijk niet de beoogde waarde. 
+Als een code ontbreekt of misvormd is, leveren downstream opzoekacties en kostenberekeningen mogelijk niet de beoogde waarde op. 
 
 ---
 
 ## Andere tools in deze serie
 
-Een verzameling lichtgewicht Excel-tools voor beslissingsondersteuning bij operationele planning, kostenberekening, winstgevendheid en bedrijfsanalyse.
+Een collectie lichtgewicht Excel-hulpmiddelen voor besluitvormingsondersteuning bij operationele planning, kostenberekening, winstgevendheid en bedrijfsanalyse.
 
-* **Enterprise Payroll & Annual Workforce Capacity Planning Excel Toolkit**
-* **Industrial Energy Cost & TCO Decision Support Toolkit**
-* **E-commerce Profit Engine & Financial Reconciliation Toolkit**
-* **Food Manufacturing Cost & Unit Economics Excel Toolkit**
-* **Rental Property Operations & Vacancy Intelligence Excel Toolkit**
+* **Excel-toolkit voor ondernemingslonen & jaarlijkse planning van arbeidscapaciteit**
+* **Toolkit voor besluitvormingsondersteuning bij industriële energiekosten & TCO**
+* **E-commerce-winstmotor & toolkit voor financiële afstemming**
+* **Toolkit voor voedselproductiekosten & unit economics**
+* **Toolkit voor verhuurderoperaties & leegstandsintelligentie**
 
 ---
 
 ## Licentie
 
-Dit project is vrijgegeven onder de **Apache License 2.0**.
+Dit project wordt uitgebracht onder de **Apache Licentie 2.0**.
 
-U bent vrij om het werk te gebruiken, te wijzigen, te reproduceren en te distribueren in overeenstemming met de voorwaarden van de licentie.
+U bent vrij om het werk te gebruiken, aan te passen, te reproduceren en te distribueren in overeenstemming met de voorwaarden van de licentie.
 
 Zie het `LICENSE`-bestand van de repository voor de volledige licentievoorwaarden.
