@@ -1,391 +1,265 @@
 [ 🌐 عربي ](README.ar.md) | [ 🇩🇪 Deutsch ](README.de.md) | [ 🇫🇷 Français ](README.fr.md) | [ 🇳🇱 Nederlands ](README.nl.md) | [ 🇪🇸 Español ](README.sp.md) | [ 🇬🇧 English ](README.md)
 
-# Système de gestion des opérations et de la rentabilité pour entrepreneurs
+
+# Modèle Excel de calcul des coûts de chantier & tableur d’estimation pour entrepreneurs (système CRM du prospect au profit)
+<img width="2880" height="1228" alt="image" src="https://github.com/user-attachments/assets/9ddabd3f-ffc4-4a6c-937f-fbbc3c2c2e8a" />
+
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Browser%20%2B%20Excel-green.svg)
-![Tool Type](https://img.shields.io/badge/Tool%20Type-Contractor%20Operations%20%26%20Profitability-orange.svg)
+![Tool Type](https://img.shields.io/badge/Tool%20Type-Construction%20Job%20Costing%20%26%20Estimating-orange.svg)
 
-**Un système d’exploitation Excel connecté pour gérer l’ensemble du flux de travail de l’entrepreneur, du prospect → estimation → projet → main-d’œuvre et matériaux → coût de projet → bénéfice → historique client.**
+**Un modèle Excel tout-en-un de calcul des coûts de chantier, un tableur d’estimation pour entrepreneurs et une calculatrice CRM du prospect au profit, conçus pour les entrepreneurs généraux, les sous-traitants et les entreprises de métier. Suivez le flux de travail complet de l’entrepreneur : prospect commercial → estimation des matériaux et de la main-d’œuvre → budget de chantier approuvé → feuilles de temps de terrain et consommation de matériaux → écart estimation vs. réel → marge bénéficiaire nette → valeur vie client (LTV).**
 
-**Aucune inscription. Aucune installation. Gratuit dans votre navigateur.**
+**Aucune inscription. Aucune installation. Essai gratuit dans votre navigateur.**
 
-Essayez gratuitement la version navigateur. Si vous avez besoin de la version Excel, vous pouvez l’acheter avec une garantie de remboursement de 30 jours, sans poser de questions.
-> Disponible en deux formats : **version navigateur (HTML)** et **version Excel**.
+Testez gratuitement l’application web interactive dans votre navigateur, ou téléchargez le modèle tableur Excel entièrement déverrouillé pour une personnalisation complète hors ligne—garanti par une politique de remboursement de 30 jours sans question.
 
-[Démo en ligne](https://hyvoid.github.io/Contractor-Operations-Profitability-Management-System/) · [Télécharger Excel](https://www.theseusworkshop.com/l/ftbvja?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability) · [Détails techniques](#technical-details)
+> 🌐 **Essayer l’application web :** [Calculatrice interactive d’estimation et de calcul des coûts de chantier (démo en direct)](https://hyvoid.github.io/construction-job-costing-excel-template/)  
+> 📥 **Obtenir le système Excel complet :** [Télécharger le modèle Excel de calcul des coûts de chantier et de devis modifiable](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)  
+> ⚙️ **Architecture & mathématiques :** [Aller à la logique métier et à la méthodologie de calcul des coûts de chantier](#the-business-logic--methodology)
 
----
-
-## Le flux de travail complet de l’entrepreneur
-
-La plupart des tableurs pour entrepreneurs ne résolvent qu’une seule partie de l’activité.
-
-Ce classeur est conçu autour de **toute la chaîne opérationnelle** :
-
-```text
-Lead
-  ↓
-Estimate
-  ↓
-Job
-  ↓
-Labor & Materials
-  ↓
-Job Cost
-  ↓
-Profit
-  ↓
-Customer History
-```
-
-L’objectif n’est pas simplement de suivre les projets. Il s’agit de maintenir **connecté l’historique commercial et opérationnel de chaque projet**.
-
-Un prospect entre dans le pipeline.
-
-Le prospect devient une estimation.
-
-Une estimation aboutie devient un projet approuvé avec un `Job_ID` unique.
-
-Pendant l’exécution, la consommation réelle de main-d’œuvre et de matériaux est enregistrée contre ce projet.
-
-Ces enregistrements alimentent le module de coût de projet.
-
-Le coût de projet réel est ensuite comparé à l’économie initiale du projet pour déterminer la rentabilité actuelle et identifier les dépassements de coûts.
-
-Enfin, les résultats des projets terminés s’accumulent dans l’historique client, permettant à la direction de comprendre quels clients ont généré un chiffre d’affaires et des bénéfices significatifs au fil du temps.
-
-La mise en œuvre utilise des feuilles dédiées pour `Lead_Tracker`, `Quote_Builder`, `Approved_Jobs`, `Labor_Log`, `Material_Usage`, `Job_Cost_Engine`, `Profit_Dashboard` et `Customer_History`, avec `Job_ID` servant d’identifiant de projet central à travers l’exécution et le calcul des coûts.
-
-### Un classeur. Un flux opérationnel connecté.
-
-| Étape                 | Module du classeur                  | Ce qu’il gère                                                                              |
-| --------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------- |
-| **Prospect**          | `Lead_Tracker`                      | Demandes clients, opportunités, budgets, statut, estimateur responsable                     |
-| **Estimation**        | `Quote_Builder`                     | Besoins en matériaux, heures de main-d’œuvre, coût estimé, frais généraux, marge cible, devis suggéré |
-| **Projet**            | `Approved_Jobs`                     | Projets contractés, `Job_ID`, valeur du contrat, dates, chef de projet, statut              |
-| **Main-d’œuvre et matériaux** | `Labor_Log` + `Material_Usage` | Consommation réelle de main-d’œuvre de terrain et de matériaux                             |
-| **Coût de projet**    | `Job_Cost_Engine`                   | Coût matériel réel, coût de main-d’œuvre, frais généraux, coût total, écart                 |
-| **Bénéfice**          | `Job_Cost_Engine` + `Profit_Dashboard` | Bénéfice du projet, marge, alertes de dépassement de coûts, rentabilité globale          |
-| **Historique client** | `Customer_History`                  | Projets historiques, chiffre d’affaires, contribution au bénéfice, marge moyenne, valeur client |
-
-Le résultat est un flux de travail pratique permettant de passer **de l’activité commerciale à l’économie de projet jusqu’à l’intelligence commerciale au niveau client**, plutôt que de maintenir des suivis déconnectés.
 
 ---
 
-## Quelles décisions ce système vous aide-t-il à prendre ?
+## La chaîne opérationnelle de construction connectée : du prospect au calcul des coûts de chantier
 
-Le système est construit autour de sept questions opérationnelles :
+La plupart des tableurs de construction ne résolvent qu’un fragment isolé de l’activité—laissant votre **pipeline commercial**, votre **estimation quantitative** et votre **calcul des coûts de chantier de terrain** piégés dans des fichiers déconnectés. 
 
-### 1. Quels prospects méritent une attention ?
-
-`Lead_Tracker` enregistre le pipeline d’opportunités et calcule à la fois la durée du pipeline et le bénéfice potentiel sur la base de la marge cible configurée.
-
-Cela permet de visualiser le pipeline commercial actif non seulement par le nombre de prospects, mais aussi par la contribution commerciale potentielle.
-
-### 2. À quel prix le projet doit-il être proposé ?
-
-`Quote_Builder` combine les quantités de matériaux estimées et les heures de main-d’œuvre avec les données centralisées de `Material_DB` et `Labor_Rates`.
-
-Le modèle calcule le coût direct, applique l’imputation des frais généraux, déduit le coût total estimé, et remonte à partir de la marge cible pour produire un devis TTC suggéré.
-
-### 3. Qu’est-ce qui a été réellement contracté ?
-
-`Approved_Jobs` établit le dossier de projet officiel et génère l’identifiant `Job_ID` unique utilisé tout au long du flux d’exécution et de calcul des coûts.
-
-Cela préserve la référence commerciale initiale par rapport à laquelle la performance réelle pourra être évaluée ultérieurement.
-
-### 4. Que consomme réellement le projet ?
-
-Pendant l’exécution, la main-d’œuvre de terrain est enregistrée dans `Labor_Log` et la consommation de matériaux dans `Material_Usage`.
-
-Chaque enregistrement est connecté au `Job_ID` pertinent, permettant à l’activité opérationnelle réelle de devenir des données de coût au niveau du projet.
-
-### 5. Le coût de projet réel s’éloigne-t-il de l’estimation ?
-
-`Job_Cost_Engine` agrège les coûts réels de main-d’œuvre et de matériaux et applique l’imputation des frais généraux configurée.
-
-Le projet peut donc être évalué par rapport à son coût estimé initial, plutôt que de regarder seulement les dépenses accumulées.
-
-### 6. Le projet est-il encore rentable ?
-
-Le système sépare la **marge projetée initiale** du **résultat réel du projet**.
-
-Cette distinction est importante car un projet peut démarrer avec un devis acceptable et perdre ensuite sa rentabilité lorsque les heures de main-d’œuvre réelles, la consommation de matériaux ou d’autres coûts de projet dépassent les hypothèses initiales.
-
-### 7. Quels clients ont généré un bénéfice significatif ?
-
-`Customer_History` agrège l’activité de projet historique par client, incluant le nombre total de projets, le chiffre d’affaires contractuel, la contribution au bénéfice, la marge bénéficiaire moyenne, la date du dernier contrat et l’évaluation du client.
----
-
-## Flux de travail de démarrage rapide
-
-### Étape 1 — Configurer la couche de contrôle
-
-Ouvrez `Settings` et établissez les hypothèses commerciales utilisées dans l’ensemble du classeur :
-
-* Taux de taxe
-* Taux de frais généraux
-* Marge cible
-* Seuil de dépassement de coûts
-* Devise
-* Taux de change
-
-L’architecture traite `Settings` comme la console de contrôle centrale. Les hypothèses commerciales doivent y être maintenues plutôt que codées en dur dans des formules individuelles.
-
-### Étape 2 — Maintenir les données de référence des coûts
-
-Mettez à jour :
-
-* `Material_DB` — codes matériaux, désignations, spécifications, unités et coûts standard.
-* `Labor_Rates` — catégories de main-d’œuvre, codes et taux horaires standard.
-
-Ceux-ci deviennent les points de référence communs tant pour l’estimation que pour le calcul réel des coûts de projet.
-
-### Étape 3 — Exécuter le flux de travail de l’entrepreneur
+Ce classeur est conçu autour d’une seule **chaîne opérationnelle relationnelle** ininterrompue, ancrée par `Lead_ID` et `Job_ID` :
 
 ```text
-1. Lead_Tracker
-   ↓
-2. Quote_Builder
-   ↓
-3. Approved_Jobs
-   ↓
-4. Schedule
-   ↓
-5. Labor_Log + Material_Usage
-   ↓
-6. Job_Cost_Engine
-   ↓
-7. Profit_Dashboard + Customer_History
+Sales Lead (CRM Pipeline)
+  ↓
+Project Estimate (Material Takeoff + Labor + Overhead + Margin)
+  ↓
+Approved Contract (Baseline Budget Locked via Job_ID)
+  ↓
+Field Execution (Timesheet Labor Hours & Material Consumption)
+  ↓
+Job Costing Engine (Estimate vs. Actual Variance & Overrun Alerts)
+  ↓
+Real-Time Profit Dashboard (Gross Profit $ & Net Margin %)
+  ↓
+Customer LTV History (Repeat Client Profitability Ranking)
+
 ```
 
-La procédure opérationnelle standard suit la même séquence : capturer le prospect, générer le devis, établir le projet approuvé, enregistrer l’exécution, puis examiner le calcul automatisé des coûts et de la rentabilité.
+### Un classeur entrepreneur. Huit modules opérationnels intégrés.
 
-### Étape 4 — Examiner les exceptions, pas seulement les totaux
-
-Le flux de gestion doit se concentrer sur :
-
-* les prospects stagnants ;
-* les projets qui s’écartent du coût estimé ;
-* les jalons d’exécution en retard ;
-* les marges de projet en déclin ;
-* les dépassements de coûts significatifs ;
-* les clients à haute valeur.
-
-Le classeur vise donc à soutenir **l’intervention opérationnelle**, et non simplement à produire un rapport historique.
+| Étape du flux de travail | Module Excel / Web | Principales métriques de construction et financières suivies |
+| --- | --- | --- |
+| **1. Pipeline commercial (CRM)** | `Lead_Tracker` | Demandes clients, opportunités d’appel d’offres, budgets estimés, vieillissement du pipeline, responsabilité du chiffreur, marge brute projetée. |
+| **2. Estimation & appel d’offres** | `Quote_Builder` | Quantités de matériaux estimées, heures de main-d’œuvre, COGS direct, imputation des frais généraux, **marge cible vs. majoration**, prix d’offre toutes taxes comprises. |
+| **3. Référence contractuelle** | `Approved_Jobs` | Contrats de construction attribués, génération d’un `Job_ID` unique, valeur contractuelle, dates de planning, attribution du chef de projet. |
+| **4. Suivi de terrain** | `Labor_Log` + `Material_Usage` | Heures de feuilles de temps quotidiennes/hebdomadaires des équipes, taux horaires par métier, consommation de matériaux sur chantier directement liée au `Job_ID`. |
+| **5. Calcul des coûts & avancement (WIP)** | `Job_Cost_Engine` | COGS matériel réel, coût de main-d’œuvre réel chargé, frais généraux appliqués, coût total du chantier, **écart budgétaire estimation vs. réel**. |
+| **6. Marges & dépassements** | `Profit_Dashboard` | Marge brute réalisée ($), marge bénéficiaire nette (%), **alertes automatiques de dépassement de coûts**, compte de résultat du portefeuille à l’échelle de l’entreprise. |
+| **7. Intelligence client** | `Customer_History` | Historique client multi-projets, revenus contractuels cumulés, contribution au profit à vie, marge moyenne %, classement par palier client. |
 
 ---
 
-## Pourquoi la plupart des erreurs de rentabilité des entrepreneurs ne sont pas des erreurs de jugement
+## Ce qu’il aide à suivre et à décider : correspondance points de douleur–solution pour entrepreneurs
 
-Un projet peut être géré par des personnes expérimentées et produire malgré tout une image de rentabilité trompeuse.
+Au lieu d’attendre la saison des impôts pour découvrir si votre équipe a gagné ou perdu de l’argent sur un chantier, ce **suiveur de rentabilité pour entrepreneurs** résout sept angles morts opérationnels critiques :
 
-Le problème sous-jacent est souvent structurel :
-
-```text
-Lead information
-      ↓
-Estimate stored separately
-      ↓
-Approved contract recorded elsewhere
-      ↓
-Labor tracked in field records
-      ↓
-Materials tracked separately
-      ↓
-Profit reconstructed later
-```
-
-À chaque transfert, l’information peut devenir déconnectée.
-
-L’estimation initiale peut ne plus être directement comparable à la consommation réelle.
-
-La main-d’œuvre peut être enregistrée sans l’identifiant de projet correspondant.
-
-L’utilisation des matériaux peut être suivie opérationnellement sans être convertie en coût de projet.
-
-Et la direction peut finir par recevoir un chiffre de rentabilité sans chemin clair vers les hypothèses et les transactions qui l’ont produit.
-
-Ce système corrige cette défaillance en créant une chaîne connectée :
-
-```text
-Lead
-  ↓
-Estimate
-  ↓
-Approved Job + Job_ID
-  ↓
-Labor + Materials
-  ↓
-Job Cost Engine
-  ↓
-Actual Profitability
-  ↓
-Customer History
-```
-
-La distinction est importante.
-
-### Avant
-
-```text
-Sales → Quote → Project Execution → Accounting
-          ↘             ↙
-           disconnected data
-```
-
-### Après
-
-```text
-Lead
- ↓
-Estimate
- ↓
-Job_ID
- ├── Schedule
- ├── Labor
- └── Materials
-       ↓
-   Job Cost
-       ↓
-    Profit
-       ↓
-Customer History
-```
-
-L’architecture cartographie explicitement les entrées et les sorties à travers l’ensemble du classeur, de sorte que chaque grand enregistrement opérationnel ait une finalité aval définie.
+| Métrique de suivi cible / point de douleur | L’angle mort courant de l’entrepreneur | Comment ce système de calcul des coûts le résout et le suit |
+| --- | --- | --- |
+| **Priorisation des prospects & valeur du pipeline** | Poursuivre chaque demande d’offre également sans savoir quelles opportunités rapportent la plus forte contribution au profit. | `Lead_Tracker` calcule la durée dans le pipeline et la **marge brute projetée** selon votre marge cible, avant que vous n’investissiez des heures d’estimation. |
+| **Tarification précise des offres (marge vs. majoration)** | Sous-estimer les chantiers en confondant *majoration %* et *marge brute %*, ou en oubliant d’imputer les frais généraux d’atelier et la taxe de vente. | `Quote_Builder` puise les coûts standards dans `Material_DB` et `Labor_Rates`, applique les frais généraux et **calcule à rebours le prix d’offre exact toutes taxes comprises** nécessaire pour atteindre votre marge cible. |
+| **Préservation de la référence d’estimation d’origine** | Écraser l’estimation initiale dès le début du chantier, rendant impossible de voir où le budget a dérapé. | `Approved_Jobs` verrouille le coût estimé de l’offre attribuée et attribue un `Job_ID` permanent comme **référence immuable d’écart budgétaire**. |
+| **Conversion des feuilles de temps et matériaux de terrain en COGS** | Suivre les heures d’équipe sur des feuilles papier et les reçus de matériaux dans des boîtes à chaussures, sans les lier à des budgets de projet spécifiques. | `Labor_Log` et `Material_Usage` lient chaque heure de terrain et chaque unité de matériau au `Job_ID`, en multipliant automatiquement par les taux standards dans le moteur de calcul des coûts. |
+| **Alertes de dépassement de coûts et d’écart budgétaire en temps réel** | Découvrir les dépassements de coûts de main-d’œuvre ou de matériaux seulement après l’achèvement à 100 % du chantier et le paiement de la facture finale. | `Job_Cost_Engine` compare en continu **coût réel vs. coût estimé**, déclenchant des **alertes de dépassement** visuelles dès que l’écart franchit votre seuil. |
+| **Marge estimée vs. marge nette réalisée** | Supposer qu’un chantier devisé à 30 % de marge a réellement livré 30 %, en ignorant les travaux supplémentaires non facturés et les heures d’équipe excédentaires. | Sépare explicitement la **marge projetée initiale** de la **marge réellement réalisée**, permettant aux chefs de projet de voir l’érosion de marge en temps réel. |
+| **Rentabilité vie client (LTV)** | Traiter les entrepreneurs généraux ou gestionnaires immobiliers à fort chiffre d’affaires comme des « clients VIP » alors que leurs projets perdent systématiquement de l’argent. | `Customer_History` agrège le total des chantiers achevés, les revenus à vie, la contribution au profit net et la **marge réellement réalisée moyenne par client**. |
 
 ---
 
-## Ce que le classeur livre réellement
+## Comment mener un audit d’estimation et de calcul des coûts de chantier (flux de travail de démarrage rapide)
 
-Ceci n’est pas positionné comme un remplacement d’ERP ou un tableau de bord générique.
+Mettez en place un **système d’estimation, de suivi de chantiers et de contrôle des coûts** standardisé pour votre entreprise de construction en quatre étapes structurées :
 
-C’est un **modèle opérationnel et d’aide à la décision léger pour entrepreneurs** qui connecte les informations nécessaires pour gérer l’économie de projet.
+### Étape 1 : configurer les règles financières et de frais généraux globales
 
-### Il fournit un dossier de projet continu
+Ouvrez l’onglet de contrôle `Settings` pour définir les garde-fous financiers utilisés dans toute votre entreprise :
 
-De :
+* **Taux de taxe de vente (%)** & **taux d’imputation des frais généraux (%)**
+* **Marge brute cible (%)** pour le calcul automatique des devis
+* **Seuil d’alerte de dépassement de coûts (%)** (ex. signaler les chantiers dépassant le budget de plus de 5 %)
+* **Devise de base & taux de change**
 
-**Prospect → Estimation → Projet → Main-d’œuvre et matériaux → Coût de projet → Bénéfice**
+*Action :* Explorez dès maintenant la console de contrôle préconfigurée dans le [système d’exploitation entrepreneurial gratuit en navigateur](https://hyvoid.github.io/construction-job-costing-excel-template/).
 
-le même projet peut être suivi tout au long de son cycle de vie commercial et opérationnel.
-
-### Il préserve l’estimation initiale comme référence
-
-Le projet approuvé conserve le coût estimé et la rentabilité projetée, afin que la performance réelle du projet puisse être comparée à ce qui était initialement attendu.
-
-### Il convertit l’activité de terrain en information financière
-
-Les heures de main-d’œuvre et les quantités de matériaux ne sont pas laissées comme de simples enregistrements opérationnels. Elles sont liées à des taux et des coûts standardisés et deviennent en fin de compte des entrées pour le module de coût de projet.
-
-### Il sépare la rentabilité de projet de la rentabilité client
-
-Un projet unique répond à la question :
-
-> **Ce projet a-t-il été rentable ?**
-
-L’historique client répond à la question à plus long terme :
-
-> **Ce client a-t-il été commercialement précieux sur plusieurs projets ?**
-
-Cette distinction soutient de meilleures décisions concernant l’établissement futur des devis et la priorisation des clients.
 ---
 
-## À propos du développeur
+### Étape 2 : remplir votre livre de prix matériaux et vos cartes de taux de main-d’œuvre
 
-L’approche derrière ce classeur est simple :
+Établissez vos bases de données de coûts standardisées une seule fois pour que les chiffreurs cessent de deviner les prix unitaires :
 
-**Construire le plus petit modèle opérationnel capable de préserver la chaîne entre les événements commerciaux et les décisions de gestion.**
+* **`Material_DB` :** saisissez les SKU/codes matériaux, descriptions d’articles, spécifications, unités de mesure (EA, LF, SQFT) et coûts unitaires standards.
+* **`Labor_Rates` :** définissez les catégories de métier (ex. apprenti, compagnon, contremaître, sous-traitant) et les taux horaires de main-d’œuvre chargés.
 
-L’objectif n’est pas d’ajouter des fonctionnalités logicielles pour elles-mêmes.
+---
 
-Pour les opérations d’entrepreneur, la chaîne utile est déjà claire :
+### Étape 3 : exécuter le flux de travail connecté du prospect au calcul des coûts de chantier
+
+Suivez la séquence opérationnelle standardisée en 7 étapes pour chaque projet :
+
+1. **Enregistrer la demande** dans `Lead_Tracker` (`Lead_ID`).
+2. **Construire l’offre** dans `Quote_Builder` en utilisant vos bases de données principales matériaux et main-d’œuvre.
+3. **Verrouiller le contrat** dans `Approved_Jobs` (`Job_ID`) et fixer les jalons dans `Schedule`.
+4. **Enregistrer l’exécution de terrain** lorsque les équipes saisissent leurs heures dans `Labor_Log` et sortent le matériel dans `Material_Usage`.
+5. **Auditer l’écart et la marge** automatiquement dans `Job_Cost_Engine`, `Profit_Dashboard` et `Customer_History`.
+
+---
+
+### Étape 4 : gérer par exception et télécharger le modèle Excel pour les opérations réelles
+
+Au lieu de fouiller des centaines de lignes de tableur, utilisez le tableau de bord pour intervenir sur les **prospects commerciaux bloqués**, les **chantiers franchissant les seuils de dépassement de coûts**, les **jalons en retard** et les **clients érodant la marge**.
+
+> 💡 **Prêt à faire tourner vos propres estimations de construction, feuilles de temps d’équipe et calcul des coûts de chantier dans ce système ?**
+> Si la version navigateur vous permet d’inspecter l’architecture instantanément, la gestion de vrais chantiers de construction exige d’enregistrer vos propres livres de prix matériaux, de saisir la main-d’œuvre de terrain chaque semaine et de conserver des dossiers de projet permanents.
+> 👉 **[Télécharger le classeur complet déverrouillé d’opérations et de calcul des coûts de chantier pour entrepreneurs](https://www.theseusworkshop.com/l/njmty?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=contractor-operations-profitability)** pour personnaliser les tables de taux, suivre un nombre illimité de chantiers hors ligne et prendre le plein contrôle de vos marges de projet.
+
+---
+
+## La logique métier et la méthodologie
+
+La plupart des entrepreneurs petits et moyens souffrent de la **« fonte du profit »**—lorsqu’un projet est devisé avec une saine marge de 35 % sur le papier, mais ne finit par dégager que 8 % de profit net en fin d’année. Cela arrive parce que les tableurs d’estimation, les registres de terrain et les livres comptables fonctionnent avec des mathématiques incompatibles.
+
+Pour éliminer la fonte du profit sans forcer les entrepreneurs dans des logiciels ERP d’entreprise complexes, cette boîte à outils met en œuvre une **méthodologie de comptabilité et d’exploitation du bâtiment à 4 piliers** :
+
+1. **Chaînage relationnel de clés primaires (`Lead_ID → Quote_ID → Job_ID → Customer_ID`) :**
+Dans les tableurs ad hoc, les estimations et les réalisés vivent dans des fichiers séparés sans lien structurel. Ce modèle impose une architecture de base de données relationnelle à l’intérieur d’Excel : une opportunité commerciale (`Lead_ID`) se convertit en une offre détaillée ; à l’attribution du contrat, `Approved_Jobs` fraie un `Job_ID` unique et fige le coût estimé d’origine comme référence figée. Chaque saisie en aval de feuille de temps (`Labor_Log`), chaque sortie de matériau (`Material_Usage`) et chaque tâche de planning doit référencer un `Job_ID` valide, garantissant une traçabilité à 100 % de l’offre initiale au coût final de chantier.
+2. **Tarification par marge inversée vs. mathématique de majoration coût-plus :**
+L’une des erreurs mathématiques les plus coûteuses dans le bâtiment est de confondre **majoration** et **marge brute** (majorer un coût de 1 000 $ de 25 % donne un prix de 1 250 $, ce qui ne représente qu’une **marge brute de 20 %**, effaçant silencieusement 5 % du profit net). Dans `Quote_Builder`, le moteur de tarification agrège le coût matériel direct ($M$), le coût de main-d’œuvre direct ($L$) et les frais généraux imputés ($O = (M + L) \times r_{\text{oh}}$), puis applique la **véritable mathématique de division par marge inversée** conjointement au calcul de la taxe :
+
+$$\text{Devis suggéré avant impôt} = \frac{\text{Matériau direct} + \text{Main-d’œuvre directe} + \text{Frais généraux imputés}}{1 - \text{Marge cible \%}}$$
+
+
+
+Cela garantit qu’à la signature du contrat, le pourcentage de marge brute cible est mathématiquement protégé.
+3. **Coût standard et absorption de terrain par activité :**
+Les équipes de terrain suivent des quantités opérationnelles (**heures travaillées** et **unités de matériaux consommées**), pas des dollars financiers. Le moteur de calcul des coûts découple la saisie de terrain de la valorisation financière en joignant `Labor_Log` et `Material_Usage` aux tables de taux principales (`Labor_Rates` et `Material_DB`). Au fur et à mesure que les quantités de terrain sont enregistrées, le moteur calcule dynamiquement les coûts directs absorbés et applique le taux de frais généraux global de `Settings` pour refléter le **coût total réel du chantier**.
+4. **Écart budgétaire piloté par seuil et agrégation LTV :**
+Au lieu de traiter le calcul des coûts de chantier comme un exercice post-mortem, `Job_Cost_Engine` calcule en continu l’**écart de coût ($\Delta C = \text{coût total réel} - \text{coût de référence estimé}$)** et le **% d’écart**. Si $\frac{\Delta C}{\text{coût estimé}} > \text{seuil de dépassement}$, le système déclenche un état d’exception automatisé pour intervention opérationnelle immédiate. Simultanément, les enregistrements `Job_ID` achevés s’agrègent par `Customer_ID` dans `Customer_History`, faisant passer la stratégie commerciale de l’appel d’offres sur chantier unique à la **contribution au profit vie client**.
+
+---
+
+## Pourquoi la plupart des erreurs de rentabilité des entrepreneurs sont structurelles—pas des erreurs de jugement
+
+Les entrepreneurs expérimentés perdent rarement de l’argent parce qu’ils ne savent pas construire. Ils perdent de l’argent parce que **l’information se brise à chaque transfert opérationnel** :
+
+### Avant : le piège du tableur entrepreneurial déconnecté
 
 ```text
-Lead
-→ Estimate
-→ Job
-→ Labor & Materials
-→ Job Cost
-→ Profit
-→ Customer History
+Sales Lead Notes → Standalone Excel Quote → Signed PDF Contract → Paper Crew Timesheets → Shoebox Material Receipts → Year-End Accountant Tax Summary
+                            ↘                                             ↙
+                              Zero real-time link between Estimate & Actuals
+
 ```
 
-Le classeur transforme cette chaîne en un flux de travail opérationnel réutilisable basé sur Excel, avec des hypothèses centralisées, des identifiants de projet connectés, des calculs automatisés et des sorties de gestion.
+* **L’échec du transfert :** L’estimation d’origine ne peut pas être comparée directement à la consommation réelle de terrain. Les heures de main-d’œuvre sont enregistrées sans `Job_ID`. Les reçus de matériaux sont entassés dans un compte de dépenses QuickBooks générique. Au moment où le chef d’entreprise voit le chiffre du profit, le chantier est clos depuis des mois.
 
-Il est destiné aux entreprises qui ont besoin de plus de structure que des tableurs déconnectés, mais qui n’ont pas besoin d’une plateforme d’entreprise simplement pour comprendre d’où proviennent le chiffre d’affaires, les coûts et les bénéfices des projets.
+### Après : un flux opérationnel relationnel connecté unique
 
-## Problèmes courants des entrepreneurs que cela résout
+```text
+Lead_Tracker (Lead_ID)
+  ↓
+Quote_Builder (Standardized Material_DB + Labor_Rates + Reverse-Margin Math)
+  ↓
+Approved_Jobs (Locks Baseline Budget & Generates Unique Job_ID)
+  ├── Schedule (Milestones & Deadlines)
+  ├── Labor_Log (Field Hours × Standard Labor Rates)
+  └── Material_Usage (Field Quantities × Standard Material Unit Costs)
+        ↓
+  Job_Cost_Engine (Estimate vs. Actual Variance + Overrun Alert Thresholds)
+        ↓
+  Profit_Dashboard (Realized Project Margin % & Portfolio P&L)
+        ↓
+  Customer_History (Multi-Job Client Revenue, Profit & LTV Ranking)
 
-| Problème                                                   | Sans cet outil                                                                                                                   | Avec cet outil                                                                                                                             |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Les données de prospects et de devis se déconnectent**   | Les opportunités commerciales et les enregistrements de devis sont maintenus séparément, ce qui rend plus difficile l’évaluation de la valeur du pipeline et de la conversion des devis. | `Lead_ID` connecte les opportunités aux estimations, tandis que le bénéfice estimé peut être déduit de la marge cible configurée.           |
-| **Le budget de projet initial disparaît après l’attribution** | Une fois qu’un devis devient un contrat, les coûts réels du projet peuvent être suivis sans préserver l’estimation initiale comme référence. | `Approved_Jobs` reporte le coût total estimé du devis dans le dossier de projet pour l’analyse d’écart ultérieure.                           |
-| **La consommation de main-d’œuvre et de matériaux reste purement opérationnelle** | Les heures de terrain et l’utilisation des matériaux sont enregistrées mais ne deviennent pas automatiquement des informations financières au niveau du projet. | `Labor_Log` et `Material_Usage` connectent la consommation réelle au `Job_ID`, aux taux de main-d’œuvre standard et aux coûts matériels.     |
-| **Les dépassements de coûts sont découverts trop tard**    | La direction ne voit le coût final qu’après que l’opportunité de corriger l’exécution a largement disparu.                         | `Job_Cost_Engine` compare le coût total réel au coût estimé initial et déclenche une alerte de dépassement via un seuil centralisé.         |
-| **La rentabilité de projet est confondue avec la valeur client** | Un projet individuel rentable peut faire paraître un client précieux même lorsque la relation plus large produit de faibles marges. | `Customer_History` agrège le nombre de projets, le chiffre d’affaires, la contribution au bénéfice et la marge moyenne par client.           |
-| **Les règles commerciales sont dupliquées dans les formules** | La taxe, les frais généraux, la marge cible et les seuils d’alerte peuvent devenir incohérents lorsqu’ils sont intégrés manuellement dans les formules. | `Settings` agit comme une couche de contrôle unique référencée dans l’ensemble du classeur.                                    |
-
-L’architecture valide explicitement la chaîne entrée/sortie à travers l’ensemble du classeur et confirme que les paramètres globaux se propagent dans les calculs pertinents de devis, de coût de projet et de tableau de bord.
-
-## À qui cela s’adresse
-
-Ce système est conçu pour les **entrepreneurs de projet, estimateurs, chefs de projet, directeurs des opérations et propriétaires exploitants** qui ont besoin d’un moyen connecté de gérer l’économie de projet sans mettre en œuvre une grande plateforme d’entreprise.
-
-Il convient particulièrement lorsque :
-
-* les prospects et les devis sont encore gérés dans des tableurs ;
-* la main-d’œuvre de projet est suivie par heures et par taux de main-d’œuvre standard ;
-* les matériaux sont alloués ou consommés par projet ;
-* la direction a besoin d’une visibilité sur les coûts et les marges au niveau du projet ;
-* la rentabilité client compte au-delà du chiffre d’affaires des projets individuels ;
-* l’entreprise a besoin d’un flux de travail opérationnel reproductible plutôt que d’un autre tableau de bord isolé.
-
-Ce n’est **ni un remplacement d’ERP, ni un système comptable, ni un système de paie, ni une plateforme d’approvisionnement, ni une suite de gestion de projet d’entreprise**.
-
-Le modèle est conçu comme une couche opérationnelle et d’aide à la décision légère autour du flux de travail existant de l’entrepreneur.
-
-Aucune expertise en tableurs n’est requise pour comprendre la séquence opérationnelle. La version navigateur offre un accès à faible friction au flux de travail, tandis que la mise en œuvre Excel fournit l’environnement de calcul sous-jacent.
+```
 
 ---
 
-## À propos
+## Tableurs déconnectés vs. ce système d’exploitation entrepreneurial connecté
 
-Je développe des trackers Excel légers et des outils d’aide à la décision pour des situations où il y a trop de pièces en mouvement pour être tenues dans la tête d’une seule personne, mais pas assez de complexité pour justifier une grande implémentation logicielle.
+| Dimension opérationnelle | Tableurs entrepreneurs déconnectés (sans cet outil) | Système de calcul des coûts et d’exploitation connecté (avec cet outil) |
+| --- | --- | --- |
+| **Transfert du prospect à l’estimation** | Les prospects vivent dans les e-mails ou les calepins tandis que les devis vivent dans des fichiers Excel individuels, rendant invisibles les taux de succès d’offres et le profit du pipeline. | `Lead_ID` relie les demandes commerciales directement à `Quote_Builder`, projetant la **contribution au profit du pipeline** selon la marge cible. |
+| **Préservation de la référence budgétaire attribuée** | Une fois l’offre gagnée, les entrepreneurs modifient le fichier d’estimation ou démarrent un suiveur vierge, effaçant la référence de coût d’origine nécessaire à l’analyse d’écart. | `Approved_Jobs` verrouille le **coût total estimé** de l’offre attribuée sous un `Job_ID` unique pour un audit côte à côte **estimation vs. réel**. |
+| **Feuilles de temps de terrain et consommation de matériaux** | Les heures de main-d’œuvre d’équipe et les sorties de matériaux de chantier restent des notes opérationnelles brutes au lieu de se convertir en coûts de chantier financiers en temps réel. | `Labor_Log` et `Material_Usage` lient les quantités de terrain au `Job_ID`, en multipliant automatiquement par les coûts unitaires **`Labor_Rates`** et **`Material_DB`**. |
+| **Détection des dépassements de coûts en cours de projet** | Les dépassements de coûts et les explosions de main-d’œuvre sont découverts des semaines après l’achèvement du projet, quand les avenants ne peuvent plus être émis. | `Job_Cost_Engine` suit l’écart budgétaire en direct contre un **seuil de dépassement de coûts** centralisé, déclenchant des alertes instantanées pendant que le travail est encore en cours. |
+| **Marge sur chantier unique vs. valeur vie client** | Un entrepreneur célèbre un chantier rentable pour un client sans réaliser que les quatre chantiers précédents pour ce même client ont perdu de l’argent. | `Customer_History` agrège le **total des chantiers, les revenus cumulés, le profit net $ et la marge réellement réalisée moyenne %** par compte client. |
+| **Règles globales de frais généraux, taxe et marge** | Les pourcentages de frais généraux, les taux de taxe et les formules de majoration sont codés en dur sur des dizaines d’onglets, causant de coûteuses erreurs de devis. | `Settings` sert de **source unique de vérité**—mettre à jour les frais généraux ou la marge cible dans une seule cellule met à jour dynamiquement tous les modules en aval. |
 
-La question centrale est :
+---
 
-> **Quelles informations doivent être réunies en un seul endroit pour prendre la prochaine décision en confiance ?**
+## À qui cela s’adresse : rôles d’entrepreneurs cibles et cas d’usage par métier
 
-Pour les opérations d’entrepreneur, cela signifie connecter la chaîne commerciale et opérationnelle de **Prospect → Estimation → Projet → Main-d’œuvre et matériaux → Coût de projet → Bénéfice → Historique client**.
+Ce système est conçu pour les **entreprises de construction par projet, les entrepreneurs de métiers spécialisés, les chiffreurs et les propriétaires-exploitants (typiquement 1 à 50 employés)** qui veulent un contrôle rigoureux du calcul des coûts de chantier sans payer 500–1 500 $/mois pour des logiciels ERP de construction gonflés :
+
+* **Entrepreneurs généraux (EG) et constructeurs / rénovateurs de maisons sur mesure :** utilisez-le comme **modèle Excel complet de gestion de projet de construction et de calcul des coûts de chantier** pour suivre plusieurs chantiers actifs, surveiller les taux de consommation des sous-traitants/main-d’œuvre et protéger les marges brutes de l’estimation à la réception finale.
+* **Sous-traitants de métiers spécialisés (CVC, électricité, plomberie, couverture, aménagement paysager, peinture, béton) :** utilisez-le comme **suiveur d’estimation par métier et de main-d’œuvre/matériaux de terrain** pour standardiser les prix unitaires dans `Material_DB`, chiffrer les chantiers avec précision en quelques minutes et vérifier si les équipes de terrain battent ou dépassent les heures de main-d’œuvre estimées.
+* **Chiffreurs en construction et directeurs commerciaux :** utilisez-le comme **générateur d’offres et de devis de construction standardisé** couplé à un **suiveur de prospects CRM pour entrepreneurs** pour éliminer les erreurs de mathématique majoration-vs-marge et prioriser les offres à forte marge.
+* **Chefs de projet de construction et conducteurs de travaux :** utilisez-le comme **suiveur d’écart budgétaire estimation vs. réel et de planning** pour attraper les dépassements de main-d’œuvre et le gaspillage de matériaux en cours de projet—alors qu’il est encore temps de corriger ou de soumettre un avenant client.
+* **Comptables du bâtiment, contrôleurs de gestion et CFO fractionnaires :** utilisez-le comme **sous-livre opérationnel de calcul des coûts de chantier** qui comble le fossé entre l’activité de terrain brute (feuilles de temps et consommation de matériaux) et les logiciels de comptabilité fiscale de haut niveau comme QuickBooks ou Xero.
+
+*Remarque : ce classeur n’est **pas** destiné à remplacer le traitement légal de la paie, les logiciels de déclaration fiscale ou les logiciels d’estimation de plans d’entreprise. C’est le **moteur d’exécution opérationnel et commercial léger** qui garde votre pipeline commercial, vos estimations de projet, vos coûts de terrain et votre rentabilité client connectés en un seul endroit.*
+
+---
+
+## Questions fréquentes sur les scénarios d’estimation et de calcul des coûts de chantier
+
+Si votre entreprise de construction recherche un modèle de tableur pratique pour résoudre l’un des maux de tête opérationnels suivants, ce système est fait pour vous :
+
+* **Calcul des coûts de chantier estimation vs. réel dans Excel :** *Comment suivre les heures de main-d’œuvre de terrain réelles et la consommation de matériaux contre mon estimation de projet d’origine pour voir l’écart budgétaire en temps réel avant qu’un chantier ne dépasse son budget ?*
+* **Standardiser les devis et offres de construction :** *Comment construire un modèle de devis entrepreneurial reproductible qui puise dans une liste de prix matériaux maîtresse et une carte de taux de main-d’œuvre tout en intégrant automatiquement les frais généraux, la marge brute cible et la taxe ?*
+* **Connecter les prospects CRM d’entrepreneur à la rentabilité des projets :** *Comment suivre un chantier de construction depuis l’appel téléphonique initial du client (prospect) en passant par l’estimation, l’exécution du chantier, le profit net final et l’historique des clients récurrents dans un seul classeur Excel ?*
+* **Identifier la fonte du profit à travers les équipes et les clients :** *Pourquoi mon entreprise de construction affiche-t-elle de forts revenus en fin d’année mais peu de liquidités en banque—et quels chantiers ou clients récurrents précis érodent silencieusement notre marge brute ?*
+
+---
+
+## À propos de Theseus Workshop
+
+Je construis des modèles d’exploitation légers et transparentes, basés sur Excel et le navigateur, pour les entreprises où il y a trop de pièces mobiles pour être gardées dans une seule tête, mais où un déploiement logiciel d’entreprise coûteux crée plus de friction que de valeur.
+
+Le principe de conception central derrière chaque outil est simple :
+
+> **« Quel est le plus petit modèle opérationnel propre qui préserve la chaîne ininterrompue entre les événements quotidiens de terrain et les décisions de gestion rentables ? »**
+
+Pour les entrepreneurs par projet, cela signifie unir **prospect → estimation → chantier approuvé → main-d’œuvre et matériaux de terrain → écart de coût de chantier → profit net → historique client** à l’intérieur d’un système unique, auditable et sans ballonnement.
+
+---
+
+*Mots-clés : modèle Excel de calcul des coûts de chantier, tableur d’estimation pour entrepreneurs, suiveur de coûts estimation vs. réel, CRM et générateur de devis pour entrepreneur général, calculateur de profit et de marge pour sous-traitant, Excel de registre matériaux et main-d’œuvre de construction, classeur de gestion de projet et de calcul des coûts de chantier.*
 
 ---
 
 ## Détails techniques
 
 <details>
-<summary>Pour les réviseurs techniques, les praticiens d’Excel et les collaborateurs</summary>
+<summary>Pour les réviseurs techniques, les pratiquants d’Excel et les collaborateurs</summary>
 
 ### Architecture du classeur
 
-Le classeur se compose de **12 feuilles principales**, organisées en trois couches fonctionnelles. L’architecture sépare les données de référence contrôlées des enregistrements opérationnels et des calculs en aval, tout en maintenant un flux directionnel de l’entrée → calcul → sortie.
+Le classeur se compose de **12 feuilles principales** organisées en trois couches fonctionnelles. L’architecture sépare les données de référence contrôlées des registres opérationnels et des calculs en aval, tout en maintenant un flux directionnel de l’entrée → le calcul → la sortie. 
 
-| Couche                      | Feuille            | Rôle principal                                   |
-| ---------------------------- | ------------------ | ------------------------------------------------ |
-| **Données de référence et contrôle** | `Settings`   | Paramètres commerciaux centraux                  |
-|                              | `Material_DB`      | Catalogue et coûts matériels standard            |
-|                              | `Labor_Rates`      | Catégories de main-d’œuvre et taux horaires standard |
-| **Opérations et exécution**  | `Lead_Tracker`     | Pipeline d’opportunités                          |
-|                              | `Quote_Builder`    | Calcul d’estimation et de devis                  |
-|                              | `Approved_Jobs`    | Référentiel des projets contractés               |
-|                              | `Schedule`         | Jalons et alertes d’exécution                    |
-|                              | `Labor_Log`        | Enregistrements de main-d’œuvre réels            |
-|                              | `Material_Usage`   | Consommation de matériaux réelle                 |
-| **Moteur et analytique**     | `Job_Cost_Engine`  | Calcul des coûts et rentabilité réels du projet  |
-|                              | `Profit_Dashboard` | Analyse de rentabilité au niveau de la direction |
-|                              | `Customer_History` | Historique commercial au niveau client           |
+| Couche                      | Feuille             | Rôle principal                               |
+| -------------------------- | ------------------ | ------------------------------------------ |
+| **Données de référence & contrôle**  | `Settings`         | Paramètres métier centraux                |
+|                            | `Material_DB`      | Catalogue et coûts matériaux standard        |
+|                            | `Labor_Rates`      | Catégories de main-d’œuvre standard et taux horaires |
+| **Exploitation & exécution** | `Lead_Tracker`     | Pipeline d’opportunités                       |
+|                            | `Quote_Builder`    | Calcul d’estimation et de devis                      |
+|                            | `Approved_Jobs`    | Registre maître des projets contractualisés                  |
+|                            | `Schedule`         | Jalons et alertes d’exécution            |
+|                            | `Labor_Log`        | Registres de main-d’œuvre réels                       |
+|                            | `Material_Usage`   | Consommation de matériaux réelle                |
+| **Moteur & analytique**     | `Job_Cost_Engine`  | Calcul des coûts et rentabilité réels des projets   |
+|                            | `Profit_Dashboard` | Analyse de rentabilité au niveau de la direction                    |
+|                            | `Customer_History` | Historique commercial au niveau client          |
 
 Le flux de données principal est :
 
@@ -417,40 +291,40 @@ Le flux de données principal est :
                 Profit_Dashboard  Customer_History
 ```
 
-Le principe de conception central est **Unified Master Key** : `Job_ID` relie le projet approuvé aux enregistrements de planning, aux enregistrements de main-d’œuvre, à l’utilisation des matériaux et au module de coût de projet. L’objectif est d’éliminer le problème des îlots de données entre la planification commerciale et l’exécution du projet.
+Le principe de conception central est la **clé de référence unifiée** : `Job_ID` relie le projet approuvé aux registres de planning, aux registres de main-d’œuvre, à la consommation de matériaux et au moteur de calcul des coûts de chantier. L’objectif est d’éliminer le problème d’îlots de données entre la planification commerciale et l’exécution des projets. 
 
-### Couche de contrôle centrale
+### Couche de contrôle central
 
-`Settings` est l’unique point de maintenance du classeur.
+`Settings` est le point de maintenance unique du classeur.
 
 Les paramètres définis sont :
 
-| Cellule | Paramètre               | Défaut | Utilisation                                 |
-| ---- | ----------------------- | -------: | ------------------------------------------------ |
-| `B2` | Symbole de devise par défaut |      `$` | Présentation monétaire                             |
-| `B3` | Taux de taxe            | `13.00%` | Conversion TTC / hors taxes         |
-| `B4` | Taux de frais généraux  | `10.00%` | Imputation des coûts indirects                 |
-| `B5` | Marge cible             | `25.00%` | Rentabilité des devis et des opportunités               |
-| `B6` | Seuil de dépassement    |  `5.00%` | Alerte sur les coûts de projet                            |
-| `B7` | Taux de change USD/CAD  | `1.0000` | Conversion de devise réservée                   |
+| Cellule | Paramètre               |  Par défaut | Utilisé pour                                 |
+| ---- | ----------------------- | -------: | ---------------------------------------- |
+| `B2` | Symbole de devise par défaut |      `$` | Présentation monétaire                    |
+| `B3` | Taux de taxe                | `13.00%` | Conversion taxe comprise / hors taxe |
+| `B4` | Taux de frais généraux           | `10.00%` | Imputation des coûts indirects                 |
+| `B5` | Marge cible           | `25.00%` | Rentabilité des devis et des opportunités      |
+| `B6` | Seuil de dépassement       |  `5.00%` | Alerte de coûts de projet                     |
+| `B7` | Taux de change USD/CAD   | `1.0000` | Conversion de devise réservée             |
 
-Ces valeurs sont délibérément centralisées. L’architecture exige que les formules en aval référencent `Settings` plutôt que de coder en dur des valeurs comme `0.13`, `0.10` ou `0.25`. Le recoupement de la mise en œuvre confirme que la taxe, les frais généraux, la marge cible et les paramètres de dépassement sont propagés aux modules de calcul appropriés.
+Ces valeurs sont délibérément centralisées. L’architecture exige que les formules en aval référencent `Settings` plutôt que de coder en dur des valeurs comme `0.13`, `0.10` ou `0.25`. La contre-vérification de l’implémentation confirme que les paramètres de taxe, de frais généraux, de marge cible et de dépassement sont propagés aux modules de calcul appropriés. 
 
-### Trois pièges qui surprennent même les entrepreneurs expérimentés
+### Trois pièges qui attrapent même les entrepreneurs expérimentés
 
-#### Piège 1 — Traiter la marge du devis initial comme la marge actuelle du projet
+#### Piège 1 — Traiter la marge du devis d’origine comme la marge actuelle du projet
 
 **1. Décision prise**
 
-Un projet a été accepté parce que l’estimation montrait une marge cible acceptable.
+Un projet a été accepté parce que l’estimation affichait une marge cible acceptable.
 
 **2. Hypothèse cachée**
 
-L’estimation initiale est traitée comme si elle restait représentative après le début de l’exécution.
+L’estimation d’origine est traitée comme si elle restait représentative une fois l’exécution commencée.
 
 **3. Ce qui change la décision**
 
-Les heures de main-d’œuvre réelles et la consommation de matériaux peuvent dépasser les hypothèses initiales.
+Les heures de main-d’œuvre réelles et la consommation de matériaux peuvent dépasser les hypothèses d’origine.
 
 ```text
 Original Estimate
@@ -468,15 +342,15 @@ Lower Actual Margin
 
 **4. Pourquoi le raisonnement échoue**
 
-Le devis initial représente une structure de coûts planifiée. Ce n’est pas une preuve de consommation réelle.
+Le devis d’origine représente une structure de coûts planifiée. Ce n’est pas une preuve de consommation réelle.
 
 **5. Raisonnement corrigé**
 
-Conservez le coût estimé comme référence et calculez le coût réel indépendamment à partir de `Labor_Log` et `Material_Usage`.
+Conserver le coût estimé comme référence et calculer le coût réel indépendamment à partir de `Labor_Log` et `Material_Usage`.
 
 **6. Décision corrigée**
 
-Le projet peut être surveillé pour détecter la dégradation de la marge pendant qu’une action corrective est encore possible.
+Le projet peut être surveillé pour détecter la détérioration de la marge tant qu’une action corrective est encore possible.
 
 <details>
 <summary>Logique des formules</summary>
@@ -497,40 +371,41 @@ Contract Revenue
 Actual Margin
 ```
 
-La mise en œuvre définit le chiffre d’affaires contractuel sur une base hors taxes :
+L’implémentation définit le revenu contractuel sur une base hors taxe :
 
 ```excel
 =Contract_Amount/(1+Settings!$B$3)
 ```
 
-Le bénéfice réel est ensuite calculé comme le chiffre d’affaires contractuel hors taxes moins le coût total réel.
+Le profit réel est ensuite calculé comme le revenu contractuel hors taxe moins le coût total réel. 
 
 </details>
-#### Piège 2 — Juger la rentabilité du projet à partir des seuls coûts directs
+
+#### Piège 2 — Juger la rentabilité d’un projet à partir des seuls coûts directs
 
 **1. Décision prise**
 
-Les coûts matériels et de main-d’œuvre semblent rester sous le chiffre d’affaires contractuel, donc le projet est considéré comme sain.
+Les coûts matériels et de main-d’œuvre semblent rester sous le revenu contractuel, donc le projet est considéré comme sain.
 
 **2. Hypothèse cachée**
 
-La main-d’œuvre directe et les matériaux sont traités comme le coût économique complet du projet.
+La main-d’œuvre directe et le matériel sont traités comme le coût économique complet du projet.
 
 **3. Ce qui change la décision**
 
-Les coûts de gestion indirects ne sont pas visibles dans les dépenses directes du projet mais doivent néanmoins être imputés.
+Les coûts de gestion indirects ne sont pas visibles dans les dépenses directes du projet mais doivent tout de même être imputés.
 
 **4. Pourquoi le raisonnement échoue**
 
-Le modèle commercial du classeur définit le coût de projet comme matériaux directs + main-d’œuvre directe + frais généraux imputés.
+Le modèle commercial du classeur définit le coût du projet comme matériel direct + main-d’œuvre directe + frais généraux imputés.
 
 **5. Raisonnement corrigé**
 
-Appliquez le taux de frais généraux centralisé de manière cohérente à la base des coûts directs.
+Appliquer le taux de frais généraux centralisé de manière cohérente à la base des coûts directs.
 
 **6. Décision corrigée**
 
-La marge du projet est évaluée en utilisant la même structure de coûts que celle utilisée lors de l’estimation.
+La marge du projet est évaluée avec la même structure de coûts que celle utilisée lors de l’estimation.
 
 ```text
 Actual Material Cost
@@ -558,7 +433,7 @@ Actual_Total_Cost =
     + Overhead_Allocation
 ```
 
-La mise en œuvre spécifie le même concept de frais généraux pour le calcul au stade du devis et pour le calcul réel des coûts de projet.
+L’implémentation spécifie le même concept de frais généraux pour le calcul des coûts au stade du devis et pour le calcul des coûts réels de chantier. 
 
 </details>
 
@@ -566,7 +441,7 @@ La mise en œuvre spécifie le même concept de frais généraux pour le calcul 
 
 **1. Décision prise**
 
-La direction attend l’achèvement du projet pour déterminer si le projet est resté dans le budget.
+La direction attend l’achèvement du projet pour déterminer s’il est resté dans le budget.
 
 **2. Hypothèse cachée**
 
@@ -574,7 +449,7 @@ L’écart de coûts est traité comme une métrique de reporting plutôt que co
 
 **3. Ce qui change la décision**
 
-Un projet peut dépasser son coût estimé avant son achèvement, alors qu’il reste des travaux qui pourraient potentiellement être contrôlés.
+Un projet peut dépasser son coût estimé avant son achèvement, alors qu’il reste encore des travaux potentiellement contrôlables.
 
 **4. Pourquoi le raisonnement échoue**
 
@@ -582,11 +457,11 @@ Une alerte tardive peut expliquer le résultat final mais ne peut pas influencer
 
 **5. Raisonnement corrigé**
 
-Comparez le coût total réel au coût total estimé initial et évaluez l’écart par rapport au seuil de dépassement centralisé.
+Comparer le coût total réel au coût total estimé d’origine et évaluer l’écart par rapport au seuil de dépassement centralisé.
 
 **6. Décision corrigée**
 
-Un projet qui franchit le seuil configuré devient une exception nécessitant l’attention de la direction.
+Un projet franchissant le seuil configuré devient une exception nécessitant l’attention de la direction.
 
 ```text
 Estimated Total Cost
@@ -603,50 +478,50 @@ Normal / Warning / Severe Overrun
 <details>
 <summary>Logique des formules</summary>
 
-La mise en œuvre définit `Cost_Variance` comme :
+L’implémentation définit `Cost_Variance` comme :
 
 ```excel
 =Actual_Total_Cost-Estimated_Total_Cost
 ```
 
-La logique d’alerte évalue le pourcentage réel de dépassement de coûts par rapport au seuil `Settings!B6`. Le tableau de bord compte ensuite les projets classés comme dépassements de coûts majeurs.
+La logique d’alerte évalue le pourcentage de dépassement de coûts réel par rapport à `Settings!B6`. Le tableau de bord compte ensuite les projets classés comme dépassements de coûts sévères. 
 
 </details>
 
 ### Scénario d’exemple
 
-Un entrepreneur accepte un projet avec un montant contractuel TTC de **113 000 $**.
+Un entrepreneur accepte un projet avec un montant contractuel taxes comprises de **113 000 $**.
 
-Le taux de taxe configuré est de **13 %**, donc le chiffre d’affaires contractuel hors taxes est :
+Le taux de taxe configuré est de **13 %**, donc le revenu contractuel hors taxe est :
 
 ```text
 $113,000 ÷ 1.13
 = $100,000
 ```
 
-Le devis initial contient :
+Le devis d’origine contient :
 
 | Composante de coût           |   Estimé |
-| ----------------------------- | --------: |
-| Matériaux                     |     $42,000 |
-| Main-d’œuvre                  |     $35,000 |
-| Imputation des frais généraux |      $7,700 |
-| **Coût total estimé**         | **$84,700** |
-| **Bénéfice initial**          | **$15,300** |
-| **Marge initiale**            |  **15,30 %** |
+| ------------------------ | ----------: |
+| Matériaux                |     42 000 $ |
+| Main-d’œuvre                    |     35 000 $ |
+| Imputation des frais généraux      |      7 700 $ |
+| **Coût total estimé** | **84 700 $** |
+| **Profit initial**       | **15 300 $** |
+| **Marge initiale**       |  **15,30 %** |
 
-Pendant l’exécution, les enregistrements réels s’accumulent :
+Pendant l’exécution, les registres réels s’accumulent :
 
 | Composante de coût        |      Réel |
-| -------------------------- | ---------: |
-| Matériaux                  |     $47,000 |
-| Main-d’œuvre               |     $40,000 |
-| Imputation des frais généraux |   $8,700 |
-| **Coût total réel**        | **$95,700** |
-| **Bénéfice réel**          |  **$4,300** |
-| **Marge réelle**           |   **4,30 %** |
+| --------------------- | ----------: |
+| Matériaux             |     47 000 $ |
+| Main-d’œuvre                 |     40 000 $ |
+| Imputation des frais généraux   |      8 700 $ |
+| **Coût total réel** | **95 700 $** |
+| **Profit réel**     |  **4 300 $** |
+| **Marge réelle**     |   **4,30 %** |
 
-Le projet est ainsi passé d’une **marge projetée de 15,30 % à une marge réelle de 4,30 %**.
+Le projet est donc passé d’une **marge projetée de 15,30 % à une marge réelle de 4,30 %**.
 
 L’écart de coûts est :
 
@@ -662,24 +537,24 @@ $11,000 ÷ $84,700
 ≈ 12.99%
 ```
 
-Avec le seuil de dépassement par défaut de `5.00%`, ce projet est clairement en dehors du contrôle normal des coûts.
+Avec le seuil de dépassement par défaut de `5.00%`, ce projet est clairement hors du contrôle normal des coûts.
 
-La conclusion de gestion correcte n’est **pas simplement « le projet est encore rentable ».**
+La conclusion managériale correcte n’est **pas simplement « le projet reste rentable. »**
 
 La conclusion plus utile est :
 
-> **Le projet reste positif en bénéfice absolu, mais sa structure de coûts s’est matériellement dégradée et nécessite une intervention.**
+> **Le projet reste positif en profit absolu, mais sa structure de coûts s’est sensiblement détériorée et nécessite une intervention.**
 
-La prochaine revue devrait se concentrer sur l’origine de l’écart — heures de main-d’œuvre, consommation de matériaux, ou les deux — et sur la question de savoir si les travaux restants du projet peuvent être contrôlés.
+La prochaine revue devrait se concentrer sur l’origine de l’écart—heures de main-d’œuvre, consommation de matériaux ou les deux—et sur la question de savoir si les travaux restants du projet peuvent être contrôlés.
 
-C’est précisément pourquoi le système préserve à la fois l’estimation initiale et les coûts d’exécution réels, au lieu de remplacer l’estimation par le dernier chiffre de dépenses. `Job_Cost_Engine` est conçu pour exposer la différence entre ces deux états.
+C’est précisément pourquoi le système préserve à la fois l’estimation d’origine et les coûts d’exécution réels au lieu de remplacer l’estimation par le dernier chiffre de dépenses. `Job_Cost_Engine` est conçu pour exposer la différence entre ces deux états. 
 
 ### Référence des formules
 
 <details>
-<summary>Calculs de prospects et de pipeline</summary>
+<summary>Calculs des prospects et du pipeline</summary>
 
-**Durée du pipeline**
+**Durée dans le pipeline**
 
 ```excel
 =MAP(
@@ -700,9 +575,9 @@ C’est précisément pourquoi le système préserve à la fois l’estimation i
 )
 ```
 
-**Objectif :** Calcule combien de temps une opportunité reste active dans le pipeline, tout en traitant les prospects gagnés et perdus comme clos.
+**Objet :** Calcule combien de temps une opportunité reste active dans le pipeline tout en traitant les prospects gagnés et perdus comme clos.
 
-**Bénéfice potentiel**
+**Profit potentiel**
 
 ```excel
 =MAP(
@@ -718,12 +593,12 @@ C’est précisément pourquoi le système préserve à la fois l’estimation i
 )
 ```
 
-**Objectif :** Convertit le budget de projet estimé en bénéfice potentiel en utilisant l’hypothèse centralisée de marge cible plutôt qu’un pourcentage codé en dur.
+**Objet :** Convertit le budget estimé du projet en profit potentiel en utilisant l’hypothèse de marge cible centralisée plutôt qu’un pourcentage codé en dur.
 
 </details>
 
 <details>
-<summary>Calculs de devis et d’estimation</summary>
+<summary>Calculs des devis et des estimations</summary>
 
 Le calcul du devis suit :
 
@@ -761,9 +636,10 @@ Suggested Quote
 (Quote_Amount/(1+Settings!$B$3))
 ```
 
-`Quote_Builder` utilise `XLOOKUP` pour récupérer les taux matériels et de main-d’œuvre standard, tandis que `MAP` et `LAMBDA` permettent aux colonnes de calcul de se propager dynamiquement à mesure que les enregistrements s’étendent.
+`Quote_Builder` utilise `XLOOKUP` pour récupérer les taux matériaux et de main-d’œuvre standard, tandis que `MAP` et `LAMBDA` permettent aux colonnes de calcul de se déverser dynamiquement à mesure que les registres s’étendent. 
 
 </details>
+
 <details>
 <summary>Référence du projet approuvé</summary>
 
@@ -788,7 +664,7 @@ Suggested Quote
 )
 ```
 
-**Bénéfice projeté initial**
+**Profit projeté initial**
 
 ```excel
 =(Contract_Amount/(1+Settings!$B$3))
@@ -803,7 +679,7 @@ Suggested Quote
 (Contract_Amount/(1+Settings!$B$3))
 ```
 
-L’objectif est de préserver l’économie commerciale au moment où le devis devient un projet approuvé.
+L’objectif est de préserver l’économie commerciale au moment où le devis devient un projet approuvé. 
 
 </details>
 
@@ -816,7 +692,7 @@ L’objectif est de préserver l’économie commerciale au moment où le devis 
 =Actual_Hours*Hourly_Rate
 ```
 
-Le taux horaire est récupéré depuis `Labor_Rates` sur la base du `Labor_Code`.
+Le taux horaire est récupéré depuis `Labor_Rates` en fonction du `Labor_Code`. 
 
 **Coût matériel réel**
 
@@ -831,9 +707,9 @@ Les deux flux de coûts réels sont regroupés par `Job_ID` avant d’entrer dan
 </details>
 
 <details>
-<summary>Coût de projet et rentabilité</summary>
+<summary>Coût et rentabilité du chantier</summary>
 
-**Chiffre d’affaires contractuel hors taxes**
+**Revenu contractuel hors taxe**
 
 ```excel
 =Contract_Amount/(1+Settings!$B$3)
@@ -854,7 +730,7 @@ Les deux flux de coûts réels sont regroupés par `Job_ID` avant d’entrer dan
 +Overhead_Allocation
 ```
 
-**Bénéfice réel**
+**Profit réel**
 
 ```excel
 =Contract_Revenue-Actual_Total_Cost
@@ -874,7 +750,7 @@ Les deux flux de coûts réels sont regroupés par `Job_ID` avant d’entrer dan
 
 **Alerte de dépassement de coûts**
 
-La condition de dépassement compare l’écart de coûts réel au seuil configuré `Settings!B6` plutôt que d’intégrer un pourcentage fixe dans la formule.
+La condition de dépassement compare l’écart de coûts réel au seuil configuré `Settings!B6` plutôt que d’intégrer un pourcentage fixe dans la formule. 
 
 </details>
 
@@ -929,7 +805,7 @@ La condition de dépassement compare l’écart de coûts réel au seuil configu
 )
 ```
 
-Le calcul distingue les travaux terminés des travaux incomplets qui ont dépassé leur date de fin planifiée.
+Le calcul distingue le travail achevé du travail inachevé qui a dépassé sa date de fin planifiée. 
 
 </details>
 
@@ -953,7 +829,7 @@ Le calcul distingue les travaux terminés des travaux incomplets qui ont dépass
 )
 ```
 
-**Contribution totale au bénéfice**
+**Contribution totale au profit**
 
 ```excel
 =MAP(
@@ -991,38 +867,39 @@ Le calcul distingue les travaux terminés des travaux incomplets qui ont dépass
 )
 ```
 
-La mise en œuvre source utilise la contribution cumulative au bénéfice et la marge moyenne comme base de classification de la valeur client, plutôt que d’évaluer les clients par le seul chiffre d’affaires.
+L’implémentation source utilise la contribution cumulée au profit et la marge moyenne comme base de la classification de la valeur client, plutôt que d’évaluer les clients par le seul revenu. 
 
 </details>
 
 ### Règles de validation
 
 | Champ / Zone                    | Règle                                                                                | Comportement en cas d’erreur                                                                                   |
-| ------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `Settings!B3` Taux de taxe      | Doit être un pourcentage valide utilisé de manière cohérente dans les calculs de devis et de chiffre d’affaires. | Une configuration incorrecte produit des montants TTC et hors taxes incohérents.           |
-| `Settings!B4` Taux de frais généraux | Doit être maintenu de manière centralisée plutôt qu’intégré dans les formules.       | Le calcul des coûts de projet peut devenir incohérent s’il est contourné manuellement ailleurs.                 |
-| `Settings!B5` Marge cible       | Doit être un pourcentage valide utilisé par les calculs de potentiel de prospect et de devis. | Une valeur incorrecte modifie l’économie commerciale projetée.                                          |
-| `Settings!B6` Seuil de dépassement | Doit être un pourcentage valide utilisé par les alertes de coût de projet.           | Une valeur incorrecte modifie la sensibilité des alertes de coûts.                                     |
-| `Material_Code`                 | Doit correspondre à un enregistrement valide dans `Material_DB`.                      | La recherche peut renvoyer `#N/A` ou zéro lorsque le code est manquant ou mal formé.                          |
-| `Labor_Code`                    | Doit correspondre à un enregistrement valide dans `Labor_Rates`.                      | Le taux horaire ne peut pas être récupéré correctement.                                                       |
-| `Job_ID`                        | Doit référencer le projet approuvé pertinent.                                         | Les transactions de main-d’œuvre/matériaux peuvent se détacher du projet correct.                        |
-| `Actual_Hours`                  | Doit être numérique et représenter la consommation réelle de main-d’œuvre du projet.  | Des valeurs invalides faussent le coût de main-d’œuvre réel.                                                |
-| `Actual_Quantity`               | Doit être numérique et lié au code matériau pertinent.                                | Des valeurs invalides faussent le coût matériel réel.                                             |
-| `Completion_Pct`                | La plage attendue est `0%–100%`.                                                      | Les valeurs égales ou supérieures à 100 % sont traitées comme terminées ; les travaux en retard incomplets génèrent une alerte. |
-| Plage de sortie des tableaux dynamiques | La destination de propagation doit rester libre.                               | Les cellules occupées peuvent générer `#SPILL!`.                                                           |
-| Mode de calcul Excel            | Doit rester **Automatique**.                                                          | Les modifications apportées à `Settings` peuvent ne pas se propager immédiatement lorsque le calcul est réglé sur Manuel. |
-| Formatage de devise             | Les cellules monétaires doivent utiliser le format de devise prévu.                   | Les valeurs peuvent s’afficher avec un symbole de devise incorrect même lorsque le nombre sous-jacent est correct. |
+| ------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `Settings!B3` Taux de taxe          | Doit être un pourcentage valide utilisé de manière cohérente dans les calculs de devis et de revenus. | Une configuration incorrecte produit des montants taxes comprises et hors taxe incohérents.           |
+| `Settings!B4` Taux de frais généraux     | Doit être maintenu de manière centralisée plutôt qu’intégré dans les formules.                      | Le calcul des coûts de projet peut devenir incohérent s’il est écrasé manuellement ailleurs.                        |
+| `Settings!B5` Marge cible     | Doit être un pourcentage valide utilisé par les calculs de potentiel de prospect et de devis.           | Une valeur incorrecte change l’économie commerciale projetée.                                          |
+| `Settings!B6` Seuil de dépassement | Doit être un pourcentage valide utilisé par les alertes de coûts de chantier.                               | Une valeur incorrecte change la sensibilité des alertes de coûts.                                          |
+| `Material_Code`                 | Doit correspondre à un enregistrement valide dans `Material_DB`.                                 | La recherche peut renvoyer `#N/A` ou zéro lorsque le code est manquant ou malformé.                          |
+| `Labor_Code`                    | Doit correspondre à un enregistrement valide dans `Labor_Rates`.                                 | Le taux horaire ne peut pas être récupéré correctement.                                                       |
+| `Job_ID`                        | Doit référencer le projet approuvé pertinent.                                       | Les transactions de main-d’œuvre/matériaux peuvent se détacher du projet correct.                        |
+| `Actual_Hours`                  | Doit être numérique et représenter la consommation réelle de main-d’œuvre du projet.                     | Des valeurs invalides faussent le coût de main-d’œuvre réel.                                                        |
+| `Actual_Quantity`               | Doit être numérique et lié au code matériau pertinent.                             | Des valeurs invalides faussent le coût matériel réel.                                                            |
+| `Completion_Pct`                | La plage attendue est `0%–100%`.                                                        | Les valeurs supérieures ou égales à 100 % sont traitées comme achevées ; les travaux en retard inachevés génèrent une alerte.    |
+| Plage de sortie du tableau dynamique      | La destination de déversement doit rester libre.                                                | Les cellules occupées peuvent générer `#SPILL!`.                                                           |
+| Mode de calcul Excel          | Doit rester **Automatique**.                                                          | Les changements apportés à `Settings` peuvent ne pas se propager immédiatement lorsque le calcul est réglé sur Manuel.           |
+| Formatage monétaire             | Les cellules monétaires doivent utiliser le format de devise prévu.                               | Les valeurs peuvent s’afficher avec un symbole monétaire incorrect même lorsque le nombre sous-jacent est correct. |
 
-La mise en œuvre recommande la validation des données Excel pour les champs de saisie opérationnels lorsque c’est pratique, et identifie explicitement `#SPILL!`, le mode de calcul manuel, les codes de données de référence manquants et le formatage de devise incorrect comme des modes de défaillance opérationnelle courants.
+L’implémentation recommande la validation des données Excel pour les champs de saisie opérationnels lorsque c’est praticable, et identifie explicitement `#SPILL!`, le mode de calcul manuel, les codes de données de référence manquants et le formatage monétaire incorrect comme des modes de défaillance opérationnels courants. 
 
-Le recoupement du classeur vérifie également que les paramètres globaux sont référencés en aval et que les formules de calcul ne codent pas en dur les principales hypothèses commerciales.
+La contre-vérification du classeur vérifie également que les paramètres globaux sont référencés en aval et que les formules de calcul ne codent pas en dur les principales hypothèses métier. 
 
 </details>
-## Notes de mise en œuvre
+
+## Notes d’implémentation
 
 ### Conception à tableaux dynamiques
 
-Le classeur est conçu pour Microsoft 365 / Excel 2021+ et utilise les fonctions modernes à tableaux dynamiques lorsqu’elles offrent un avantage opérationnel clair.
+Le classeur est conçu pour Microsoft 365 / Excel 2021+ et utilise les fonctions modernes à tableaux dynamiques là où elles offrent un avantage opérationnel clair.
 
 Les fonctions principales incluent :
 
@@ -1034,7 +911,7 @@ Les fonctions principales incluent :
 * `LET`
 * `LAMBDA`
 
-L’objectif de conception est d’éviter le glissement routinier des formules et l’extension manuelle des plages.
+L’objectif de conception est d’éviter le glissement de formules routinier et l’extension manuelle des plages.
 
 ```text
 Configure Formula Once
@@ -1048,11 +925,11 @@ Calculation Expands Automatically
 Dashboard / Analysis Updates
 ```
 
-Ceci est particulièrement important pour les flux de travail d’entrepreneur, car les prospects, les projets, les enregistrements de main-d’œuvre et les transactions matérielles sont ajoutés en continu au fil du temps.
+C’est particulièrement important pour les flux de travail des entrepreneurs parce que les prospects, les chantiers, les registres de main-d’œuvre et les transactions matérielles s’ajoutent continuellement au fil du temps.
 
-La mise en œuvre utilise la logique à tableaux dynamiques dans des domaines tels que la durée du pipeline, le bénéfice potentiel, les calculs de devis, les alertes de planning et l’analyse client.
+L’implémentation utilise la logique à tableaux dynamiques dans des domaines tels que la durée dans le pipeline, le profit potentiel, les calculs de devis, les alertes de planning et l’analyse client. 
 
-### Architecture de la clé de projet
+### Architecture à clé de projet
 
 `Job_ID` est l’identifiant central qui connecte la couche d’exécution.
 
@@ -1079,7 +956,7 @@ Cela crée une relation unique au niveau du projet entre :
 * le coût réel ;
 * la rentabilité du projet.
 
-L’architecture identifie explicitement le `Job_ID` unifié comme le mécanisme central pour éliminer les îlots de données entre l’exécution du projet et l’analyse financière.
+L’architecture identifie explicitement le `Job_ID` unifié comme le mécanisme central pour éliminer les îlots de données entre l’exécution des projets et l’analyse financière. 
 
 ### Rapprochement des coûts de projet
 
@@ -1107,9 +984,9 @@ Actual Profit
 Actual Margin
 ```
 
-Cela permet à la direction d’identifier si l’économie d’un projet s’est dégradée parce que la consommation réelle de ressources s’est écartée de l’estimation initiale.
+Cela permet à la direction d’identifier si l’économie d’un projet s’est détériorée parce que la consommation réelle de ressources s’est écartée de l’estimation d’origine.
 
-`Job_Cost_Engine` agit donc comme la couche de rapprochement entre la planification commerciale et l’exécution opérationnelle.
+`Job_Cost_Engine` agit donc comme la couche de rapprochement entre la planification commerciale et l’exécution opérationnelle. 
 
 ### Modèle de dépendance du tableau de bord
 
@@ -1138,16 +1015,16 @@ Profit_Dashboard
 Customer_History
 ```
 
-Le tableau de bord résume les sorties générées par les enregistrements de projet sous-jacents et la couche de calcul, plutôt que d’exiger de la direction qu’elle maintienne des chiffres de reporting séparés.
+Le tableau de bord résume les sorties générées par les registres de projet sous-jacents et la couche de calcul plutôt que d’exiger de la direction qu’elle maintienne des chiffres de reporting séparés.
 
-La mise en œuvre définit les métriques du tableau de bord, notamment :
+L’implémentation définit les métriques du tableau de bord, notamment :
 
-* le nombre total de projets ;
-* le chiffre d’affaires hors taxes ;
+* le total des projets ;
+* le revenu hors taxe ;
 * le coût total réel ;
-* le bénéfice brut ;
+* le profit brut ;
 * la marge globale ;
-* le nombre de projets à dépassement de coûts majeur.
+* le nombre de projets en dépassement de coûts sévère. 
 
 ---
 
@@ -1157,19 +1034,19 @@ Le rythme opérationnel recommandé suit la même structure que l’architecture
 
 ### Début de journée
 
-Examinez :
+Passer en revue :
 
 * `Settings` ;
-* la complétude des données de référence ;
+* l’exhaustivité des données de référence ;
 * les prospects actifs ;
 * le statut actuel des projets ;
-* les exceptions de planning en cours.
+* les exceptions de planning en suspens.
 
-L’objectif est de garantir que l’environnement de calcul et les entrées opérationnelles sont à jour avant la saisie de nouveaux enregistrements.
+L’objectif est de garantir que l’environnement de calcul et les entrées opérationnelles sont à jour avant que de nouveaux registres ne soient saisis. 
 
 ### Pendant les opérations
 
-Mettez à jour les enregistrements opérationnels pertinents au fur et à mesure que les événements commerciaux se produisent :
+Mettre à jour les registres opérationnels concernés au fur et à mesure que les événements métier se produisent :
 
 ```text
 New Opportunity
@@ -1191,11 +1068,11 @@ Material Consumed
     → Material_Usage
 ```
 
-Le principe est **d’enregistrer l’événement à la source plutôt que de le reconstruire plus tard**.
+Le principe est d’**enregistrer l’événement à la source plutôt que de le reconstruire plus tard**.
 
 ### Revue de fin de journée
 
-Examinez les sorties calculées :
+Passer en revue les sorties calculées :
 
 ```text
 Actual Cost
@@ -1216,14 +1093,14 @@ Cela transforme le classeur d’un simple fichier de reporting statique en un sy
 ## Cadence de revue recommandée
 
 | Fréquence       | Revue principale                          | Focus recommandé                                                        |
-| --------------- | ----------------------------------------- | ------------------------------------------------------------------------ |
-| **Quotidien**   | `Schedule` + journaux d’exécution         | Tâches en retard, saisies de main-d’œuvre/matériaux manquantes          |
-| **Hebdomadaire** | `Lead_Tracker` + `Profit_Dashboard`      | Pipeline, projets actifs, dépassements de coûts émergents                |
-| **Par projet**  | `Job_Cost_Engine`                         | Coûts et marge estimés vs réels                                          |
-| **Mensuel**     | `Profit_Dashboard` + `Customer_History`   | Rentabilité globale et contribution client                                |
-| **Trimestriel** | `Settings` + données de référence         | Taux de main-d’œuvre, coûts matériels, frais généraux, marge cible, seuils d’alerte |
+| --------------- | --------------------------------------- | ------------------------------------------------------------------------ |
+| **Quotidien**       | `Schedule` + registres d’exécution             | Tâches en retard, saisies de main-d’œuvre/matériaux manquantes                            |
+| **Hebdomadaire**      | `Lead_Tracker` + `Profit_Dashboard`     | Pipeline, projets actifs, dépassements de coûts émergents                        |
+| Par projet | `Job_Cost_Engine`                       | Coût et marge estimés vs. réels                                     |
+| **Mensuel**     | `Profit_Dashboard` + `Customer_History` | Rentabilité globale et contribution client                          |
+| **Trimestriel**   | `Settings` + données de référence                | Taux de main-d’œuvre, coûts matériaux, frais généraux, marge cible, seuils d’alerte |
 
-L’objectif de cette cadence est de maintenir séparées la maintenance des données opérationnelles et la revue de gestion : les équipes de terrain et de projet maintiennent les enregistrements sources, tandis que la direction utilise les calculs résultants pour prendre des décisions.
+L’objectif de cette cadence est de maintenir séparées la maintenance des données opérationnelles et la revue managériale : les équipes de terrain et de projet maintiennent les registres sources, tandis que la direction utilise les calculs résultants pour prendre des décisions.
 
 ---
 
@@ -1253,13 +1130,13 @@ Material_Usage
 Actual Cost
 ```
 
-Le taux matériel devrait donc être maintenu dans la table de référence plutôt que ressaisi indépendamment dans plusieurs zones de calcul.
+Le taux matériel devrait donc être maintenu dans la table de référence plutôt que resaisi indépendamment dans plusieurs zones de calcul.
 
-Le même principe s’applique aux taux de main-d’œuvre et aux hypothèses commerciales globales.
+Le même principe s’applique aux taux de main-d’œuvre et aux hypothèses métier globales.
 
 ### Utiliser les identifiants de projet de manière cohérente
 
-Une fois qu’un projet approuvé reçoit un `Job_ID`, tous les enregistrements d’exécution du projet ultérieurs devraient référencer cet identifiant.
+Dès qu’un projet approuvé reçoit un `Job_ID`, tous les registres d’exécution du projet subséquents devraient référencer cet identifiant.
 
 ```text
 Job_ID: JOB-001
@@ -1269,17 +1146,17 @@ Job_ID: JOB-001
     └── Job_Cost_Engine
 ```
 
-Un `Job_ID` manquant ou incorrectement saisi rompt la relation entre l’activité opérationnelle et la rentabilité du projet.
+Un `Job_ID` manquant ou mal saisi rompt la relation entre l’activité opérationnelle et la rentabilité du projet.
 
 ### Ne pas écraser les sorties calculées
 
-Les colonnes calculées doivent rester pilotées par les formules.
+Les colonnes calculées devraient rester pilotées par les formules.
 
-Les utilisateurs devraient mettre à jour les enregistrements sources tels que :
+Les utilisateurs devraient mettre à jour les registres sources tels que :
 
-* les informations sur les prospects ;
+* les informations de prospect ;
 * les entrées de devis ;
-* le statut des projets ;
+* le statut du projet ;
 * les heures de main-d’œuvre ;
 * les quantités de matériaux ;
 * les dates de planning.
@@ -1294,7 +1171,7 @@ Ils ne devraient pas remplacer manuellement les éléments calculés :
 
 ---
 
-## Limitations connues
+## Limites connues
 
 Ce classeur est volontairement léger.
 
@@ -1311,7 +1188,7 @@ Il est conçu pour le contrôle opérationnel et l’aide à la décision là o�
 
 ### Version d’Excel
 
-La mise en œuvre s’appuie sur des fonctions Excel modernes et est destinée à **Microsoft 365 / Excel 2021+**.
+L’implémentation repose sur des fonctions Excel modernes et est destinée à **Microsoft 365 / Excel 2021+**.
 
 Les versions plus anciennes d’Excel peuvent ne pas prendre en charge toutes les fonctions à tableaux dynamiques utilisées par le classeur.
 
@@ -1319,40 +1196,40 @@ Les versions plus anciennes d’Excel peuvent ne pas prendre en charge toutes le
 
 Excel devrait rester en mode **Calcul automatique**.
 
-Si le calcul est désactivé manuellement, les modifications apportées à `Settings` ou aux enregistrements sources peuvent ne pas se propager immédiatement à travers la chaîne de calcul.
+Si le calcul est désactivé manuellement, les changements apportés à `Settings` ou aux registres sources peuvent ne pas se propager immédiatement à travers la chaîne de calcul. 
 
-### Espace de propagation des tableaux dynamiques
+### Espace de déversement des tableaux dynamiques
 
-Les formules dynamiques nécessitent des plages de propagation libres.
+Les formules dynamiques nécessitent des plages de déversement libres.
 
-Si une autre valeur occupe une plage de propagation requise, Excel peut renvoyer `#SPILL!`.
+Si une autre valeur occupe une plage de déversement requise, Excel peut renvoyer `#SPILL!`.
 
-La réponse appropriée est d’inspecter la plage de propagation plutôt que de copier manuellement les formules dans des cellules supplémentaires.
+La réponse appropriée est d’inspecter la plage de déversement plutôt que de copier manuellement les formules dans des cellules supplémentaires. 
 
 ### Dépendance aux données de référence
 
 `Material_Code` et `Labor_Code` dépendent des enregistrements correspondants dans `Material_DB` et `Labor_Rates`.
 
-Si un code est manquant ou mal formé, les calculs de recherche et de coûts en aval peuvent ne pas renvoyer la valeur prévue.
+Si un code est manquant ou malformé, les recherches en aval et les calculs de coûts peuvent ne pas renvoyer la valeur prévue. 
 
 ---
 
 ## Autres outils de cette série
 
-Une collection d’outils légers d’aide à la décision Excel pour la planification opérationnelle, le calcul des coûts, la rentabilité et l’analyse commerciale.
+Une collection d’outils Excel légers d’aide à la décision pour la planification opérationnelle, le calcul des coûts, la rentabilité et l’analyse métier.
 
-* **Enterprise Payroll & Annual Workforce Capacity Planning Excel Toolkit**
-* **Industrial Energy Cost & TCO Decision Support Toolkit**
-* **E-commerce Profit Engine & Financial Reconciliation Toolkit**
-* **Food Manufacturing Cost & Unit Economics Excel Toolkit**
-* **Rental Property Operations & Vacancy Intelligence Excel Toolkit**
+* **Trousse Excel de paie d’entreprise et de planification annuelle de la capacité de la main-d’œuvre**
+* **Trousse d’aide à la décision sur les coûts énergétiques industriels et le TCO**
+* **Moteur de profit e-commerce et trousse de rapprochement financier**
+* **Trousse Excel de coûts de fabrication alimentaire et d’économie unitaire**
+* **Trousse Excel d’exploitation de biens locatifs et d’intelligence des vacances**
 
 ---
 
 ## Licence
 
-Ce projet est publié sous la **Apache License 2.0**.
+Ce projet est publié sous la **licence Apache 2.0**.
 
 Vous êtes libre d’utiliser, de modifier, de reproduire et de distribuer l’œuvre conformément aux termes de la licence.
 
-Consultez le fichier `LICENSE` du dépôt pour les termes complets de la licence.
+Voir le fichier `LICENSE` du dépôt pour les termes complets de la licence.
